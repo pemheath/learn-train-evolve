@@ -102,8 +102,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 {
 	// UserModel
 
-	String id; --> unique identifier for each member
-	String email;
+	String email; --> unique identifier for each member
 	String firstName;
 	String lastName;
 	String motivationalWhy;
@@ -118,7 +117,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 {
 	// TrainingSessionModel
 
-	String id; (id for user)
+	String email; (id for user)
 	String sessionId;
 	String type;
 	Note note;
@@ -133,7 +132,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 {
 	// Goal
 
-	String id;
+	String email;
 	int goalNumber;
 	String goalTitle;
 	LocalDate dateCreated;
@@ -151,14 +150,13 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 	//Note
 
-	String id;
+	String email;
 	int noteNumber;
 	String noteTitle;
 	String noteContent;
 	LocalDate dateCreated;
 	Set<String> tags;
 	String sessionId; (corresponding training session if applicable)
-
 
 	}
 ```
@@ -168,6 +166,10 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 See [API here](openapi.json) 
 
+See [SequenceDiagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/GetTrainingSessionSequenceDiagram.puml)
+
+See [UML diagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/LearnTrainEvolve.puml)
+
 # 7. Tables
 
 Phase one will encomopass the User and Train tables. Both will be stored in DynamoDB. 
@@ -176,8 +178,7 @@ Phase one will encomopass the User and Train tables. Both will be stored in Dyna
 
 ```
 
-id // partion key, S
-email // S
+email // partion key, S
 firstName // S
 lastName // S
 motivationalWhy // S
@@ -189,7 +190,7 @@ rank // S
 7.2 `TrainingSessions`
 
 ```
-id // partion key, S
+email // partion key, S
 sessionId // sort key, S
 type // S
 note // M
@@ -201,7 +202,7 @@ tags // SS
 
 ```
 
-id // partion key, S
+email // partion key, S
 noteNumber // sort key, N
 noteTitle // S
 noteContent // S
@@ -211,11 +212,13 @@ sessionId // S
 
 ```
 
-
-
 # 8. Pages
 
-_Include mock-ups of the web pages you expect to build. These can be as sophisticated as mockups/wireframes using drawing software, or as simple as hand-drawn pictures that represent the key customer-facing components of the pages. It should be clear what the interactions will be on the page, especially where customers enter and submit data. You may want to accompany the mockups with some description of behaviors of the page (e.g. “When customer submits the submit-dog-photo button, the customer is sent to the doggie detail page”)_
+![WireFrame Index Page](indexWireframe.png)
+![WireFrame Train Page](trainWireFrame.png)
+![WireFrame User Page](userWireFrame.png)
+
+
 
 
 

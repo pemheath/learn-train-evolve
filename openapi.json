@@ -19,7 +19,7 @@
   },
   "servers": [
     {
-      "url": "https://petstore3.swagger.io/api/v3"
+      "url": "https:www.tbd.com"
     }
   ],
   "tags": [
@@ -44,6 +44,7 @@
       "description": "Operations relating to the crud operations around notes."
     }
   ],
+
   "paths": {
     "/users": {
       "post": {
@@ -75,31 +76,31 @@
           "required": true
         },
         "responses": {
+
           "200": {
+
             "description": "Successful operation",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
-              },
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
               }
             }
-          },
+        },
           "400": {
-            "description": "Invalid ID supplied"
+            "description": "Invalid user email supplied"
           },
           "403": {
             "description": "user does not have access to this operation"
-          }
+          },
+
         }
       }
+
     },
-    "/users/{id}": {
+
+    "/users/{email}": {
       "get": {
         "tags": [
           "user"
@@ -109,9 +110,9 @@
         "operationId": "viewUser",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user to view",
+            "description": "email of user to view",
             "required": true,
             "schema": {
               "type": "string"
@@ -148,9 +149,9 @@
         "operationId": "updateUser",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "ID of user that needs to be updated",
+            "description": "email of user that needs to be updated",
             "required": true,
             "schema": {
               "type": "string"
@@ -195,9 +196,9 @@
         "operationId": "deleteUser",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user to delete",
+            "description": "email of user to delete",
             "required": true,
             "schema": {
               "type": "string"
@@ -216,10 +217,10 @@
             }
           },
           "400": {
-            "description": "invalid user id"
+            "description": "invalid user email"
           },
           "404": {
-            "description": "user id not found"
+            "description": "user not found"
           }
         }
       }
@@ -285,7 +286,7 @@
           "notes"
         ],
         "summary": "Create a new note",
-        "description": "A new note with userId, note number, and note title requierd",
+        "description": "A new note with user email, note number, and note title requierd",
         "operationId": "createNote",
         "requestBody": {
           "content": {
@@ -313,7 +314,7 @@
         }
       }
     },
-    "/notes/{id}": {
+    "/notes/{email}": {
       "get": {
         "tags": [
           "notes"
@@ -323,9 +324,9 @@
         "operationId": "getNotesForUser",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "ID of user to return notes for",
+            "description": "email of user to return notes for",
             "required": true,
             "schema": {
               "type": "integer",
@@ -369,9 +370,9 @@
         "operationId": "deleteNote",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user deleting ther note",
+            "description": "email of user deleting their note",
             "required": true,
             "schema": {
               "type": "string"
@@ -434,7 +435,7 @@
         }
       }
     },
-    "/training-sessions/{id}": {
+    "/training-sessions/{email}": {
       "get": {
         "tags": [
           "training"
@@ -444,9 +445,9 @@
         "operationId": "viewAllTraining",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "user id for user to pull training sessions for",
+            "description": "user email for user to pull training sessions for",
             "required": true,
             "schema": {
               "type": "string"
@@ -476,7 +477,7 @@
         }
       }
     },
-    "/training-sessions{id}/{sessionId}": {
+    "/training-sessions{email}/{sessionId}": {
       "get": {
         "tags": [
           "training"
@@ -486,9 +487,9 @@
         "operationId": "viewTrainingDetails",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user",
+            "description": "email of user",
             "required": true,
             "schema": {
               "type": "string",
@@ -534,9 +535,9 @@
         "operationId": "deleteTrainingSession",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user",
+            "description": "email of user",
             "required": true,
             "schema": {
               "type": "string",
@@ -582,9 +583,9 @@
         "operationId": "updateTrainingSession",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user",
+            "description": "email of user",
             "required": true,
             "schema": {
               "type": "string",
@@ -632,7 +633,7 @@
         }
       }
     },
-    "/training-sessions/{id}?filter={filter}": {
+    "/training-sessions/{email}?filter={filter}": {
       "get": {
         "tags": [
           "training"
@@ -642,9 +643,9 @@
         "operationId": "viewTrainingWithFilters",
         "parameters": [
           {
-            "name": "id",
+            "name": "email",
             "in": "path",
-            "description": "id of user",
+            "description": "email of user",
             "required": true,
             "schema": {
               "type": "string",
@@ -691,10 +692,6 @@
       "User": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "example": "mph6746"
-          },
           "email": {
             "type": "string",
             "example": "student.learner@domain.com"
@@ -729,9 +726,9 @@
       "TrainingSession": {
         "type": "object",
         "properties": {
-          "id": {
+          "email": {
             "type": "string",
-            "example": "MPH6746"
+            "example": "pem.heath@gmail.com"
           },
           "date": {
             "type": "string",
@@ -749,18 +746,16 @@
           "tags": {
             "type": "object",
             "description": "tags to associate with the training session, in a set<string>",
-            "example": {
-              "spider guard": null
-            }
+            "example": "spider guard"
           }
         }
       },
       "Goal": {
         "type": "object",
         "properties": {
-          "id": {
+          "email": {
             "type": "string",
-            "example": "MPH6746"
+            "example": "pem.heath@gmail.com"
           },
           "goalNumber": {
             "type": "number",
@@ -805,9 +800,9 @@
       "Note": {
         "type": "object",
         "properties": {
-          "id": {
+          "email": {
             "type": "string",
-            "example": "MPH6746"
+            "example": "pem.heath@gmail.com"
           },
           "noteNumber": {
             "type": "number",
@@ -826,10 +821,7 @@
             "description": "date-time"
           },
           "tags": {
-            "type": "object",
-            "example": {
-              "accomplishments": null
-            }
+            "type": "object"
           }
         }
       }
