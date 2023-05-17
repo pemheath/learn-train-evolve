@@ -2,7 +2,6 @@
 'https://plantuml.com/class-diagram
 
 class UserModel {
-+ String id
 + String email
 + String firstName
 + String lastName
@@ -13,8 +12,7 @@ class UserModel {
 }
 
 class User{
-+ @DynamoDBHashKey String id
-+ String email
++ @DynamoDBHashKey String email
 + String firstName
 + String lastName
 + String motivationalWhy
@@ -31,7 +29,7 @@ class TrainingSessionModel {
 }
 
 class TrainingSession{
-	+@DynamoDBHashKey String id
+	+@DynamoDBHashKey String email
 	+@DynamoDBRangeKeyString sessionId
 	+String type
 	+Note note;
@@ -55,7 +53,7 @@ class ModelConverter {
 }
 
 class NoteModel {
-	+String id
+	+String email
 	+int noteNumber
 	+String noteTitle
 	+String noteContent
@@ -66,7 +64,7 @@ class NoteModel {
 }
 
 class Note {
-	+ @DynamoDBHashKey String id
+	+ @DynamoDBHashKey String email
 	+ @DynamoDBRangeKey int noteNumber
 	+String noteTitle
 	+String noteContent
@@ -230,11 +228,14 @@ ViewManyTrainingSessionsActivity -- ViewManyTrainingSessionsRequest
 ViewManyTrainingSessionsActivity -- ViewManyTrainingSessionsResponse
 
 
-
-
-
 class DaoModule
 interface ServiceComponent
+
+newpage
+
+class NoTrainingSessionFoundException
+class NoPermissionException
+
 
 
 @enduml

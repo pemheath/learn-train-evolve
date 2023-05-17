@@ -1,0 +1,36 @@
+@startuml
+
+'https://plantuml.com/sequence-diagram
+skinparam actorStyle awesome
+
+actor user
+
+LearnTrainEvolveClient -> APIGateway : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
+LearnTrainEvolveServiceLambda -> GetTrainingSessionActivity : GetTrainingSessionRequest
+GetTrainingSessionActivity -> GetTrainingSessionActivity : validate user
+GetTrainingSessionActivity -> TrainingSessionDAO: getTrainingSession(id, trainingSessionId)
+TrainingSessionDAO -> DynamoDB : look up TrainingSession by composite key (HTTP request)
+
+alt if user does not have authorization
+GetTrainingSessionActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
+LearnTrainEvolveServiceLambda --> LearnTrainEvolveClient : 400 response illegal access
+end
+
+alt if training session does not exist
+DynamoDB --> TrainingSessionDAO : return no item data
+TrainingSessionDAO --> TrainingSessionDAO : via Java libraries, convert DynamoDB response to null
+TrainingSessionDAO --> GetTrainingSessionActivity: throw NoTrainingSessionFoundException
+GetTrainingSessionActivity --> LearnTrainEvolveServiceLambda : propagate NoTrainingSessionFoundException
+LearnTrainEvolveServiceLambda --> APIGateway : http response
+APIGateway --> LearnTrainEvolveClient : return 400 response
+end
+
+DynamoDB -> TrainingSessionDAO : return TrainingSession data
+TrainingSessionDAO --> TrainingSessionDAO : via Java libraries, convert DynamoDB response data to Java object
+TrainingSessionDAO -> GetTrainingSessionActivity: return TrainingSession object (POJO)
+GetTrainingSessionActivity -> LearnTrainEvolveServiceLambda : return GetTrainingSessionResponse
+LearnTrainEvolveServiceLambda -> APIGateway : 200 response
+APIGateway -> LearnTrainEvolveClient : HTTP response with TrainingSession data
+
+@enduml
