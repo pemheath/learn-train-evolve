@@ -1,0 +1,240 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class UserModel {
++ String id
++ String email
++ String firstName
++ String lastName
++ String motivationalWhy
++ String membership
++ String rank
+
+}
+
+class User{
++ @DynamoDBHashKey String id
++ String email
++ String firstName
++ String lastName
++ String motivationalWhy
++ String membership
++ String rank
+}
+
+class TrainingSessionModel {
+	+String id
+	+String sessionId
+	+String type
+	+Note note;
+	+Set<String> tags
+}
+
+class TrainingSession{
+	+@DynamoDBHashKey String id
+	+@DynamoDBRangeKeyString sessionId
+	+String type
+	+Note note;
+	+Set<String> tags
+}
+
+ModelConverter -- User
+ModelConverter -- UserModel
+
+ModelConverter -- TrainingSession
+ModelConverter -- TrainingSessionModel
+
+ModelConverter -- Note
+ModelConverter -- NoteModel
+
+
+class ModelConverter {
+    + toUserModel(User) : UserModel
+    + toTrainingSessionModel(TrainingSession) : TrainingSessionModel
+    + toNoteModel(Note) : NoteModel
+}
+
+class NoteModel {
+	+String id
+	+int noteNumber
+	+String noteTitle
+	+String noteContent
+	+LocalDate dateCreated
+	+Set<String> tags
+	+String sessionId
+
+}
+
+class Note {
+	+ @DynamoDBHashKey String id
+	+ @DynamoDBRangeKey int noteNumber
+	+String noteTitle
+	+String noteContent
+	+LocalDate dateCreated
+	+Set<String> tags
+	+String sessionId
+}
+
+
+
+newpage
+
+
+class UserDao {
+-DynamoDBMapper mapper
++getUser(String): User
++saveUser(User): User
++getManyUsers(String): List<User>
+}
+class TrainingSessionDao{
+-DynamoDBMapper mapper
++getSession(String, int): TrainingSession
++saveSession(TrainingSession): TrainingSession
++getManySessions(String, String): List<TrainingSession>
+}
+class NoteDao{
+-DynamoDBMapper mapper
++getNote(String, int): Note
++saveNote(Note) : Note
++getManyNotes(String): List<Note>
+}
+
+
+class LambdaActivityRunner{
++ handleRequest(AuthenticatedLambdaRequest<T> ): LambdaResponse
+}
+
+class GetTrainingSessionRequest {
+-String id
+-String sessionId
+}
+
+class GetTrainingSessionResponse {
+- TrainingSessionModel sessionModel
+}
+
+class GetTrainingSessionActivity {
+-TrainingSessionDao trainingDao
+-Logger logger
++ handleRequest(GetTrainingSessionRequest): GetTrainingSessionResponse
+}
+
+class GetTrainingSessionLambda<? extends LambdaActivityRunner> {
++handleRequest(AuthenticatedLambdaRequest<GetTrainingSessionRequest>): LambdaResponse
+}
+GetTrainingSessionActivity *-- TrainingSessionDao
+GetTrainingSessionActivity -- GetTrainingSessionResponse
+GetTrainingSessionActivity -- GetTrainingSessionRequest
+GetTrainingSessionLambda .. GetTrainingSessionActivity
+GetTrainingSessionLambda --|> LambdaActivityRunner
+
+newpage
+
+class ViewManyTrainingSessionsRequest{
+-String id
+}
+class ViewManyTrainingSessionsResponse{
+-List<TrainingSessionModel> sessionModels
+}
+class ViewManyTrainingSessionsActivity{
+-TrainingSessionDao trainingDao
+-Logger logger
++ handleRequest(ViewManyTrainingSessionsRequest): ViewManyTrainingSessionsResponse
+}
+class ViewManyTrainingSessionsLambda<? extends LambdaActivityRunner> {
++handleRequest(AuthenticatedLambdaRequest<ViewManyTrainingSessionsRequest>): LambdaResponse
+}
+
+class CreateTrainingSessionRequest{
+	-String id
+	-sessionId
+	-String type
+	-Note note;
+	-Set<String> tags
+}
+class CreateTrainingSessionResponse{
+-TrainingSessionModel: sessionModel
++getTrainingSession(): TrainingSessionModel
+
+}
+class CreateTrainingSessionActivity{
+-TrainingSessionDao trainingDao
+-NoteDao noteDao
+-Logger logger
++ handleRequest(CreateTrainingSessionRequest): CreateTrainingSessionResponse
+}
+class CreateTrainingSessionLambda<? extends LambdaActivityRunner> {
++handleRequest(AuthenticatedLambdaRequest<CreateTrainingSessionRequest>): LambdaResponse
+}
+
+class UpdateTrainingSessionRequest{
+	-String id
+	-sessionId
+	-String type
+	-Note note;
+	-Set<String> tags
+}
+
+class UpdateTrainingSessionResponse{
+    -TrainingSessionModel: sessionModel
+    +getTrainingSession(): TrainingSessionModel
+}
+
+class UpdateTrainingSessionActivity{
+    -TrainingSessionDao trainingDao
+    -NoteDao noteDao
+    -Logger logger
+    + handleRequest(CreateTrainingSessionRequest): CreateTrainingSessionResponse
+}
+
+class UpdateTrainingSessionLambda<? extends LambdaActivityRunner> {
+    +handleRequest(AuthenticatedLambdaRequest<UpdateTrainingSessionRequest>): LambdaResponse
+}
+
+class DeleteTrainingSessionRequest{
+    -String id
+    -String sessionId
+}
+
+class DeleteTrainingSessionResponse{
+    -TrainingSessionModel sessionModel
+}
+
+class DeleteTrainingSessionActivity{
+    -TrainingSessionDao trainingDao
+    -Logger logger
+    + handleRequest(DeleteTrainingSessionRequest): DeleteTrainingSessionResponse
+}
+
+class DeleteTrainingSessionLambda<? extends LambdaActivityRunner> {
+    +handleRequest(AuthenticatedLambdaRequest<DeleteTrainingSessionRequest>): LambdaResponse
+}
+
+UpdateTrainingSessionActivity *-- TrainingSessionDao
+UpdateTrainingSessionActivity *-- NotesDao
+UpdateTrainingSessionLambda --|> LambdaActivityRunner
+CreateTrainingSessionActivity *-- TrainingSessionDao
+CreateTrainingSessionLambda --|> LambdaActivityRunner
+DeleteTrainingSessionActivity *-- TrainingSessionDao
+DeleteTrainingSessionLambda --|> LambdaActivityRunner
+ViewManyTrainingSessionsActivity *-- TrainingSessionDao
+ViewManyTrainingSessionsLambda --|> LambdaActivityRunner
+
+UpdateTrainingSessionActivity -- UpdateTrainingSessionRequest
+UpdateTrainingSessionActivity -- UpdateTrainingSessionResponse
+CreateTrainingSessionActivity -- CreateTrainingSessionRequest
+CreateTrainingSessionActivity -- CreateTrainingSessionResponse
+DeleteTrainingSessionActivity -- DeleteTrainingSessionRequest
+DeleteTrainingSessionActivity -- DeleteTrainingSessionResponse
+ViewManyTrainingSessionsActivity -- ViewManyTrainingSessionsRequest
+ViewManyTrainingSessionsActivity -- ViewManyTrainingSessionsResponse
+
+
+
+
+
+class DaoModule
+interface ServiceComponent
+
+
+@enduml
