@@ -15,6 +15,9 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
+# Ignore planning documents
+/.PlanningDocuments
+
 # Ignore Gradle build output directory
 build
 logs
