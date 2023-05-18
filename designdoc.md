@@ -118,7 +118,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 	// TrainingSessionModel
 
 	String email; (id for user)
-	String sessionId;
+	String eventId; (id for session/event resource)
 	String type;
 	Note note;
 	Set<String> tags;
@@ -191,7 +191,7 @@ rank // S
 
 ```
 email // partion key, S
-sessionId // sort key, S
+eventId // sort key, S
 type // S
 note // M
 tags // SS
@@ -208,7 +208,7 @@ noteTitle // S
 noteContent // S
 dateCreated // S
 tags // SS
-sessionId // S
+eventId // S
 
 ```
 

@@ -369,12 +369,12 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "email"
           AttributeType: "S"
-        - AttributeName: "session_id"
+        - AttributeName: "eventId"
           AttributeType: "S"
       KeySchema:
         - AttributeName: "email"
           KeyType: "HASH"
-        - AttributeName: "session_id"
+        - AttributeName: "eventId"
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "training_sessions"
@@ -385,12 +385,12 @@ Resources:
       AttributeDefinitions:
         - AttributeName: "email"
           AttributeType: "S"
-        - AttributeName: "note_number"
+        - AttributeName: "noteNumber"
           AttributeType: "N"
       KeySchema:
         - AttributeName: "email"
           KeyType: "HASH"
-        - AttributeName: "note_number"
+        - AttributeName: "noteNumber"
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "notes"

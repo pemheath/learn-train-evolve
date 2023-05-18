@@ -93,13 +93,12 @@
           },
           "403": {
             "description": "user does not have access to this operation"
-          },
+          }
 
         }
       }
 
     },
-
     "/users/{email}": {
       "get": {
         "tags": [
@@ -477,7 +476,7 @@
         }
       }
     },
-    "/training-sessions{email}/{sessionId}": {
+    "/training-sessions/{email}/{eventId}": {
       "get": {
         "tags": [
           "training"
@@ -497,7 +496,7 @@
             }
           },
           {
-            "name": "sessionId",
+            "name": "eventId",
             "in": "path",
             "description": "id of training session to view",
             "required": true,
@@ -545,7 +544,7 @@
             }
           },
           {
-            "name": "sessionId",
+            "name": "eventId",
             "in": "path",
             "description": "id of training session to delete",
             "required": true,
@@ -593,7 +592,7 @@
             }
           },
           {
-            "name": "sessionId",
+            "name": "eventId",
             "in": "path",
             "description": "id of training session to update",
             "required": true,
@@ -730,9 +729,9 @@
             "type": "string",
             "example": "pem.heath@gmail.com"
           },
-          "date": {
+          "eventId": {
             "type": "string",
-            "example": "03-04-2023"
+            "example": "03042023Advanced"
           },
           "type": {
             "type": "string",
