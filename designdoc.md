@@ -166,13 +166,13 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 See [API here](openapi.json) 
 
-See [SequenceDiagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/GetTrainingSessionSequenceDiagram.puml)
+See [SequenceDiagram here](GetTrainingSessionSequenceDiagram.puml)
 
-See [UML diagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/LearnTrainEvolve.puml)
+See [UML diagram here](LearnTrainEvolve.puml)
 
 # 7. Tables
 
-Phase one will encomopass the User and Train tables. Both will be stored in DynamoDB. 
+Phase one will encompass the User and Train tables. Both will be stored in DynamoDB. 
 
 7.1 `Users`
 
@@ -217,6 +217,27 @@ sessionId // S
 ![WireFrame Index Page](indexWireframe.png)
 ![WireFrame Train Page](trainWireFrame.png)
 ![WireFrame User Page](userWireFrame.png)
+
+
+# 9. Technologies 
+
+- The backend will be written in Java. 
+- I will use AWS API Gateway and AWS Lambda to run the application.
+- I will use DynamoDB for data storage. 
+- For the training analytics, I will use Amazon Athena AWS Athena DynamoDB connector to query the tables with SQL. 
+- The front end will use JavaScript with a React framework. 
+- I will integrate google cal API for the scheduling functionality. 
+- I may consider using a headless wordpress to give the admin easy access to updating content (as a content management system).
+
+Within React I envision the following components to begin with: 
+- Header
+- Footer 
+- NavMenu
+- Pillar (Learn, Train, or Evolve, will have nested comonents based on what it is)
+- Schedule 
+- TrainingSession 
+- Note 
+- Resource 
 
 
 
