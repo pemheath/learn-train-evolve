@@ -219,6 +219,15 @@ sessionId // S
 ![WireFrame User Page](userWireFrame.png)
 
 
+# 9. Technologies 
+
+The backend will be written in Java. 
+I will use AWS API Gateway and AWS Lambda to run the application.
+I will use DynamoDB for data storage. 
+For the training analytics, I will use Amazon Athena to and AWS Athena DynamoDB connector to query the tables with SQL. 
+The front end will use JavaScript with a React framework. 
+
+
 
 
 
