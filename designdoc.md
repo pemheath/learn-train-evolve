@@ -166,13 +166,13 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 See [API here](openapi.json) 
 
-See [SequenceDiagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/GetTrainingSessionSequenceDiagram.puml)
+See [SequenceDiagram here](GetTrainingSessionSequenceDiagram.puml)
 
-See [UML diagram here](/Users/pembertonheath/workspace/capstone/app/src/main/resources/LearnTrainEvolve.puml)
+See [UML diagram here](LearnTrainEvolve.puml)
 
 # 7. Tables
 
-Phase one will encomopass the User and Train tables. Both will be stored in DynamoDB. 
+Phase one will encompass the User and Train tables. Both will be stored in DynamoDB. 
 
 7.1 `Users`
 
