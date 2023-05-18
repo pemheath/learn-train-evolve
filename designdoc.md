@@ -227,6 +227,16 @@ I will use DynamoDB for data storage.
 For the training analytics, I will use Amazon Athena to and AWS Athena DynamoDB connector to query the tables with SQL. 
 The front end will use JavaScript with a React framework. 
 
+Within React I currently envision the following components to begin with: 
+- Header
+- Footer 
+- Pillar (Learn, Train, or Evolve, will have nested comonents based on what it is)
+- Schedule 
+- Note 
+- TrainingSession 
+- Resource 
+- NavMenu
+
 
 
 
