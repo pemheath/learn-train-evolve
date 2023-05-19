@@ -7,16 +7,16 @@
 Brazilian Jiu Jitsu (BJJ) is growing in popularity with academies opening to meet the surging demand. The sport of jiu jitsu is unique in its combined mental and physical complexity. Likened to "chess with your body", jiu jitsu requires practitioners to understand movements, attacks and defenses from common positions. Upon this basic framework (how pieces move) come combinations, sequences, strategy and tactics. However, knowing the move intellectually is only half of the game, because your body has to be able to execute the move with precise technique and timing, requiring coordinated movements that become muscle memory with routine practice. The complexity of the sport presents a problem: *how can practitioners manage and optimize their learning and training process?*
 
  
-Jiu jitsu practitioners commonly track what they are learning, how it fits into their existing knowledge base, and what they need to learn next. At more beginner levels, this tracking is primarily executed by the curriculum, but as students become more intermediate, they must take more ownership of their development. Students use many systems for tracking their progress, including physical notebooks, a note on a smartphone, excel sheets, word docs, etc. **Students would benefit from an integrated system where they can organize their training notes, set goals, and track progress on a platform that is integrated with their academy, their gym schedule and curriculum, and their teammates+coaches.** 
+Jiu jitsu practitioners commonly track what they are learning, how it fits into their existing knowledge base, and what they need to learn next. At more beginner levels, this tracking is primarily executed by the curriculum, but as students become more intermediate, they must take more ownership of their development. Students use many systems for tracking their progress, including physical notebooks, a note on a smartphone, Excel sheets, word docs, etc. **Students would benefit from an integrated system where they can organize their training notes, set goals, and track progress on a platform that is integrated with their academy, their gym schedule and curriculum, and their teammates+coaches.** 
 
 Learn Train Evolve provides athletes and coaches an integrated platform to track and manage training, technique development, goals, and coaching. With two types of users (students + administrators), admins can view and manage their students + upload resource based content, while students can manage their own training plan and collect notes and resources in one convenient location. 
 
 ## 2. Top Questions to Resolve in Review
 
 1. Would using Amazon Athena in conjunction with DynamoDB facilitate me to provide the kind of data visualization and reports this service will provide?
-2. I will need to preload a good amount of data (goals, "why" statements) -- is there an efficient way to preload dynamodb databases? Is a json doc the fastest way? I would love to store the data in excel and somehow convert that to a format DynamoDB would use. Via Json? 
-3. I need calendar integration for class schedules. What integration would I use here? Is there a google calendar API to integrate this in? I need to explore these options. 
-4. I would like the administrator to readily update information: would using Wordpress as a content management system and integrate it into my project as a headless wordpress be an option for this?
+2. I will need to preload a good amount of data (goals, "why" statements) -- is there an efficient way to preload dynamodb databases? Is a json doc the fastest way? I would love to store the data in Excel and somehow convert that to a format DynamoDB would use. Via Json? 
+3. I need calendar integration for class schedules. What integration would I use here? Is there a Google calendar API to integrate this in? I need to explore these options. 
+4. I would like the administrator to readily update information: would using WordPress as a content management system and integrate it into my project as a headless WordPress be an option for this?
 
 ## 3. Vocabulary and User Stories
 
@@ -28,10 +28,11 @@ Learn Train Evolve provides athletes and coaches an integrated platform to track
 ### User stories by category
 
 - B: 
-	**Basic Adminstrator Functionality**
+	**Basic Administrator Functionality**
 	* UC. As an administrator, I want to add new students to my academy. (B)
 	* UC. As an administrator, I want to remove students from my academy. (B)
 	* UC. As an administrator, I want to update information about one of my students. (B)
+    * UC. As an administrator, I want to add classes to the training schedule (B).
 - T: 
 	**functionality associated with TRAIN component**
 	* UC. As an administrator, I want to view the training history for any of my students. (T)
@@ -51,7 +52,7 @@ Learn Train Evolve provides athletes and coaches an integrated platform to track
 	* UC. As a user, I want to be able to select a goal from a list of suggestions. (E)
 	* UC. As a user, I want to be able to create a new goal. (E)
 	* UC. As a user, I want to be able to update a goal, including making notes or marking the goal as completed.  (E)
-	* UC. As a user, I want to be ablve to view my completed, ongoing, and future goals. (E)
+	* UC. As a user, I want to be able to view my completed, ongoing, and future goals. (E)
 
 
 ## 4. Project Scope
@@ -67,7 +68,7 @@ In this design I will solve the problem of jiu jitsu practitioners needing the a
 
 - To manage the scope, this initial iteration will not yet support the "learn" and "evolve" functionality. Those will come in phase 2 and phase 3.
 - This initial product will not support creating a user that already has training data. Any newly created user will start with zero data regarding training history. 
-- This intial product will not integrate with any other fitness apps (Whoop, Apple Watch, etc) and it will only be a web based application (no smartphone apps, for example).
+- This initial product will not integrate with any other fitness apps (Whoop, Apple Watch, etc.) and it will only be a web based application (no smartphone apps, for example).
 - This product will only support a single location Academy with adult programs only. 
 - This product will not allow athletes to track and plan for competition: the focus will only be on training at the academy. A compete thread can come in a future phase.
 
@@ -76,8 +77,8 @@ In this design I will solve the problem of jiu jitsu practitioners needing the a
 
 An important element of this design is that it is separated into three key components: learn, train, and evolve. 
 - The LEARN component will cover use cases related to notes on training and accessing resources. 
-- The TRAIN component will cover use cases related to scheduling trainign sessions, taking notes on training sessions, and viewing a history of training sessions (data analytics will be available such as volume by week, by type, by day, etc).
-- The EVLOLVE component will cover use cases related to goal setting and reflection. 
+- The TRAIN component will cover use cases related to scheduling training sessions, taking notes on training sessions, and viewing a history of training sessions (data analytics will be available such as volume by week, by type, by day, etc).
+- The EVOLVE component will cover use cases related to goal setting and reflection. 
 
 In this way, concerns are separated and the project can be developed incrementally. Phase 1 (this phase) will tackle the TRAIN component.
 
@@ -115,22 +116,38 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 ```
 
 {
-	// TrainingSessionModel
+	// AdminModel
 
-	String email; (id for user)
-	String eventId; (id for session/event resource)
-	String type;
-	Note note;
-	Set<String> tags;
+	String email; --> unique identifier for each member
+	String firstName;
+	String lastName;
+	String calId; (google calendar id)
 
-	}
+	} 
 
 ```
 
 ```
 
 {
-	// Goal
+	// TrainingSessionModel
+
+	String email; (id for user)
+	String sessionId; (id for session/event resource)
+	Date dateAndTime;
+	String type;
+	Note note; (the user can add these before or after the training session)
+	Double intensity;
+	Set<String> tags;
+
+}
+
+```
+
+```
+
+{
+	// GoalModel
 
 	String email;
 	int goalNumber;
@@ -148,7 +165,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 {
 
-	//Note
+	//NoteModel
 
 	String email;
 	int noteNumber;
@@ -191,7 +208,7 @@ rank // S
 
 ```
 email // partion key, S
-eventId // sort key, S
+sessionId // sort key, S
 type // S
 note // M
 tags // SS
@@ -208,7 +225,7 @@ noteTitle // S
 noteContent // S
 dateCreated // S
 tags // SS
-eventId // S
+sessionId // S
 
 ```
 
@@ -227,13 +244,13 @@ eventId // S
 - For the training analytics, I will use Amazon Athena AWS Athena DynamoDB connector to query the tables with SQL. 
 - The front end will use JavaScript with a React framework. 
 - I will integrate google cal API for the scheduling functionality. 
-- I may consider using a headless wordpress to give the admin easy access to updating content (as a content management system).
+- I may consider using a headless WordPress to give the admin easy access to updating content (as a content management system).
 
-Within React I envision the following components to begin with: 
+Within React, I envision the following components to begin with: 
 - Header
 - Footer 
 - NavMenu
-- Pillar (Learn, Train, or Evolve, will have nested comonents based on what it is)
+- Pillar (Learn, Train, or Evolve, will have nested components based on what it is)
 - Schedule 
 - TrainingSession 
 - Note 
