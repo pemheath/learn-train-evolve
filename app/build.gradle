@@ -11,10 +11,18 @@ plugins {
     id 'application'
 }
 
+
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/NSS-Software-Engineering/shared-java")
+        credentials {
+            username = project.findProperty('GH_PACKAGE_REG_READ_USER') ?: System.getenv('GH_PACKAGE_REG_READ_USER')
+            password = project.findProperty('GH_PACKAGE_REG_READ_PASS') ?: System.getenv('GH_PACKAGE_REG_READ_PASS')
+        }
+    }
 }
+
 
 dependencies {
     // Use JUnit Jupiter for testing.
@@ -22,6 +30,27 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:30.1.1-jre'
+
+    // Use Dagger for dependency injection
+
+    implementation 'com.google.guava:guava:31.1-jre'
+    implementation 'com.google.dagger:dagger:2.42'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.42'
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    //AWS
+
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.1'
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
+    implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.12.+'
+    implementation 'com.amazonaws:aws-java-sdk-dynamodb:1.12.+'
+
+    //NSS resources
+
+    implementation 'com.nashss.se.shared-java:test-infrastructure:1.+'
+    implementation 'com.nashss.se.shared-java:nss-resources:1.+'
+    implementation 'com.nashss.se.shared-java:lesson-plan-resources:1.+'
+    implementation 'com.nashss.se.shared-java:java-project-resources:1.+'
 }
 
 application {

@@ -1,0 +1,46 @@
+@startuml
+
+'https://plantuml.com/sequence-diagram
+skinparam actorStyle awesome
+
+actor admin
+
+admin -> CognitoDomain : login
+LearnTrainEvolveClient -> APIGateway : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
+LearnTrainEvolveServiceLambda -> SyncTrainingSessionsActivity : SyncTrainingSessionsRequest
+SyncTrainingSessionsActivity -> SyncTrainingSessionsActivity : validate user as admin
+SyncTrainingSessionsActivity -> googleapis.com : API call
+googleapis.com -> SyncTrainingSessionsActivity : resource data items[n]
+    loop n times
+        SyncTrainingSessionsActivity -> SyncTrainingSessionsActivity : create training session object
+        SyncTrainingSessionsActivity -> TrainingSessionDAO : save training session
+        TrainingSessionDAO -> DynamoDB : save data into DynamoDB (HTTP request)
+        DynamoDB -> TrainingSessionDAO : 200 response
+        TrainingSessionDAO -> SyncTrainingSessionsActivity : training session object
+    end
+
+alt if user does not have admin privileges
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
+LearnTrainEvolveServiceLambda --> LearnTrainEvolveClient : 400 response illegal access
+end
+
+alt if incorrect calendar id
+googleapis.com --> SyncTrainingSessionsActivity : 404: Resource Not Found
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw CalendarNotFoundException
+LearnTrainEvolveServiceLambda --> APIGateway : http response
+APIGateway --> LearnTrainEvolveClient : return 404 response
+end
+
+alt if incorrect api key provided
+googleapis.com --> SyncTrainingSessionsActivity : 401: Invalid Credentials
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw InvalidCredentialsException
+LearnTrainEvolveServiceLambda --> APIGateway : http response
+APIGateway --> LearnTrainEvolveClient : return 401 response
+end
+
+SyncTrainingSessionsActivity -> LearnTrainEvolveServiceLambda : return SyncTrainingSessionsResponse
+LearnTrainEvolveServiceLambda -> APIGateway : 200 response
+APIGateway -> LearnTrainEvolveClient : HTTP response with TrainingSession data for added sessions
+
+@enduml

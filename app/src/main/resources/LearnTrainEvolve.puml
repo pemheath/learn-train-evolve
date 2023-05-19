@@ -1,5 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
+!pragma layout smetana
 
 class UserModel {
 + String email
@@ -76,7 +77,7 @@ class Note {
 
 
 newpage
-
+!pragma layout smetana
 
 class UserDao {
 -DynamoDBMapper mapper
@@ -101,6 +102,30 @@ class NoteDao{
 class LambdaActivityRunner{
 + handleRequest(AuthenticatedLambdaRequest<T> ): LambdaResponse
 }
+
+class SyncTrainingSessionsRequest{
+-String calendarId;
+}
+
+class SyncTrainingSessionsActivity {
+-TrainingSessionDao trainingDao
++handleRequest(SyncTrainingSessionsRequest):SyncTrainingSessionsResponse
+}
+
+class SyncTrainingSessionsResponse{
+-TrainingSessionModel sessionModel
+}
+
+class SyncTrainingSessionsLambda<? extends LambdaActivityRunner>{
++handleRequest((AuthenticatedLambdaRequest<SyncTrainingSessionsRequest>): LambdaResponse
+}
+
+
+SyncTrainingSessionsActivity *-- TrainingSessionDao
+SyncTrainingSessionsActivity -- SyncTrainingSessionsResponse
+SyncTrainingSessionsActivity -- SyncTrainingSessionsRequest
+SyncTrainingSessionsLambda .. SyncTrainingSessionsActivity
+SyncTrainingSessionsLambda --|> LambdaActivityRunner
 
 class GetTrainingSessionRequest {
 -String id
@@ -127,6 +152,8 @@ GetTrainingSessionLambda .. GetTrainingSessionActivity
 GetTrainingSessionLambda --|> LambdaActivityRunner
 
 newpage
+
+!pragma layout smetana
 
 class ViewManyTrainingSessionsRequest{
 -String id
@@ -233,9 +260,9 @@ interface ServiceComponent
 
 newpage
 
+!pragma layout smetana
+
 class NoTrainingSessionFoundException
 class NoPermissionException
-
-
 
 @enduml

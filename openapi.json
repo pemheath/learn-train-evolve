@@ -3,19 +3,14 @@
   "info": {
     "title": "Learn Train Evolve",
     "description": "API for Learn Train Evolve Jiu Jitsu Management System.",
-    "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "email": "pem.heath@gmail.com"
     },
     "license": {
       "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "version": "1.0.11"
-  },
-  "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
+    "version": "1.0.1"
   },
   "servers": [
     {
@@ -93,13 +88,12 @@
           },
           "403": {
             "description": "user does not have access to this operation"
-          },
+          }
 
         }
       }
 
     },
-
     "/users/{email}": {
       "get": {
         "tags": [
@@ -209,7 +203,7 @@
           "200": {
             "description": "successful operation",
             "content": {
-              "applicatoin/json": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/User"
                 }
@@ -286,7 +280,7 @@
           "notes"
         ],
         "summary": "Create a new note",
-        "description": "A new note with user email, note number, and note title requierd",
+        "description": "A new note with user email, note number, and note title required",
         "operationId": "createNote",
         "requestBody": {
           "content": {
@@ -401,8 +395,8 @@
         "tags": [
           "training"
         ],
-        "summary": "Creates a new training session for a given user",
-        "description": "When user adds a class to their schedule a new training session will be created.",
+        "summary": "Creates a new training session",
+        "description": "Used to add training sessions to academy database. Can either add brand new events by syncing with Google, or can add a new training session for a specific user by duplicating the training session and changing associating it with the user.",
         "operationId": "createTrainingSession",
         "requestBody": {
           "content": {
@@ -431,6 +425,9 @@
           },
           "400": {
             "description": "Invalid data supplied"
+          },
+          "403": {
+            "description": "User not an authorized administrator"
           }
         }
       }
@@ -477,7 +474,7 @@
         }
       }
     },
-    "/training-sessions{email}/{sessionId}": {
+    "/training-sessions/{email}/{sessionId}": {
       "get": {
         "tags": [
           "training"
@@ -522,7 +519,7 @@
             "description": "invalid input"
           },
           "404": {
-            "description": "nonexistant user or trainingsession matching inputs"
+            "description": "nonexistent user or training session matching inputs"
           }
         }
       },
@@ -570,7 +567,7 @@
             "description": "invalid input"
           },
           "404": {
-            "description": "nonexistant user or trainingsession matching inputs"
+            "description": "nonexistent user or training session matching inputs"
           }
         }
       },
@@ -628,7 +625,7 @@
             "description": "invalid parameters"
           },
           "404": {
-            "description": "nonexistant trainingsession"
+            "description": "nonexistent training session"
           }
         }
       }
@@ -681,7 +678,7 @@
             "description": "invalid input, query parameter not supported"
           },
           "404": {
-            "description": "nonexistant user"
+            "description": "nonexistent user"
           }
         }
       }
@@ -704,7 +701,7 @@
             "type": "string",
             "example": "Wilson"
           },
-          "movitationalWhy": {
+          "motivationalWhy": {
             "type": "string",
             "description": "a motivating statement that will be displayed on user's homepage",
             "example": "Learn something new every day."
@@ -730,9 +727,9 @@
             "type": "string",
             "example": "pem.heath@gmail.com"
           },
-          "date": {
+          "sessionId": {
             "type": "string",
-            "example": "03-04-2023"
+            "example": "03042023Advanced"
           },
           "type": {
             "type": "string",
@@ -775,21 +772,11 @@
           },
           "taskList": {
             "type": "object",
-            "description": "set of strings",
-            "example": {
-              "Watch videos on BJJ fanatics": null,
-              "drill at open mat": null,
-              "try sweeps on Alex": null,
-              "try sweeps on Pem": null
-            }
+            "description": "set of strings"
           },
           "tags": {
             "type": "object",
-            "description": "set of strings",
-            "example": {
-              "half guard": null,
-              "sweeps": null
-            }
+            "description": "set of strings"
           },
           "dateCreated": {
             "type": "string",

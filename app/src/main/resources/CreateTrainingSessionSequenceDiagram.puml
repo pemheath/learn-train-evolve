@@ -1,0 +1,46 @@
+@startuml
+
+'https://plantuml.com/sequence-diagram
+skinparam actorStyle awesome
+
+actor user
+
+LearnTrainEvolveClient -> APIGateway : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
+LearnTrainEvolveServiceLambda -> CreateTrainingSessionActivity : CreateTrainingSessionRequest
+CreateTrainingSessionActivity -> CreateTrainingSessionActivity : validate user
+CreateTrainingSessionActivity -> TrainingSessionDAO: look for training session already in DynamoDB
+TrainingSessionDAO -> DynamoDB : look up TrainingSession by composite key (HTTP request)
+
+
+alt if user does not have authorization
+CreateTrainingSessionActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
+LearnTrainEvolveServiceLambda --> LearnTrainEvolveClient : 400 response illegal access
+end
+
+alt if training session does not yet exist
+DynamoDB --> TrainingSessionDAO : return no item data
+TrainingSessionDAO --> CreateTrainingSessionActivity: throw NoTrainingSessionFoundException
+CreateTrainingSessionActivity --> CreateTrainingSessionActivity : handle exception, create new training session
+CreateTrainingSessionActivity --> TrainingSessionDAO : save training session
+TrainingSessionDAO --> DynamoDB : http request to send data to DynamoDB
+DynamoDB --> TrainingSessionDAO : 200 response
+TrainingSessionDAO --> CreateTrainingSessionActivity : training session model
+CreateTrainingSessionActivity --> LearnTrainEvolveServiceLambda : CreateTrainingSessionResponse
+LearnTrainEvolveServiceLambda --> APIGateway : http response
+APIGateway --> LearnTrainEvolveClient : return 200 with new training session information
+end
+
+DynamoDB -> TrainingSessionDAO : return TrainingSession data
+TrainingSessionDAO --> TrainingSessionDAO : via Java libraries, convert DynamoDB response data to Java object
+TrainingSessionDAO -> CreateTrainingSessionActivity: return TrainingSession object (POJO)
+CreateTrainingSessionActivity -> CreateTrainingSessionActivity : create new training session with user information
+CreateTrainingSessionActivity -> TrainingSessionDAO: save training session to DynamoDB
+TrainingSessionDAO -> DynamoDB : send data to save in DynamoDB (HTTP request)
+DynamoDB -> TrainingSessionDAO : 200 response
+TrainingSessionDAO -> CreateTrainingSessionActivity : training session model
+CreateTrainingSessionActivity -> LearnTrainEvolveServiceLambda : return CreateTrainingSessionResponse
+LearnTrainEvolveServiceLambda -> APIGateway : 200 response
+APIGateway -> LearnTrainEvolveClient : HTTP response with TrainingSession data
+
+@enduml
