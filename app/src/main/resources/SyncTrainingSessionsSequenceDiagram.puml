@@ -5,32 +5,42 @@ skinparam actorStyle awesome
 
 actor admin
 
+admin -> CognitoDomain : login
 LearnTrainEvolveClient -> APIGateway : HTTP Request
 APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
-LearnTrainEvolveServiceLambda -> GetTrainingSessionActivity : GetTrainingSessionRequest
-GetTrainingSessionActivity -> GetTrainingSessionActivity : validate user
-GetTrainingSessionActivity -> TrainingSessionDAO: getTrainingSession(id, trainingSessionId)
-TrainingSessionDAO -> DynamoDB : look up TrainingSession by composite key (HTTP request)
+LearnTrainEvolveServiceLambda -> SyncTrainingSessionsActivity : SyncTrainingSessionsRequest
+SyncTrainingSessionsActivity -> SyncTrainingSessionsActivity : validate user as admin
+SyncTrainingSessionsActivity -> googleapis.com : API call
+googleapis.com -> SyncTrainingSessionsActivity : resource data items[n]
+    loop n times
+        SyncTrainingSessionsActivity -> SyncTrainingSessionsActivity : create training session object
+        SyncTrainingSessionsActivity -> TrainingSessionDAO : save training session
+        TrainingSessionDAO -> DynamoDB : save data into DynamoDB (HTTP request)
+        DynamoDB -> TrainingSessionDAO : 200 response
+        TrainingSessionDAO -> SyncTrainingSessionsActivity : training session object
+    end
 
-alt if user does not have authorization
-GetTrainingSessionActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
+alt if user does not have admin privileges
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
 LearnTrainEvolveServiceLambda --> LearnTrainEvolveClient : 400 response illegal access
 end
 
-alt if training session does not exist
-DynamoDB --> TrainingSessionDAO : return no item data
-TrainingSessionDAO --> TrainingSessionDAO : via Java libraries, convert DynamoDB response to null
-TrainingSessionDAO --> GetTrainingSessionActivity: throw NoTrainingSessionFoundException
-GetTrainingSessionActivity --> LearnTrainEvolveServiceLambda : propagate NoTrainingSessionFoundException
+alt if incorrect calendar id
+googleapis.com --> SyncTrainingSessionsActivity : 404: Resource Not Found
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw CalendarNotFoundException
 LearnTrainEvolveServiceLambda --> APIGateway : http response
-APIGateway --> LearnTrainEvolveClient : return 400 response
+APIGateway --> LearnTrainEvolveClient : return 404 response
 end
 
-DynamoDB -> TrainingSessionDAO : return TrainingSession data
-TrainingSessionDAO --> TrainingSessionDAO : via Java libraries, convert DynamoDB response data to Java object
-TrainingSessionDAO -> GetTrainingSessionActivity: return TrainingSession object (POJO)
-GetTrainingSessionActivity -> LearnTrainEvolveServiceLambda : return GetTrainingSessionResponse
+alt if incorrect api key provided
+googleapis.com --> SyncTrainingSessionsActivity : 401: Invalid Credentials
+SyncTrainingSessionsActivity --> LearnTrainEvolveServiceLambda : throw InvalidCredentialsException
+LearnTrainEvolveServiceLambda --> APIGateway : http response
+APIGateway --> LearnTrainEvolveClient : return 401 response
+end
+
+SyncTrainingSessionsActivity -> LearnTrainEvolveServiceLambda : return SyncTrainingSessionsResponse
 LearnTrainEvolveServiceLambda -> APIGateway : 200 response
-APIGateway -> LearnTrainEvolveClient : HTTP response with TrainingSession data
+APIGateway -> LearnTrainEvolveClient : HTTP response with TrainingSession data for added sessions
 
 @enduml
