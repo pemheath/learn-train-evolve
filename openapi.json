@@ -396,7 +396,7 @@
           "training"
         ],
         "summary": "Creates a new training session",
-        "description": "Used to add training sessions to academy database. Can either add brand new events by syncing with Google, or can add a new training session for a specific user by duplicating the training session and changing associating it with the user.",
+        "description": "Used to add training sessions to Training Session table in DynamoDB.",
         "operationId": "createTrainingSession",
         "requestBody": {
           "content": {
@@ -430,27 +430,14 @@
             "description": "User not an authorized administrator"
           }
         }
-      }
-    },
-    "/training-sessions/{email}": {
+      },
       "get": {
         "tags": [
           "training"
         ],
-        "summary": "View all training sessions for given user.",
+        "summary": "View all training sessions.",
         "description": "",
         "operationId": "viewAllTraining",
-        "parameters": [
-          {
-            "name": "email",
-            "in": "path",
-            "description": "user email for user to pull training sessions for",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "successful operation",
@@ -474,12 +461,161 @@
         }
       }
     },
-    "/training-sessions/{email}/{sessionId}": {
+
+    "/training-sessions/{eventId}": {
+      "get": {
+        "tags": ["training"],
+        "summary": "shows one training session",
+        "description": "",
+        "operationId": "viewTrainingSession",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "eventId of event to view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["training"],
+        "summary": "updates one training session",
+        "description": "",
+        "operationId": "updateTrainingSession",
+        "parameters": [
+          {
+            "name": "eventId",
+            "description": "event Id to update",
+            "in": "path",
+            "required": true
+          }
+        ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/TrainingSession"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "invalid information supplied"
+            }
+          }
+      }
+    },
+    "/user-training-sessions/": {
+      "post": {
+        "tags": ["user-training"],
+        "summary": "Creates a user-training-session with a unique id and email",
+        "operationId": "createUserTrainingSession",
+        "requestBody": {
+          "description": "updated training  object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserTrainingSession"
+              }
+            }
+          }
+
+        },
+        "responses": {
+          "200" : {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTrainingSession"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description": "invalid eventID or email supplied"
+          }
+        }
+      }
+    },
+
+    "/user-training-sessions/{email}": {
       "get": {
         "tags": [
-          "training"
+          "user-training"
         ],
-        "summary": "View one training session",
+        "summary": "View all user training sessions for given user.",
+        "description": "",
+        "operationId": "viewAllUserTraining",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "user email for user to pull training sessions for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTrainingSession"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user-training-sessions/{email}/{sessionId}": {
+      "get": {
+        "tags": [
+          "user-training"
+        ],
+        "summary": "View one user training session",
         "description": "View the details of one training session for one user, can only be done by the logged in user",
         "operationId": "viewTrainingDetails",
         "parameters": [
@@ -510,7 +646,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TrainingSession"
+                  "$ref": "#/components/schemas/UserTrainingSession"
                 }
               }
             }
@@ -527,7 +663,7 @@
         "tags": [
           "training"
         ],
-        "summary": "delete one training session",
+        "summary": "delete one user training session",
         "description": "",
         "operationId": "deleteTrainingSession",
         "parameters": [
@@ -558,7 +694,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TrainingSession"
+                  "$ref": "#/components/schemas/UserTrainingSession"
                 }
               }
             }
@@ -575,9 +711,9 @@
         "tags": [
           "training"
         ],
-        "summary": "edit one training session",
+        "summary": "edit one user training session",
         "description": "this endpoint allows a user to add notes to a training  session or add tags",
-        "operationId": "updateTrainingSession",
+        "operationId": "updateUserTrainingSession",
         "parameters": [
           {
             "name": "email",
@@ -601,11 +737,11 @@
           }
         ],
         "requestBody": {
-          "description": "updated training  object",
+          "description": "updated User Training Session  object",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TrainingSession"
+                "$ref": "#/components/schemas/UserTrainingSession"
               }
             }
           }
@@ -616,7 +752,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TrainingSession"
+                  "$ref": "#/components/schemas/UserTrainingSession"
                 }
               }
             }
@@ -630,10 +766,10 @@
         }
       }
     },
-    "/training-sessions/{email}?filter={filter}": {
+    "/user-training-sessions/{email}?filter={filter}": {
       "get": {
         "tags": [
-          "training"
+          "user-training"
         ],
         "summary": "View training sessions filtered by variable",
         "description": "View summary statistics of training by class type, date, etc.",
@@ -668,7 +804,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TrainingSession"
+                    "$ref": "#/components/schemas/UserTrainingSession"
                   }
                 }
               }
@@ -706,28 +842,24 @@
             "description": "a motivating statement that will be displayed on user's homepage",
             "example": "Learn something new every day."
           },
-          "rank": {
-            "type": "string",
-            "example": "purple"
-          },
-          "notes": {
-            "type": "object",
-            "description": "Array<Integer> listing the associated note numbers"
-          },
           "membership": {
             "type": "string",
             "example": "Unlimited"
+          },
+          "rank": {
+            "type": "string",
+            "example": "purple"
           }
         }
       },
-      "TrainingSession": {
+      "UserTrainingSession": {
         "type": "object",
         "properties": {
           "email": {
             "type": "string",
             "example": "pem.heath@gmail.com"
           },
-          "sessionId": {
+          "eventId": {
             "type": "string",
             "example": "03042023Advanced"
           },
@@ -735,15 +867,52 @@
             "type": "string",
             "example": "Advanced Gi"
           },
-          "notes": {
-            "type": "string",
-            "description": "notes corresponding to that training session",
-            "example": "Need to study counter to Bonnie's defense from the armdrag today!"
+          "rating" : {
+            "type": "double",
+            "description": "user rating for that class",
+            "example": "7.5"
+          },
+          "noteNumber": {
+            "type": "integer",
+            "description": "note number corresponding for a note for that training session",
+            "example": "3"
           },
           "tags": {
             "type": "object",
             "description": "tags to associate with the training session, in a set<string>",
             "example": "spider guard"
+          },
+          "attended": {
+            "type": "boolean",
+            "description": "true if the user attended the class",
+            "example": true
+          }
+        }
+      },
+      "TrainingSession" : {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "description": "eventId for the training session"
+          },
+          "start": {
+            "type": "string",
+            "description": "JSON deserialized start date and time"
+          },
+          "end": {
+            "type": "string",
+            "description": "JSON deserialized end date and time"
+          },
+          "type": {
+            "type": "string",
+            "description": "type of class",
+            "example": "Advanced"
+          },
+          "isCancelled": {
+            "type": "boolean",
+            "description": "true if the class was cancelled",
+            "example": false
           }
         }
       },
@@ -795,7 +964,7 @@
             "type": "number",
             "example": 2
           },
-          "title": {
+          "noteTitle": {
             "type": "string",
             "example": "wins!"
           },
@@ -809,6 +978,11 @@
           },
           "tags": {
             "type": "object"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "corresponding eventId to associate with note <optional>",
+            "example": "34"
           }
         }
       }
