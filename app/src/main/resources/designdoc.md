@@ -28,10 +28,11 @@ Learn Train Evolve provides athletes and coaches an integrated platform to track
 ### User stories by category
 
 - B: 
-	**Basic Adminstrator Functionality**
+	**Basic Admin Functionality**
 	* UC. As an administrator, I want to add new students to my academy. (B)
 	* UC. As an administrator, I want to remove students from my academy. (B)
 	* UC. As an administrator, I want to update information about one of my students. (B)
+	* UC. As an administrator, I want to use my google calendar to maintain the database of past and future training sessions (B).
 - T: 
 	**functionality associated with TRAIN component**
 	* UC. As an administrator, I want to view the training history for any of my students. (T)
@@ -77,7 +78,7 @@ In this design I will solve the problem of jiu jitsu practitioners needing the a
 An important element of this design is that it is separated into three key components: learn, train, and evolve. 
 - The LEARN component will cover use cases related to notes on training and accessing resources. 
 - The TRAIN component will cover use cases related to scheduling trainign sessions, taking notes on training sessions, and viewing a history of training sessions (data analytics will be available such as volume by week, by type, by day, etc).
-- The EVLOLVE component will cover use cases related to goal setting and reflection. 
+- The EVOLVE component will cover use cases related to goal setting and reflection. 
 
 In this way, concerns are separated and the project can be developed incrementally. Phase 1 (this phase) will tackle the TRAIN component.
 
@@ -115,19 +116,48 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 ```
 
 {
+	// AdminModel extends UserModel
+
+	String email;
+	String firstName;
+	String lastName;
+	String calendarId;
+
+	} 
+```
+
+```
+
+{
 	// TrainingSessionModel
 
-	String email; (id for user)
 	String eventId; (id for session/event resource)
 	Start start;
 	End end;
 	String type;
-	Note note;
-	Set<String> tags;
+	Boolean isCancelled;
 
 	}
 
 ```
+
+```
+
+{
+	// UserTrainingSessionModel
+
+	String email; (id for user)
+	String eventId; (id for session/event resource)
+	String type;
+	Double rating;
+	int noteNumber;
+	Set<String> tags;
+	Boolean attended;
+
+	}
+
+```
+
 
 ```
 
@@ -158,7 +188,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 	String noteContent;
 	LocalDate dateCreated;
 	Set<String> tags;
-	String sessionId; (corresponding training session if applicable)
+	String eventId; (corresponding training session if applicable)
 
 	}
 ```
@@ -166,9 +196,11 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 ## API ENDPOINTS
 
-See [API here](openapi.json) 
+See [API documentation](openapi.json)
 
-See [SequenceDiagram here](GetTrainingSessionSequenceDiagram.puml)
+See [SequenceDiagram, GetTrainingSession here](GetTrainingSessionSequenceDiagram.puml)
+
+See [SequenceDiagram, SyncTrainingSessions here](SyncTrainingSessionsSequenceDiagram.puml)
 
 See [UML diagram here](LearnTrainEvolve.puml)
 
@@ -192,17 +224,28 @@ rank // S
 7.2 `TrainingSessions`
 
 ```
-email // partion key, S
-eventId // sort key, S
-date // S 
-time // S
+eventId // primary key, S
+start // S 
+end // S
 type // S
-note // M
-tags // SS
+isCancelled // BOOL
 
 ```
 
-7.3 `Notes`
+7.3 `UserTrainingSessions`
+
+```
+email // partion key, S
+eventId // sort key, S
+type // S
+rating // N
+noteNumber // N
+tags // SS
+attended // BOOL
+
+```
+
+7.4 `Notes`
 
 ```
 
@@ -218,9 +261,9 @@ eventId // S
 
 # 8. Pages
 
-![WireFrame Index Page](indexWireframe.png)
-![WireFrame Train Page](trainWireFrame.png)
-![WireFrame User Page](userWireFrame.png)
+![WireFrame Index Page](../../../../indexWireframe.png)
+![WireFrame Train Page](../../../../trainWireFrame.png)
+![WireFrame User Page](../../../../userWireFrame.png)
 
 
 # 9. Technologies 
