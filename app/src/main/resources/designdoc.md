@@ -196,9 +196,11 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 ## API ENDPOINTS
 
-See [API here](openapi.json) 
+See [API documentation](openapi.json)
 
-See [SequenceDiagram here](GetTrainingSessionSequenceDiagram.puml)
+See [SequenceDiagram, GetTrainingSession here](GetTrainingSessionSequenceDiagram.puml)
+
+See [SequenceDiagram, SyncTrainingSessions here](SyncTrainingSessionsSequenceDiagram.puml)
 
 See [UML diagram here](LearnTrainEvolve.puml)
 
@@ -259,9 +261,9 @@ eventId // S
 
 # 8. Pages
 
-![WireFrame Index Page](indexWireframe.png)
-![WireFrame Train Page](trainWireFrame.png)
-![WireFrame User Page](userWireFrame.png)
+![WireFrame Index Page](../../../../indexWireframe.png)
+![WireFrame Train Page](../../../../trainWireFrame.png)
+![WireFrame User Page](../../../../userWireFrame.png)
 
 
 # 9. Technologies 
