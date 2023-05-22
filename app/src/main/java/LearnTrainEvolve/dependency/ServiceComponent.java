@@ -17,7 +17,7 @@ public interface ServiceComponent {
      * Provides the relevant activity.
      * @return CreateUserActivity
      */
-    CreateUserActivity provideCreatePlaylistActivity();
+    CreateUserActivity provideCreateUserActivity();
 
 
 
