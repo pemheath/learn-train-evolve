@@ -9,6 +9,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'jacoco'
 }
 
 
@@ -66,7 +67,14 @@ application {
     mainClass = 'LearnTrainEvolve.App'
 }
 
-tasks.named('test') {
-    // Use JUnit Platform for unit tests.
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '-Xlint:deprecation'
+}
+
+
+test {
     useJUnitPlatform()
+    jacoco {
+        destinationFile = file("$buildDir/jacoco/${name}.exec")
+    }
 }

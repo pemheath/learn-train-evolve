@@ -261,10 +261,6 @@ eventId // S
 
 # 8. Pages
 
-![WireFrame Index Page](../../../../indexWireframe.png)
-![WireFrame Train Page](../../../../trainWireFrame.png)
-![WireFrame User Page](../../../../userWireFrame.png)
-
 
 # 9. Technologies 
 
