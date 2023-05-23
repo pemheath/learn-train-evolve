@@ -5,17 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import java.util.List;
 
-
 @JsonDeserialize(builder = CreateUserRequest.Builder.class)
 public class CreateUserRequest {
     private final String email;
     private final String firstName;
     private final String lastName;
-
     private final String motivationalWhy;
-
     private final String membership;
-
     private final String rank;
 
     public CreateUserRequest(String email, String firstName, String lastName, String motivationalWhy, String membership, String rank) {
@@ -70,6 +66,7 @@ public class CreateUserRequest {
 
     @JsonPOJOBuilder
     public static class Builder {
+
         private String email;
         private String firstName;
         private String lastName;
@@ -107,6 +104,7 @@ public class CreateUserRequest {
         public CreateUserRequest build() {
             return new CreateUserRequest(email, firstName, lastName, motivationalWhy, membership, rank
             );
+
         }
     }
 }
