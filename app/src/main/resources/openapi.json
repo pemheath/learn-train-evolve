@@ -412,7 +412,7 @@
             "description": "successful operation",
             "content": {
               "application/json": {
-                "schema": {
+                "schema":{
                   "$ref": "#/components/schemas/TrainingSession"
                 }
               },
