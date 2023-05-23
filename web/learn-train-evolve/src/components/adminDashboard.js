@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import '../styles.css';
 import axios from 'axios';
 
+
 const AdminDashboard = () => {
     const[isAddingUser, setIsAddingUser] = useState(false);
 
@@ -35,16 +36,17 @@ const AdminDashboard = () => {
         console.log('User data JSON:', JSON.stringify(userData));
 
         try{
-            const response = await axios.post('/users', userData, {
+
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/users`, userData, {
             });
-            if (response.ok) {
+            if (response.status==200) {
                 console.log('Success');
-                const data = await response.json();
+                const data = await response.data;
                 console.log('Data:', data);
                 return data;
             } else {
                 console.log('Error');
-                return response.json();
+                return response;
 
             }
 
