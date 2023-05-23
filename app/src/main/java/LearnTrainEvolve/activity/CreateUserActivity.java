@@ -2,21 +2,19 @@ package LearnTrainEvolve.activity;
 
 import LearnTrainEvolve.activity.requests.CreateUserRequest;
 import LearnTrainEvolve.activity.responses.CreateUserResponse;
+
+import LearnTrainEvolve.converters.ModelConverter;
 import LearnTrainEvolve.dynamodb.UserDao;
-import com.nashss.se.musicplaylistservice.activity.requests.CreatePlaylistRequest;
-import com.nashss.se.musicplaylistservice.activity.results.CreatePlaylistResult;
-import com.nashss.se.musicplaylistservice.converters.ModelConverter;
-import com.nashss.se.musicplaylistservice.dynamodb.PlaylistDao;
-import com.nashss.se.musicplaylistservice.dynamodb.models.Playlist;
-import com.nashss.se.musicplaylistservice.exceptions.InvalidAttributeValueException;
-import com.nashss.se.musicplaylistservice.models.PlaylistModel;
-import com.nashss.se.projectresources.music.playlist.servic.util.MusicPlaylistServiceUtils;
+import LearnTrainEvolve.dynamodb.models.User;
+import LearnTrainEvolve.models.UserModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashSet;
+
+
+
 
 
 /**
@@ -25,8 +23,10 @@ import java.util.HashSet;
  * This API allows the customer to create a new playlist with no songs.
  */
 public class CreateUserActivity {
+
     private final Logger log = LogManager.getLogger();
     private final UserDao userDao;
+
 
     /**
      * Instantiates a new CreatePlaylistActivity object.
@@ -52,9 +52,26 @@ public class CreateUserActivity {
      * @return createPlaylistResult result object containing the API defined {@link PlaylistModel}
      * @throws InvalidAttributeValueException when playlist name or customerID is invalid.
      */
-    public CreateUserResponse handleRequest(final CreateUserRequest createuserRequest)
-    {
-        return new CreateUserResponse();
+
+    public CreateUserResponse handleRequest(final CreateUserRequest createuserRequest) {
+        log.info("Received CreateUserRequest{}", createuserRequest);
+
+        User newUser = new User();
+        newUser.setEmail(createuserRequest.getEmail());
+        newUser.setFirstName(createuserRequest.getFirstName());
+        newUser.setLastName(createuserRequest.getLastName());
+        newUser.setMotivationalWhy(createuserRequest.getMotivationalWhy());
+        newUser.setMembership(createuserRequest.getMembership());
+        newUser.setRank(createuserRequest.getRank());
+
+        userDao.saveUser(newUser);
+
+        UserModel userModel = new ModelConverter().toUserModel(newUser);
+
+        return CreateUserResponse.builder()
+                .withUser(userModel)
+                .build();
+
 
     }
 

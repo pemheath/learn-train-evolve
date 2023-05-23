@@ -1,0 +1,1053 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Learn Train Evolve",
+    "description": "API for Learn Train Evolve Jiu Jitsu Management System.",
+    "contact": {
+      "email": "pem.heath@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.1"
+  },
+  "servers": [
+    {
+      "url":"http://localhost:3000"
+
+    }
+  ],
+  "tags": [
+    {
+      "name": "training",
+      "description": "Everything about training sessions"
+    },
+    {
+      "name": "goals",
+      "description": "Access to crud functionality for goals, user access only"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user, for admin"
+    },
+    {
+      "name": "learn",
+      "description": "Operations for viewing and updating resources"
+    },
+    {
+      "name": "notes",
+      "description": "Operations relating to the crud operations around notes."
+    }
+  ],
+
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a new user",
+        "description": "Create a new user",
+        "operationId": "createUser",
+        "requestBody": {
+          "description": "Create a new user in the student management system.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+
+          "200": {
+
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+        },
+          "400": {
+            "description": "Invalid user email supplied"
+          },
+          "403": {
+            "description": "user does not have access to this operation"
+          }
+
+        }
+      }
+
+    },
+    "/users/{email}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "fetches a user",
+        "description": "allows admin to view a single suer",
+        "operationId": "viewUser",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user to view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates a user",
+        "description": "",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid user email"
+          },
+          "404": {
+            "description": "user not found"
+          }
+        }
+      }
+    },
+    "/users/viewByRank": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Finds users by belt rank",
+        "description": "rank value of belt to view",
+        "operationId": "findUsersByStatus",
+        "parameters": [
+          {
+            "name": "rank",
+            "in": "query",
+            "description": "rank values that need to be considered for filter",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "white",
+                "blue",
+                "purple",
+                "brown",
+                "black"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid rank value"
+          }
+        }
+      }
+    },
+    "/notes": {
+      "post": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Create a new note",
+        "description": "A new note with user email, note number, and note title required",
+        "operationId": "createNote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Note"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid inputs"
+          }
+        }
+      }
+    },
+    "/notes/{email}": {
+      "get": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Fetch all notes for a user",
+        "description": "Returns a list of notes",
+        "operationId": "getNotesForUser",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user to return notes for",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Note"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user supplied"
+          },
+          "404": {
+            "description": "Notes not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "notes"
+        ],
+        "summary": "Deletes a note",
+        "description": "delete a note",
+        "operationId": "deleteNote",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user deleting their note",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "noteNumber",
+            "in": "query",
+            "description": "note number to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid note id"
+          }
+        }
+      }
+    },
+    "/training-sessions": {
+      "post": {
+        "tags": [
+          "training"
+        ],
+        "summary": "Creates a new training session",
+        "description": "Used to add training sessions to Training Session table in DynamoDB.",
+        "operationId": "createTrainingSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrainingSession"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data supplied"
+          },
+          "403": {
+            "description": "User not an authorized administrator"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "training"
+        ],
+        "summary": "View all training sessions.",
+        "description": "",
+        "operationId": "viewAllTraining",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TrainingSession"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+
+    "/training-sessions/{eventId}": {
+      "get": {
+        "tags": ["training"],
+        "summary": "shows one training session",
+        "description": "",
+        "operationId": "viewTrainingSession",
+        "parameters": [
+          {
+            "name": "eventId",
+            "in": "path",
+            "description": "eventId of event to view",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["training"],
+        "summary": "updates one training session",
+        "description": "",
+        "operationId": "updateTrainingSession",
+        "parameters": [
+          {
+            "name": "eventId",
+            "description": "event Id to update",
+            "in": "path",
+            "required": true
+          }
+        ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingSession"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "successful operation",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/TrainingSession"
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "invalid information supplied"
+            }
+          }
+      }
+    },
+    "/user-training-sessions/": {
+      "post": {
+        "tags": ["user-training"],
+        "summary": "Creates a user-training-session with a unique id and email",
+        "operationId": "createUserTrainingSession",
+        "requestBody": {
+          "description": "updated training  object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserTrainingSession"
+              }
+            }
+          }
+
+        },
+        "responses": {
+          "200" : {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTrainingSession"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description": "invalid eventID or email supplied"
+          }
+        }
+      }
+    },
+
+    "/user-training-sessions/{email}": {
+      "get": {
+        "tags": [
+          "user-training"
+        ],
+        "summary": "View all user training sessions for given user.",
+        "description": "",
+        "operationId": "viewAllUserTraining",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "user email for user to pull training sessions for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTrainingSession"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid user id supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user-training-sessions/{email}/{sessionId}": {
+      "get": {
+        "tags": [
+          "user-training"
+        ],
+        "summary": "View one user training session",
+        "description": "View the details of one training session for one user, can only be done by the logged in user",
+        "operationId": "viewTrainingDetails",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MPH6746"
+            }
+          },
+          {
+            "name": "sessionId",
+            "in": "path",
+            "description": "id of training session to view",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "03232023A"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTrainingSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input"
+          },
+          "404": {
+            "description": "nonexistent user or training session matching inputs"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "training"
+        ],
+        "summary": "delete one user training session",
+        "description": "",
+        "operationId": "deleteTrainingSession",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MPH6746"
+            }
+          },
+          {
+            "name": "sessionId",
+            "in": "path",
+            "description": "id of training session to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "03232023A"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTrainingSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input"
+          },
+          "404": {
+            "description": "nonexistent user or training session matching inputs"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "training"
+        ],
+        "summary": "edit one user training session",
+        "description": "this endpoint allows a user to add notes to a training  session or add tags",
+        "operationId": "updateUserTrainingSession",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MPH6746"
+            }
+          },
+          {
+            "name": "sessionId",
+            "in": "path",
+            "description": "id of training session to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "03232023A"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "updated User Training Session  object",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserTrainingSession"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserTrainingSession"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid parameters"
+          },
+          "404": {
+            "description": "nonexistent training session"
+          }
+        }
+      }
+    },
+    "/user-training-sessions/{email}?filter={filter}": {
+      "get": {
+        "tags": [
+          "user-training"
+        ],
+        "summary": "View training sessions filtered by variable",
+        "description": "View summary statistics of training by class type, date, etc.",
+        "operationId": "viewTrainingWithFilters",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "email of user",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "MPH6746"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "variable by which to query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "Advanced"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserTrainingSession"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid input, query parameter not supported"
+          },
+          "404": {
+            "description": "nonexistent user"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "student.learner@domain.com"
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Joel"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Wilson"
+          },
+          "motivationalWhy": {
+            "type": "string",
+            "description": "a motivating statement that will be displayed on user's homepage",
+            "example": "Learn something new every day."
+          },
+          "membership": {
+            "type": "string",
+            "example": "Unlimited"
+          },
+          "rank": {
+            "type": "string",
+            "example": "purple"
+          }
+        }
+      },
+      "UserTrainingSession": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "pem.heath@gmail.com"
+          },
+          "eventId": {
+            "type": "string",
+            "example": "03042023Advanced"
+          },
+          "type": {
+            "type": "string",
+            "example": "Advanced Gi"
+          },
+          "rating" : {
+            "type": "double",
+            "description": "user rating for that class",
+            "example": "7.5"
+          },
+          "noteNumber": {
+            "type": "integer",
+            "description": "note number corresponding for a note for that training session",
+            "example": "3"
+          },
+          "tags": {
+            "type": "object",
+            "description": "tags to associate with the training session, in a set<string>",
+            "example": "spider guard"
+          },
+          "attended": {
+            "type": "boolean",
+            "description": "true if the user attended the class",
+            "example": true
+          }
+        }
+      },
+      "TrainingSession" : {
+        "type": "object",
+        "properties": {
+          "eventId": {
+            "type": "string",
+            "description": "eventId for the training session"
+          },
+          "start": {
+            "type": "string",
+            "description": "JSON deserialized start date and time"
+          },
+          "end": {
+            "type": "string",
+            "description": "JSON deserialized end date and time"
+          },
+          "type": {
+            "type": "string",
+            "description": "type of class",
+            "example": "Advanced"
+          },
+          "isCancelled": {
+            "type": "boolean",
+            "description": "true if the class was cancelled",
+            "example": false
+          }
+        }
+      },
+      "Goal": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "pem.heath@gmail.com"
+          },
+          "goalNumber": {
+            "type": "number",
+            "example": 2
+          },
+          "goalTitle": {
+            "type": "string",
+            "example": "Sweeps from Half guard."
+          },
+          "goalContent": {
+            "type": "string",
+            "example": "Add three sweeps from half guard to my game in the next two months."
+          },
+          "goalStatus": {
+            "type": "string",
+            "example": "In Progress"
+          },
+          "taskList": {
+            "type": "object",
+            "description": "set of strings"
+          },
+          "tags": {
+            "type": "object",
+            "description": "set of strings"
+          },
+          "dateCreated": {
+            "type": "string",
+            "description": "date-time"
+          }
+        }
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "pem.heath@gmail.com"
+          },
+          "noteNumber": {
+            "type": "number",
+            "example": 2
+          },
+          "noteTitle": {
+            "type": "string",
+            "example": "wins!"
+          },
+          "noteContent": {
+            "type": "string",
+            "example": "I finally finished a round with Jim without getting tapped out! I think focusing on control let that happen."
+          },
+          "dateCreated": {
+            "type": "string",
+            "description": "date-time"
+          },
+          "tags": {
+            "type": "object"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "corresponding eventId to associate with note <optional>",
+            "example": "34"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "User": {
+        "description": "User object that needs to be added or updated",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/User"
+            }
+          }
+        }
+      },
+      "TrainingSession": {
+        "description": "training session to be added or updated",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/components/schemas/TrainingSession"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "admin_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize??",
+            "scopes": {
+              "write:users": "modify users in your account",
+              "read:users": "read your users"
+            }
+          }
+        }
+      },
+      "user_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize??",
+            "scopes": {
+              "write:users": "modify goals, notes and training sessions in your account",
+              "read:users": "read your goals, notes, and training sessions"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}

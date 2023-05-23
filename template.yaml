@@ -237,6 +237,29 @@ Resources:
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
+  CreateUserLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: LearnTrainEvolve.lambda.CreateUserLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        LearnTrainEvolveService:
+          Type: Api
+          Properties:
+            Path: /users
+            Method: post
+            Auth:
+              Authorizer: 'NONE'
+
+
 
   CreateUserLambda:
     Type: AWS::Serverless::Function
@@ -287,6 +310,7 @@ Resources:
       BillingMode: "PAY_PER_REQUEST"
       TableName: "training_sessions"
 
+
   UserTrainingSessionTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -336,9 +360,9 @@ Outputs:
     Value: !Sub "${CognitoDomain}.auth.us-east-2.amazoncognito.com"
     Description: "The Cognito Domain (COGNITO_DOMAIN)."
 
-  ApiBaseUrl:
-    Description: "API Gateway endpoint base URL for Prod stage (API_BASE_URL)."
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+#  ApiBaseUrl:
+#    Description: "API Gateway endpoint base URL for Prod stage (API_BASE_URL)."
+#    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
 
   CognitoRedirectSignin:
     Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNIN)."
