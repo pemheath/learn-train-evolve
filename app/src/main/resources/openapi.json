@@ -14,7 +14,7 @@
   },
   "servers": [
     {
-      "url": "https:www.tbd.com"
+      "url": "http://localhost:3000"
     }
   ],
   "tags": [

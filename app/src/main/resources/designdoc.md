@@ -260,9 +260,11 @@ eventId // S
 ```
 
 # 8. Pages
+
 ![indexWireframe.png](wireframes/indexWireframe.png)
 ![trainWireFrame.png](wireframes/trainWireFrame.png)
 ![userWireFrame.png](wireframes/userWireFrame.png)
+
 
 # 9. Technologies 
 

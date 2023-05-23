@@ -16,7 +16,7 @@ import static LearnTrainEvolve.utils.NullUtils.ifNull;
  * @param <T> The type of the concrete request that should be created from this LambdaRequest.
  */
 public class LambdaRequest<T> extends APIGatewayProxyRequestEvent {
-    private static final ObjectMapper MAPPER = new ObjectMapper();
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
      * Dserialize a T (aka 'requestClass`) from the body of the request.

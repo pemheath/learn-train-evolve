@@ -1,24 +1,20 @@
-package LearnTrainEvolve.activity.requests;
+package LearnTrainEvolve.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import LearnTrainEvolve.activity.requests.CreateUserRequest;
+import com.amazonaws.internal.config.Builder;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.util.List;
+import java.util.Objects;
 
+public class UserModel {
+    private String email;
+    private String firstName;
+    private String lastName;
+    private String motivationalWhy;
+    private String membership;
+    private String rank;
 
-@JsonDeserialize(builder = CreateUserRequest.Builder.class)
-public class CreateUserRequest {
-    private final String email;
-    private final String firstName;
-    private final String lastName;
-
-    private final String motivationalWhy;
-
-    private final String membership;
-
-    private final String rank;
-
-    public CreateUserRequest(String email, String firstName, String lastName, String motivationalWhy, String membership, String rank) {
+    public UserModel(String email, String firstName, String lastName, String motivationalWhy, String membership, String rank) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -52,18 +48,17 @@ public class CreateUserRequest {
     }
 
     @Override
-    public String toString() {
-        return "CreateUserRequest{" +
-                "email='" + email + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", motivationalWhy='" + motivationalWhy + '\'' +
-                ", membership='" + membership + '\'' +
-                ", rank='" + rank + '\'' +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserModel userModel = (UserModel) o;
+        return Objects.equals(email, userModel.email);
     }
 
-    //CHECKSTYLE:OFF:Builder
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
     public static Builder builder() {
         return new Builder();
     }
@@ -104,8 +99,8 @@ public class CreateUserRequest {
             return this;
         }
 
-        public CreateUserRequest build() {
-            return new CreateUserRequest(email, firstName, lastName, motivationalWhy, membership, rank
+        public UserModel build() {
+            return new UserModel(email, firstName, lastName, motivationalWhy, membership, rank
             );
         }
     }
