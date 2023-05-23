@@ -261,6 +261,10 @@ eventId // S
 
 # 8. Pages
 
+![indexWireframe.png](wireframes/indexWireframe.png)
+![trainWireFrame.png](wireframes/trainWireFrame.png)
+![userWireFrame.png](wireframes/userWireFrame.png)
+
 
 # 9. Technologies 
 
@@ -275,6 +279,7 @@ eventId // S
 Within React I envision the following components to begin with: 
 - Header
 - Footer 
+- AdminDashboard
 - NavMenu
 - Pillar (Learn, Train, or Evolve, will have nested comonents based on what it is)
 - Schedule 
