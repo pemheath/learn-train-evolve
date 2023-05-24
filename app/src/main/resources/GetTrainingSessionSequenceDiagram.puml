@@ -6,7 +6,7 @@ skinparam actorStyle awesome
 actor user
 
 LearnTrainEvolveClient -> APIGateway : HTTP Request
-APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP GET Request
 LearnTrainEvolveServiceLambda -> GetTrainingSessionActivity : GetTrainingSessionRequest
 GetTrainingSessionActivity -> GetTrainingSessionActivity : validate user
 GetTrainingSessionActivity -> TrainingSessionDAO: getTrainingSession(id, trainingSessionId)

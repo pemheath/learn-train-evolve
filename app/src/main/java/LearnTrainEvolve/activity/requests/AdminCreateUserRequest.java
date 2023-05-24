@@ -1,26 +1,27 @@
 package LearnTrainEvolve.activity.requests;
 
+import LearnTrainEvolve.lambda.infrastructure.auth.CognitoClaims;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.util.List;
-
-@JsonDeserialize(builder = CreateUserRequest.Builder.class)
-public class CreateUserRequest {
+@JsonDeserialize(builder = AdminCreateUserRequest.Builder.class)
+public class AdminCreateUserRequest {
     private final String email;
     private final String firstName;
     private final String lastName;
-    private final String motivationalWhy;
     private final String membership;
     private final String rank;
 
-    public CreateUserRequest(String email, String firstName, String lastName, String motivationalWhy, String membership, String rank) {
+    private final CognitoClaims claims;
+
+
+    public AdminCreateUserRequest(String email, String firstName, String lastName, String membership, String rank, CognitoClaims claims) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.motivationalWhy = motivationalWhy;
         this.membership = membership;
         this.rank = rank;
+        this.claims = claims;
     }
 
     public String getEmail() {
@@ -35,10 +36,6 @@ public class CreateUserRequest {
         return lastName;
     }
 
-    public String getMotivationalWhy() {
-        return motivationalWhy;
-    }
-
     public String getMembership() {
         return membership;
     }
@@ -47,13 +44,16 @@ public class CreateUserRequest {
         return rank;
     }
 
+    public CognitoClaims getClaims() {
+        return claims;
+    }
+
     @Override
     public String toString() {
         return "CreateUserRequest{" +
                 "email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", motivationalWhy='" + motivationalWhy + '\'' +
                 ", membership='" + membership + '\'' +
                 ", rank='" + rank + '\'' +
                 '}';
@@ -70,9 +70,9 @@ public class CreateUserRequest {
         private String email;
         private String firstName;
         private String lastName;
-        private String motivationalWhy;
         private String membership;
         private String rank;
+
 
         public Builder withEmail(String email) {
             this.email = email;
@@ -87,10 +87,6 @@ public class CreateUserRequest {
             this.lastName = lastName;
             return this;
         }
-        public Builder withMotivationalWhy(String motivationalWhy) {
-            this.motivationalWhy = motivationalWhy;
-            return this;
-        }
         public Builder withMembership(String membership) {
             this.membership = membership;
             return this;
@@ -101,8 +97,12 @@ public class CreateUserRequest {
             return this;
         }
 
-        public CreateUserRequest build() {
-            return new CreateUserRequest(email, firstName, lastName, motivationalWhy, membership, rank
+        public Builder withClaims(CognitoClaims claims) {
+            this.claims = claims;
+        }
+
+        public AdminCreateUserRequest build() {
+            return new AdminCreateUserRequest(email, firstName, lastName, membership, rank, claims
             );
 
         }

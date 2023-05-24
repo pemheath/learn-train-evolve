@@ -7,7 +7,7 @@ actor admin
 
 admin -> CognitoDomain : login
 LearnTrainEvolveClient -> APIGateway : HTTP Request
-APIGateway -> LearnTrainEvolveServiceLambda : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP PATCH Request
 LearnTrainEvolveServiceLambda -> SyncTrainingSessionsActivity : SyncTrainingSessionsRequest
 SyncTrainingSessionsActivity -> SyncTrainingSessionsActivity : validate user as admin
 SyncTrainingSessionsActivity -> googleapis.com : API call

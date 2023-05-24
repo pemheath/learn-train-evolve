@@ -1,0 +1,41 @@
+@startuml
+
+'https://plantuml.com/sequence-diagram
+skinparam actorStyle awesome
+
+actor user
+
+user -> CognitoDomain : login
+LearnTrainEvolveClient -> APIGateway : HTTP Request
+APIGateway -> LearnTrainEvolveServiceLambda : HTTP PUT Request
+LearnTrainEvolveServiceLambda -> UpdateUserTrainingSessionActivity : UpdateUserTrainingSessionRequest
+UpdateUserTrainingSessionActivity -> UpdateUserTrainingSessionActivity : validate user
+UpdateUserTrainingSessionActivity -> UserTrainingSessionDAO: look for UserTrainingSession  already in DynamoDB
+UserTrainingSessionDAO -> DynamoDB : look up UserTrainingSession by eventId and email (HTTP request)
+
+alt if user does not have authorization
+UpdateUserTrainingSessionActivity --> LearnTrainEvolveServiceLambda : throw NoPermissionException
+LearnTrainEvolveServiceLambda --> LearnTrainEvolveClient : 400 response illegal access
+end
+
+alt if UserTrainingSession does not  exist
+DynamoDB --> UserTrainingSessionDAO : return no item data
+UserTrainingSessionDAO --> UpdateUserTrainingSessionActivity: throw NoTrainingSessionFoundException
+UpdateUserTrainingSessionActivity --> LearnTrainEvolveServiceLambda : propagate exception
+LearnTrainEvolveServiceLambda --> APIGateway : http 400 response
+APIGateway --> LearnTrainEvolveClient : return 400 with error message
+end
+
+DynamoDB -> UserTrainingSessionDAO : return UserTrainingSession data
+UserTrainingSessionDAO --> UserTrainingSessionDAO : via Java libraries, convert DynamoDB response data to Java object
+UserTrainingSessionDAO -> UpdateUserTrainingSessionActivity: return UserTrainingSession object (POJO)
+UpdateUserTrainingSessionActivity -> UpdateUserTrainingSessionActivity : update  UserTrainingSession with provided information
+UpdateUserTrainingSessionActivity -> UserTrainingSessionDAO: save updated UserTrainingSession  to DynamoDB
+UserTrainingSessionDAO -> DynamoDB : send data to save in DynamoDB (HTTP request)
+DynamoDB -> UserTrainingSessionDAO : 200 response
+UserTrainingSessionDAO -> UpdateUserTrainingSessionActivity : newly updated UserTrainingSession model
+UpdateUserTrainingSessionActivity -> LearnTrainEvolveServiceLambda : return UpdateUserTrainingSessionResponse
+LearnTrainEvolveServiceLambda -> APIGateway : 200 response
+APIGateway -> LearnTrainEvolveClient : HTTP response with newly updated UserTrainingSession data
+
+@enduml
