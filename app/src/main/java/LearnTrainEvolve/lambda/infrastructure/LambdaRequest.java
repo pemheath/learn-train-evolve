@@ -1,4 +1,4 @@
-package LearnTrainEvolve.lambda;
+package LearnTrainEvolve.lambda.infrastructure;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;

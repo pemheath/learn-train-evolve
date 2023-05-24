@@ -1,4 +1,4 @@
-package LearnTrainEvolve.lambda;
+package LearnTrainEvolve.lambda.infrastructure;
 
 import LearnTrainEvolve.dependency.DaggerServiceComponent;
 import LearnTrainEvolve.dependency.ServiceComponent;

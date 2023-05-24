@@ -1,7 +1,5 @@
 package LearnTrainEvolve.models;
 
-import LearnTrainEvolve.activity.requests.CreateUserRequest;
-import com.amazonaws.internal.config.Builder;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import java.util.Objects;

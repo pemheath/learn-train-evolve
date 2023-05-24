@@ -2,11 +2,11 @@ package LearnTrainEvolve.activity.responses;
 
 import LearnTrainEvolve.models.UserModel;
 
-public class CreateUserResponse {
+public class AdminCreateUserResponse {
 
     private final UserModel userModel;
 
-    private CreateUserResponse(UserModel userModel) {
+    private AdminCreateUserResponse(UserModel userModel) {
         this.userModel = userModel;
     }
 
@@ -28,7 +28,7 @@ public class CreateUserResponse {
             return this;
         }
 
-        public CreateUserResponse build() {return new CreateUserResponse(userModel);}
+        public AdminCreateUserResponse build() {return new AdminCreateUserResponse(userModel);}
     }
 
 

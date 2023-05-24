@@ -56,7 +56,7 @@ Resources:
   #-----------------------------------------------------
   # Cognito Configuration for user management
   #-----------------------------------------------------
-
+  
   UserPool:
     Type: AWS::Cognito::UserPool
     Properties:
@@ -66,7 +66,7 @@ Resources:
             Priority: 1
       UsernameAttributes:
         - email
-      UsernameConfiguration:
+      UsernameConfiguration: 
         CaseSensitive: false
       AutoVerifiedAttributes:
         - email
@@ -89,15 +89,15 @@ Resources:
       CallbackURLs:
         - http://localhost:8000
         - !If
-          - DeployCloudFront
-          - !Sub "https://${CloudfrontDistribution.DomainName}"
-          - !Ref "AWS::NoValue"
+            - DeployCloudFront
+            - !Sub "https://${CloudfrontDistribution.DomainName}"
+            - !Ref "AWS::NoValue"
       LogoutURLs:
         - http://localhost:8000
         - !If
-          - DeployCloudFront
-          - !Sub "https://${CloudfrontDistribution.DomainName}"
-          - !Ref "AWS::NoValue"
+            - DeployCloudFront
+            - !Sub "https://${CloudfrontDistribution.DomainName}"
+            - !Ref "AWS::NoValue"
       AllowedOAuthFlows:
         - code
         - implicit
@@ -118,11 +118,11 @@ Resources:
 
   AdminGroup:
     Type: AWS::Cognito::UserPoolGroup
-    Properties:
+    Properties: 
       GroupName: admin
       Description: "A group granting administrative privileges to its users"
       UserPoolId: !Ref UserPool
-
+  
 
   #-----------------------------------------------------
   # CloudFront Configuration
@@ -195,8 +195,8 @@ Resources:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
         - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
+        Version: "2012-10-17" 
+        Statement: 
           - Effect: Allow
             Principal:
               Service:
@@ -208,28 +208,28 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                  - cloudwatch:PutMetricData
-                Resource: '*'
+            - Effect: Allow
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+                - cloudwatch:PutMetricData
+              Resource: '*'
         - PolicyName: 'AccessPlaylistsTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Effect: Allow
-                Action: dynamodb:*
-                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/playlists"
-
+            - Effect: Allow
+              Action: dynamodb:*
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/playlists"
+                
         - PolicyName: 'AccessAlbumTracksTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Effect: Allow
-                Action: dynamodb:*
-                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/album_tracks"
+            - Effect: Allow
+              Action: dynamodb:*
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/album_tracks"
 
   AuthorizerRole:
     Type: AWS::IAM::Role
@@ -238,8 +238,8 @@ Resources:
         - 'arn:aws:iam::aws:policy/service-role/AWSLambdaRole'
         - 'arn:aws:iam::aws:policy/AWSLambdaExecute'
       AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
+        Version: "2012-10-17" 
+        Statement: 
           - Effect: Allow
             Principal:
               Service:
@@ -251,10 +251,10 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Effect: Allow
-                Action:
-                  - cognito-idp:AdminGetUser
-                Resource: 'arn:aws:cognito-idp:us-east-2:*'
+            - Effect: Allow
+              Action:
+                - cognito-idp:AdminGetUser
+              Resource: 'arn:aws:cognito-idp:us-east-2:*'
 
   #-----------------------------------------------------
   # Authorizing Lambda Functions Configuration
@@ -284,15 +284,45 @@ Resources:
           REQUIRED_GROUP: "admin"
 
 
+  #-----------------------------------------------------
+  # API Lambda Functions Configuration
+  #-----------------------------------------------------
+
+  # This is a super-simple lambda that demonstrates using the AdminLambdaAuthorizer
+  AdminUserLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: LearnTrainEvolve.lambda.AdminUserLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        LearnTrainEvolve:
+          Type: Api
+          Properties:
+            Path: /admin
+            Method: get
+            # NOTE: below we specify that this lambda uses the AdminLamdaAuthorizer
+            #  instead of the default CognitoAuthroizer
+            Auth:
+              Authorizer: AdminLambdaAuthorizer
+
+
     #-----------------------------------------------------
     # Lambda Functions Configuration
     #-----------------------------------------------------
-  AdminCreateUserLambda:
+    CreateUserLambda:
       Type: AWS::Serverless::Function
       Properties:
         Role: !GetAtt AccessRole.Arn
         CodeUri: app
-        Handler: LearnTrainEvolve.lambda.AdminCreateUserLambda::handleRequest
+        Handler: LearnTrainEvolve.lambda.CreateUserLambda::handleRequest
         Runtime: java11
         Architectures:
           - x86_64
@@ -307,13 +337,13 @@ Resources:
               Path: /users
               Method: post
               Auth:
-                Authorizer: AdminLambdaAuthorizer
+                Authorizer: 'NONE'
 
     #-----------------------------------------------------
     # DynamoDB Configuration
     #-----------------------------------------------------
 
-  UserTable:
+    UserTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
@@ -325,7 +355,7 @@ Resources:
         BillingMode: "PAY_PER_REQUEST"
         TableName: "users"
 
-  TrainingSessionTable:
+    TrainingSessionTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
@@ -338,7 +368,7 @@ Resources:
         TableName: "training_sessions"
 
 
-  UserTrainingSessionTable:
+    UserTrainingSessionTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
@@ -354,7 +384,7 @@ Resources:
         BillingMode: "PAY_PER_REQUEST"
         TableName: "user_training_sessions"
 
-  NotesTable:
+    NotesTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
@@ -375,7 +405,7 @@ Resources:
   #  to the screen after a successful deploy
   #-----------------------------------------------------
 
-Outputs:
+  Outputs:
 
     CognitoUserPoolId:
       Value: !Ref UserPool
