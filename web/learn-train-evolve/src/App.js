@@ -4,8 +4,6 @@ import Footer from "./components/footer";
 import AdminDashboard from "./components/adminDashboard";
 
 
-
-
 function App () {
     return (
         <div>
