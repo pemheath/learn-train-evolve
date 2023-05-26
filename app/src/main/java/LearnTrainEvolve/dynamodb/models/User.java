@@ -1,6 +1,5 @@
 package LearnTrainEvolve.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDB;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
@@ -13,7 +12,6 @@ public class User {
     private String email;
     private String firstName;
     private String lastName;
-    private String motivationalWhy;
     private String membership;
     private String rank;
 
@@ -44,15 +42,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    @DynamoDBAttribute(attributeName = "motivationalWhy")
-    public String getMotivationalWhy() {
-        return motivationalWhy;
-    }
-
-    public void setMotivationalWhy(String motivationalWhy) {
-        this.motivationalWhy = motivationalWhy;
-    }
-
     @DynamoDBAttribute(attributeName = "membership")
     public String getMembership() {
         return membership;
@@ -77,7 +66,6 @@ public class User {
                 "email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", motivationalWhy='" + motivationalWhy + '\'' +
                 ", membership='" + membership + '\'' +
                 ", rank='" + rank + '\'' +
                 '}';

@@ -56,7 +56,6 @@ public class AdminCreateUserActivity {
 
     public AdminCreateUserResponse handleRequest(final AdminCreateUserRequest request) {
         log.info("Received CreateUserRequest{}", request);
-        CognitoClaims claims = request.getClaims();
 
         User newUser = new User();
         newUser.setEmail(request.getEmail());

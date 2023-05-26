@@ -10,7 +10,6 @@ public class ModelConverter {
                 .withEmail(user.getEmail())
                 .withFirstName(user.getFirstName())
                 .withLastName(user.getLastName())
-                .withMotivationalWhy(user.getMotivationalWhy())
                 .withMembership(user.getMembership())
                 .withRank(user.getRank())
                 .build();

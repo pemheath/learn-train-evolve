@@ -12,16 +12,15 @@ public class AdminCreateUserRequest {
     private final String membership;
     private final String rank;
 
-    private final CognitoClaims claims;
 
 
-    public AdminCreateUserRequest(String email, String firstName, String lastName, String membership, String rank, CognitoClaims claims) {
+    public AdminCreateUserRequest(String email, String firstName, String lastName, String membership, String rank) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.membership = membership;
         this.rank = rank;
-        this.claims = claims;
+
     }
 
     public String getEmail() {
@@ -44,9 +43,7 @@ public class AdminCreateUserRequest {
         return rank;
     }
 
-    public CognitoClaims getClaims() {
-        return claims;
-    }
+
 
     @Override
     public String toString() {
@@ -97,12 +94,9 @@ public class AdminCreateUserRequest {
             return this;
         }
 
-        public Builder withClaims(CognitoClaims claims) {
-            this.claims = claims;
-        }
 
         public AdminCreateUserRequest build() {
-            return new AdminCreateUserRequest(email, firstName, lastName, membership, rank, claims
+            return new AdminCreateUserRequest(email, firstName, lastName, membership, rank
             );
 
         }

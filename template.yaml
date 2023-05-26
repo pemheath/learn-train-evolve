@@ -287,43 +287,11 @@ Resources:
     #-----------------------------------------------------
     # Lambda Functions Configuration
     #-----------------------------------------------------
-  AdminCreateUserLambda:
-      Type: AWS::Serverless::Function
-      Properties:
-        Role: !GetAtt AccessRole.Arn
-        CodeUri: app
-        Handler: LearnTrainEvolve.lambda.AdminCreateUserLambda::handleRequest
-        Runtime: java11
-        Architectures:
-          - x86_64
-        MemorySize: 512
-        Environment:
-          Variables:
-            JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
-        Events:
-          LearnTrainEvolveService:
-            Type: Api
-            Properties:
-              Path: /users
-              Method: post
-              Auth:
-                Authorizer: AdminLambdaAuthorizer
+
 
     #-----------------------------------------------------
     # DynamoDB Configuration
     #-----------------------------------------------------
-
-  UserTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: "email"
-            AttributeType: "S"
-        KeySchema:
-          - AttributeName: "email"
-            KeyType: "HASH"
-        BillingMode: "PAY_PER_REQUEST"
-        TableName: "users"
 
   TrainingSessionTable:
       Type: AWS::DynamoDB::Table
@@ -370,6 +338,22 @@ Resources:
         BillingMode: "PAY_PER_REQUEST"
         TableName: "notes"
 
+  GoalsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "email"
+          AttributeType: "S"
+        - AttributeName: "goalNumber"
+          AttributeType: "N"
+      KeySchema:
+        - AttributeName: "email"
+          KeyType: "HASH"
+        - AttributeName: "goalNumber"
+          KeyType: "RANGE"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "goals"
+
   #-----------------------------------------------------
   # The outputs defined below will be printed
   #  to the screen after a successful deploy
@@ -377,27 +361,29 @@ Resources:
 
 Outputs:
 
-    CognitoUserPoolId:
-      Value: !Ref UserPool
-      Description: "The Cognito User Pool ID (COGNITO_USER_POOL_ID)."
-    CognitoUserPoolClientId:
-      Value: !Ref UserPoolClient
-      Description: "The Cognito User Pool Client ID (COGNITO_USER_POOL_CLIENT_ID)."
-    CognitoDomain:
-      Value: !Sub "${CognitoDomain}.auth.us-east-2.amazoncognito.com"
-      Description: "The Cognito Domain (COGNITO_DOMAIN)."
+  CognitoUserPoolId:
+    Value: !Ref UserPool
+    Description: "The Cognito User Pool ID (COGNITO_USER_POOL_ID)."
+  CognitoUserPoolClientId:
+    Value: !Ref UserPoolClient
+    Description: "The Cognito User Pool Client ID (COGNITO_USER_POOL_CLIENT_ID)."
+  CognitoDomain:
+    Value: !Sub "${CognitoDomain}.auth.us-east-2.amazoncognito.com"
+    Description: "The Cognito Domain (COGNITO_DOMAIN)."
 
-    #  ApiBaseUrl:
-    #    Description: "API Gateway endpoint base URL for Prod stage (API_BASE_URL)."
-    #    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
+#  ApiBaseUrl:
+#    Description: "API Gateway endpoint base URL for Prod stage (API_BASE_URL)."
+#    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
 
-    CognitoRedirectSignin:
-      Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNIN)."
-      Value: !Sub "https://${CloudfrontDistribution.DomainName}"
-      Condition: DeployCloudFront
-    CognitoRedirectSignout:
-      Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNOUT)."
-      Value: !Sub "https://${CloudfrontDistribution.DomainName}"
-      Condition: DeployCloudFront
+  CognitoRedirectSignin:
+    Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNIN)."
+    Value: !Sub "https://${CloudfrontDistribution.DomainName}"
+    Condition: DeployCloudFront
+  CognitoRedirectSignout:
+    Description: "The URL of the deployed front-end application (COGNITO_REDIRECT_SIGNOUT)."
+    Value: !Sub "https://${CloudfrontDistribution.DomainName}"
+    Condition: DeployCloudFront
+
+
 
 
