@@ -1,6 +1,5 @@
 package LearnTrainEvolve.activity.responses;
 
-import LearnTrainEvolve.models.UserModel;
 import LearnTrainEvolve.models.UserTrainingSessionModel;
 
 public class CreateUserTrainingSessionResponse {
@@ -11,7 +10,7 @@ public class CreateUserTrainingSessionResponse {
         this.userTrainingSessionModel = userTrainingSessionModel;
     }
 
-    public UserModel getUserTrainingSession() {return userTrainingSessionModel;}
+    public UserTrainingSessionModel getUserTrainingSession() {return userTrainingSessionModel;}
 
     @Override
     public String toString() {

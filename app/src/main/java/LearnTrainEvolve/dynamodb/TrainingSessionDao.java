@@ -9,7 +9,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +32,10 @@ public class TrainingSessionDao {
     }
 
 
-    public PaginatedQueryList<TrainingSession> getNextWeekOfTrainingSessions(LocalDate today) {
-        String startDate = today.toString();
-        String endDate = today.plusDays(7).toString();
+    public PaginatedQueryList<TrainingSession> getNextWeekOfTrainingSessions(LocalDateTime date) {
         Map<String, AttributeValue> valueMap = new HashMap<>();
-        valueMap.put(":startDate" , new AttributeValue().withS(startDate));
-        valueMap.put(":endDate" , new AttributeValue().withS(endDate));
+        valueMap.put(":startDate" , new AttributeValue().withS(date.toString()));
+        valueMap.put(":endDate" , new AttributeValue().withS(date.plusDays(7).toString()));
         DynamoDBQueryExpression<TrainingSession> queryExpression = new DynamoDBQueryExpression<TrainingSession>()
                 .withKeyConditionExpression("timeAndDate between :startDate and :endDate")
                 .withExpressionAttributeValues(valueMap);

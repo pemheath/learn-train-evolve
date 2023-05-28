@@ -1,7 +1,9 @@
 package LearnTrainEvolve.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import org.joda.time.DateTime;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -9,7 +11,7 @@ import java.util.Objects;
 public class TrainingSession {
 
     private String eventId;
-    private Date timeAndDate;
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
 
@@ -22,15 +24,13 @@ public class TrainingSession {
         this.eventId = eventId;
     }
 
-    @DynamoDBAttribute(attributeName = "start")
-    public Date getTimeAndDate() {
-        return new Date(
-                String.valueOf(timeAndDate));
+    @DynamoDBAttribute(attributeName = "timeAndDate")
+    public LocalDateTime getTimeAndDate() {
+        return timeAndDate;
     }
 
-    public void setTimeAndDate(Date timeAndDate) {
-        this.timeAndDate = new Date(String.valueOf(timeAndDate));
-    }
+    public void setDate(LocalDateTime timeAndDate) {
+        this.timeAndDate = timeAndDate;}
 
     @DynamoDBAttribute(attributeName = "type")
     public String getType() {
@@ -46,8 +46,8 @@ public class TrainingSession {
         return isCancelled;
     }
 
-    public void setCancelled(Boolean cancelled) {
-        this.isCancelled = cancelled;
+    public void setIsCancelled(Boolean isCancelled) {
+        this.isCancelled = isCancelled;
     }
 
 

@@ -102,8 +102,10 @@ public class UserTrainingSessionModel {
         return Objects.hash(email, eventId);
     }
 
-    @JsonPOJOBuilder
-    public static class Builder() {
+
+    public static  Builder builder() { return new Builder(); }
+
+    public static class Builder{
         private String email;
         private String eventId;
         private Date date;
@@ -151,7 +153,7 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withNoteNumbre(int noteNumber) {
+        public Builder withNoteNumber(int noteNumber) {
             this.noteNumber = noteNumber;
             return this;
         }

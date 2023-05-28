@@ -4,10 +4,10 @@ import LearnTrainEvolve.activity.requests.CreateUserTrainingSessionRequest;
 import LearnTrainEvolve.activity.responses.CreateUserTrainingSessionResponse;
 
 import LearnTrainEvolve.converters.ModelConverter;
-import LearnTrainEvolve.dynamodb.UserDao;
-import LearnTrainEvolve.dynamodb.models.User;
-import LearnTrainEvolve.models.UserModel;
 
+import LearnTrainEvolve.dynamodb.UserTrainingSessionDao;
+import LearnTrainEvolve.dynamodb.models.UserTrainingSession;
+import LearnTrainEvolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,29 +25,30 @@ import javax.inject.Inject;
 public class CreateUserTrainingSessionActivity {
 
     private final Logger log = LogManager.getLogger();
-    private final UserDao userDao;
+    private final UserTrainingSessionDao userTrainingSessionDao;
 
 
     /**
      * Instantiates a new CreatePlaylistActivity object.
      *
-     * @param userDao PlaylistDao to access the playlists table.
+     * @param userTrainingSessionDao PlaylistDao to access the userTrainingSessions table.
      */
     @Inject
-    public CreateUserTrainingSessionActivity(UserDao userDao) {
-        this.userDao = userDao;
+    public CreateUserTrainingSessionActivity(UserTrainingSessionDao userTrainingSessionDao) {
+        this.userTrainingSessionDao = userTrainingSessionDao;
+
     }
 
     /**
-     * This method handles the incoming request by persisting a new user.
-     * with the provided user email, first name, last name, membership, and rank from the request.
-     * <p>
-     * It then returns the newly created playlist.
+     * This method handles the incoming request by persisting a new user training session.
+     * with the provided TrainingSession information (eventId, type, date and isCancelled and the user email.
+     *
+     * It then returns the newly created UserTrainingSession.
      * <p>
      * If the provided playlist name or customer ID has invalid characters, throws an
      * InvalidAttributeValueException
      *
-     * @param request AdminUserRequest object containing the playlist name and customer ID
+     * @param request CreateUserTrainingSession request object containing the playlist name and customer ID
      *                              associated with it
      * @return adminCreateUserResponse result object containing the API defined {@link UserModel}
      * @throws LearnTrainEvolve.exceptions.InvalidRequestException when playlist name or customerID is invalid.
@@ -56,16 +57,10 @@ public class CreateUserTrainingSessionActivity {
     public CreateUserTrainingSessionResponse handleRequest(final CreateUserTrainingSessionRequest request) {
         log.info("Received CreateUserRequest{}", request);
 
-        User newUser = new User();
-        newUser.setEmail(request.getEmail());
-        newUser.setFirstName(request.getFirstName());
-        newUser.setLastName(request.getLastName());
-        newUser.setMembership(request.getMembership());
-        newUser.setRank(request.getRank());
+        UserTrainingSession userTrainingSession = new UserTrainingSession();
 
-        userDao.saveUser(newUser);
 
-        UserModel userModel = new ModelConverter().toUserModel(newUser);
+        UserTrainingSessionModel userTrainingSessionModel = new ModelConverter().toUserTrainingSessionModel(userTrainingSession);
 
         return null;
 

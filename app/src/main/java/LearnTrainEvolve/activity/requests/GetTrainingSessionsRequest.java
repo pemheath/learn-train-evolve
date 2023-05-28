@@ -1,51 +1,52 @@
 package LearnTrainEvolve.activity.requests;
-import java.util.Date;
+import java.time.LocalDateTime;
+
 
 public class GetTrainingSessionsRequest {
 
-    private Date date;
+    private LocalDateTime timeAndDate;
 
     private GetTrainingSessionsRequest(){
-        this.date = new Date();
+        this.timeAndDate = LocalDateTime.now();
     }
 
 
     /**
      *  A GetTrainingSessionsRequest object to request a list of training sessions
-     * @param date, the date after which training sessions will be returned (default to current date)
+     * @param timeAndDate, the date after which training sessions will be returned (default to current date)
      */
 
-    private GetTrainingSessionsRequest(Date date) {
-        this.date = date;
+    private GetTrainingSessionsRequest(LocalDateTime timeAndDate) {
+        this.timeAndDate = timeAndDate;
     }
 
 
 
-    public Date getDate() {
-        return new Date(date.getTime());
+    public LocalDateTime getTimeandDate() {
+        return this.timeAndDate;
     }
 
 
     @Override
     public String toString() {
-        return "GetTrainingSessionsRequest{" + "date=" + date + '}';
+        return "GetTrainingSessionsRequest{" + "date=" + timeAndDate + '}';
     }
 
     public static Builder builder(){ return new Builder();}
 
     public static class Builder {
 
-        private Date date;
+        private LocalDateTime timeAndDate;
 
-        public Builder withDate(Date date) {
-            this.date = date;
+        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
+            this.timeAndDate = timeAndDate;
             return this;
         }
 
         }
 
         public GetTrainingSessionsRequest build() {
-            return new GetTrainingSessionsRequest(date);
+            return new GetTrainingSessionsRequest(timeAndDate);
         }
 
     }

@@ -1,6 +1,8 @@
 package LearnTrainEvolve.activity;
 
 
+import LearnTrainEvolve.converters.ModelConverter;
+import LearnTrainEvolve.models.TrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +12,7 @@ import LearnTrainEvolve.dynamodb.TrainingSessionDao;
 
 
 import javax.inject.Inject;
-
+import java.util.List;
 
 
 public class GetTrainingSessionsActivity {
@@ -26,7 +28,14 @@ public class GetTrainingSessionsActivity {
 
     public GetTrainingSessionsResponse handleRequest(final GetTrainingSessionsRequest request) {
         log.info("Received GetTrainingSessionsActivity {}}", request);
-        return new GetTrainingSessionsResponse(trainingSessionDao.getTrainingSessions(request.getUserId()));
+
+        List<TrainingSessionModel> listOfTrainingSessionModels = new ModelConverter()
+                .toListOfTrainingSessionModels(trainingSessionDao.getNextWeekOfTrainingSessions(request.getTimeandDate()));
+
+        return GetTrainingSessionsResponse.builder()
+                .withTrainingSessionModelList(listOfTrainingSessionModels)
+                .build();
+
     }
 
 }

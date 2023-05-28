@@ -1,20 +1,17 @@
 package LearnTrainEvolve.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import java.time.LocalDateTime;
 
-import java.util.Date;
 import java.util.Objects;
 
 public class TrainingSessionModel {
 
     private String eventId;
-    private Date timeAndDate;
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
 
-private TrainingSessionModel(String eventId, Date timeAndDate, String type, Boolean isCancelled){
+private TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
@@ -25,7 +22,7 @@ private TrainingSessionModel(String eventId, Date timeAndDate, String type, Bool
         return eventId;
     }
 
-    public Date getTimeAndDate() {
+    public LocalDateTime getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -33,7 +30,7 @@ private TrainingSessionModel(String eventId, Date timeAndDate, String type, Bool
         return type;
     }
 
-    public Boolean getCancelled() {
+    public Boolean getIsCancelled() {
         return isCancelled;
     }
 
@@ -50,18 +47,20 @@ private TrainingSessionModel(String eventId, Date timeAndDate, String type, Bool
         return Objects.hash(eventId);
     }
 
+    public static Builder builder(){ return new Builder();}
+
 
     public static class Builder{
     private String eventId;
-    private Date timeAndDate;
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
-        public Builder withEvent(String eventId){
+        public Builder withEventId(String eventId){
             this.eventId = eventId;
             return this;
         }
 
-        public Builder withTimeAndDate(Date timeAndDate){
+        public Builder withTimeAndDate(LocalDateTime timeAndDate){
             this.timeAndDate = timeAndDate;
             return this;
         }

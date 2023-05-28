@@ -205,6 +205,7 @@ isCancelled // BOOL
 email // partion key, S
 eventId // sort key, S
 type // S
+date // S
 intensityRating // N
 techniqueEnjoyment // N
 performanceRating // N

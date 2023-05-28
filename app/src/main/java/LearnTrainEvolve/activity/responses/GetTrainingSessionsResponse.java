@@ -1,14 +1,11 @@
 package LearnTrainEvolve.activity.responses;
-
-import LearnTrainEvolve.dynamodb.models.TrainingSession;
 import LearnTrainEvolve.models.TrainingSessionModel;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetTrainingSessionsResponse {
 
-    private List<TrainingSessionModel> trainingSessionModelList;
+    private final List<TrainingSessionModel> trainingSessionModelList;
 
     private GetTrainingSessionsResponse(List<TrainingSessionModel> trainingSessionModelList) {
         this.trainingSessionModelList = trainingSessionModelList;
@@ -20,4 +17,22 @@ public class GetTrainingSessionsResponse {
                 "trainingSessionModelList=" + trainingSessionModelList +
                 '}';
     }
+
+    public static Builder builder() {return new Builder();}
+
+    public static class Builder {
+
+        private List<TrainingSessionModel> trainingSessionModelList;
+
+        public Builder withTrainingSessionModelList(List<TrainingSessionModel> trainingSessionModelList) {
+            this.trainingSessionModelList = new ArrayList<>(trainingSessionModelList);
+            return this;
+        }
+
+        public GetTrainingSessionsResponse build() {
+            return new GetTrainingSessionsResponse(trainingSessionModelList);
+        }
+
+    }
+
 }
