@@ -1,7 +1,7 @@
 package LearnTrainEvolve.lambda;
 
-import LearnTrainEvolve.activity.requests.AdminCreateUserRequest;
-import LearnTrainEvolve.activity.responses.AdminCreateUserResponse;
+import LearnTrainEvolve.activity.requests.CreateUserTrainingSessionRequest;
+import LearnTrainEvolve.activity.responses.CreateUserTrainingSessionResponse;
 import LearnTrainEvolve.lambda.infrastructure.auth.AuthenticatedLambdaRequest;
 import LearnTrainEvolve.lambda.infrastructure.LambdaActivityRunner;
 import LearnTrainEvolve.lambda.infrastructure.LambdaResponse;
@@ -11,28 +11,25 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class AdminCreateUserLambda
-        extends LambdaActivityRunner<AdminCreateUserRequest, AdminCreateUserResponse>
-        implements RequestHandler<AuthenticatedLambdaRequest<AdminCreateUserRequest>, LambdaResponse> {
+        extends LambdaActivityRunner<CreateUserTrainingSessionRequest, CreateUserTrainingSessionResponse>
+        implements RequestHandler<AuthenticatedLambdaRequest<CreateUserTrainingSessionRequest>, LambdaResponse> {
 
     private final Logger log = LogManager.getLogger();
     @Override
-    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<AdminCreateUserRequest> input, Context context) {
+    public LambdaResponse handleRequest(AuthenticatedLambdaRequest<CreateUserTrainingSessionRequest> input, Context context) {
         log.info("Received input: '{}'", input.toString());
 
         return super.runActivity(
             () -> {
-                AdminCreateUserRequest authenticatedRequest = input.fromBody(AdminCreateUserRequest.class);
+                CreateUserTrainingSessionRequest authenticatedRequest = input.fromBody(CreateUserTrainingSessionRequest.class);
                 log.info("Our request: '{}'", authenticatedRequest.toString());
-                return AdminCreateUserRequest.builder()
+                return CreateUserTrainingSessionRequest.builder()
                         .withEmail(authenticatedRequest.getEmail())
-                        .withFirstName(authenticatedRequest.getFirstName())
-                        .withLastName(authenticatedRequest.getLastName())
-                        .withMembership(authenticatedRequest.getMembership())
-                        .withRank(authenticatedRequest.getRank())
+                        .withEventId(authenticatedRequest.getEventId())
                         .build();
             },
             (request, serviceComponent) ->
-                    serviceComponent.provideAdminCreateUserActivity().handleRequest(request)
+                    serviceComponent.provideCreateUserTrainingSessionActivity().handleRequest(request)
         );
     }
 }

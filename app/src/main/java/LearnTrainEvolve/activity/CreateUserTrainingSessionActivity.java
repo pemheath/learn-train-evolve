@@ -1,12 +1,11 @@
 package LearnTrainEvolve.activity;
 
-import LearnTrainEvolve.activity.requests.AdminCreateUserRequest;
-import LearnTrainEvolve.activity.responses.AdminCreateUserResponse;
+import LearnTrainEvolve.activity.requests.CreateUserTrainingSessionRequest;
+import LearnTrainEvolve.activity.responses.CreateUserTrainingSessionResponse;
 
 import LearnTrainEvolve.converters.ModelConverter;
 import LearnTrainEvolve.dynamodb.UserDao;
 import LearnTrainEvolve.dynamodb.models.User;
-import LearnTrainEvolve.lambda.infrastructure.auth.CognitoClaims;
 import LearnTrainEvolve.models.UserModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,7 +22,7 @@ import javax.inject.Inject;
  *
  * This API allows the customer to create a new playlist with no songs.
  */
-public class AdminCreateUserActivity {
+public class CreateUserTrainingSessionActivity {
 
     private final Logger log = LogManager.getLogger();
     private final UserDao userDao;
@@ -35,7 +34,7 @@ public class AdminCreateUserActivity {
      * @param userDao PlaylistDao to access the playlists table.
      */
     @Inject
-    public AdminCreateUserActivity(UserDao userDao) {
+    public CreateUserTrainingSessionActivity(UserDao userDao) {
         this.userDao = userDao;
     }
 
@@ -54,7 +53,7 @@ public class AdminCreateUserActivity {
      * @throws LearnTrainEvolve.exceptions.InvalidRequestException when playlist name or customerID is invalid.
      */
 
-    public AdminCreateUserResponse handleRequest(final AdminCreateUserRequest request) {
+    public CreateUserTrainingSessionResponse handleRequest(final CreateUserTrainingSessionRequest request) {
         log.info("Received CreateUserRequest{}", request);
 
         User newUser = new User();
@@ -68,9 +67,7 @@ public class AdminCreateUserActivity {
 
         UserModel userModel = new ModelConverter().toUserModel(newUser);
 
-        return AdminCreateUserResponse.builder()
-                .withUser(userModel)
-                .build();
+        return null;
 
 
     }

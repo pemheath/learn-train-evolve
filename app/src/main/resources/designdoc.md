@@ -130,6 +130,7 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 	String email; (id for user)
 	String eventId; (id for session/event resource)
+	Date date;
 	String type;
 	Double intensityRating;
 	int techniqueEnjoyment;
