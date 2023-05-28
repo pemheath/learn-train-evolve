@@ -23,7 +23,7 @@ public class CreateUserTrainingSessionResponse {
     public static class Builder {
         private UserTrainingSessionModel userTrainingSessionModel;
 
-        public Builder withUserTrainingSession(UserTrainingSessionModel userTrainingSessionModel) {
+        public Builder withUserTrainingSessionModel(UserTrainingSessionModel userTrainingSessionModel) {
             this.userTrainingSessionModel = userTrainingSessionModel;
             return this;
         }

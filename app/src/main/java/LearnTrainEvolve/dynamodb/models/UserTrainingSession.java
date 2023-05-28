@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -14,7 +15,7 @@ public class UserTrainingSession {
 
     private String email;
     private String eventId;
-    private Date date;
+    private LocalDateTime timeAndDate;
     private String type;
     private Double intensityRating;
     private int techniqueEnjoyment;
@@ -41,13 +42,13 @@ public class UserTrainingSession {
         this.eventId = eventId;
     }
 
-    @DynamoDBAttribute(attributeName = "date")
-    public Date getDate() {
-        return date;
+    @DynamoDBAttribute(attributeName = "timeAndDate")
+    public LocalDateTime getTimeandDate() {
+        return timeAndDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimeAndDate(LocalDateTime timeAndDate) {
+        this.timeAndDate = timeAndDate;
     }
 
     @DynamoDBAttribute(attributeName = "type")
@@ -128,7 +129,7 @@ public class UserTrainingSession {
         return "UserTrainingSession{" +
                 "email='" + email + '\'' +
                 ", eventId='" + eventId + '\'' +
-                ", date=" + date +
+                ", timeAndDate=" + timeAndDate +
                 ", type='" + type + '\'' +
                 ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment +

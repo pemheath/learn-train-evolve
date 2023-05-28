@@ -3,20 +3,21 @@ package LearnTrainEvolve.activity.requests;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @JsonDeserialize(builder = CreateUserTrainingSessionRequest.Builder.class)
 public class CreateUserTrainingSessionRequest {
     private final String email;
     private final String eventId;
-    private final Date date;
+    private final LocalDateTime timeAndDate;
     private final String type;
 
 
-    public CreateUserTrainingSessionRequest(String email, String eventId,  Date date, String type) {
+    public CreateUserTrainingSessionRequest(String email, String eventId,  LocalDateTime timeAndDate, String type) {
         this.email = email;
         this.eventId = eventId;
-        this.date = date;
+        this.timeAndDate = timeAndDate;
         this.type = type;
     }
 
@@ -27,7 +28,7 @@ public class CreateUserTrainingSessionRequest {
 
     public String getEventId() {return eventId;}
 
-    public Date getDate() {return date;}
+    public LocalDateTime getTimeAndDate() {return timeAndDate;}
 
     public String getType() {
         return type;
@@ -37,7 +38,7 @@ public class CreateUserTrainingSessionRequest {
     public String toString() {
         return "CreateUserTrainingSessionRequest{" + "email='" + email + '\'' +
                 ", eventId='" + eventId + '\'' +
-                ", date=" + date + ", type=" + type + '}';
+                ", timeAndDate=" + timeAndDate + ", type=" + type + '}';
 
     }
 
@@ -51,9 +52,7 @@ public class CreateUserTrainingSessionRequest {
 
         private String email;
         private String eventId;
-
-        private Date date;
-
+        private LocalDateTime timeAndDate;
         private String type;
 
 
@@ -67,8 +66,8 @@ public class CreateUserTrainingSessionRequest {
             return this;
         }
 
-        public Builder withDate(Date date) {
-            this.date = date;
+        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
+            this.timeAndDate = timeAndDate;
             return this;
         }
 
@@ -80,7 +79,7 @@ public class CreateUserTrainingSessionRequest {
 
 
         public CreateUserTrainingSessionRequest build() {
-            return new CreateUserTrainingSessionRequest(email, eventId, date, type);
+            return new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type);
 
 
         }

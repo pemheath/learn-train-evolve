@@ -43,11 +43,10 @@ public class GetTrainingSessionsRequest {
             return this;
         }
 
-        }
-
         public GetTrainingSessionsRequest build() {
             return new GetTrainingSessionsRequest(timeAndDate);
         }
 
     }
+}
 

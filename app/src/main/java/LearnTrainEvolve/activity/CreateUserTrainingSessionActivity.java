@@ -58,11 +58,19 @@ public class CreateUserTrainingSessionActivity {
         log.info("Received CreateUserRequest{}", request);
 
         UserTrainingSession userTrainingSession = new UserTrainingSession();
+        userTrainingSession.setEventId(request.getEventId());
+        userTrainingSession.setEmail(request.getEmail());
+        userTrainingSession.setType(request.getType());
+        userTrainingSession.setTimeAndDate(request.getTimeAndDate());
+
+        userTrainingSessionDao.save(userTrainingSession);
 
 
         UserTrainingSessionModel userTrainingSessionModel = new ModelConverter().toUserTrainingSessionModel(userTrainingSession);
 
-        return null;
+        return CreateUserTrainingSessionResponse.builder()
+                .withUserTrainingSessionModel(userTrainingSessionModel)
+                .build();
 
 
     }

@@ -15,7 +15,7 @@ public class ModelConverter {
         return UserTrainingSessionModel.builder()
                 .withEmail(userTrainingSession.getEmail())
                 .withEventId(userTrainingSession.getEventId())
-                .withDate(userTrainingSession.getDate())
+                .withTimeAndDate(userTrainingSession.getTimeandDate())
                 .withType(userTrainingSession.getType())
                 .withIntensityRating(userTrainingSession.getIntensityRating())
                 .withTechniqueEnjoyment(userTrainingSession.getTechniqueEnjoyment())

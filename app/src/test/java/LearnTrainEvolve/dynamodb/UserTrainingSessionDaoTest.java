@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +35,7 @@ class UserTrainingSessionDaoTest {
         UserTrainingSession userTrainingSessionMocked = new UserTrainingSession();
         userTrainingSessionMocked.setEmail("joe@gmail.com");
         userTrainingSessionMocked.setEventId("123");
-        userTrainingSessionMocked.setDate(new Date());
+        userTrainingSessionMocked.setTimeAndDate(LocalDateTime.now());
         userTrainingSessionMocked.setType("Advanced");
 
         doNothing().when(dynamoDBMapper).save(any(UserTrainingSession.class));

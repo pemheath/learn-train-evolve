@@ -2,6 +2,7 @@ package LearnTrainEvolve.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -11,7 +12,7 @@ public class UserTrainingSessionModel {
 
     private String email;
     private String eventId;
-    private Date date;
+    private LocalDateTime timeAndDate;
     private String type;
     private Double intensityRating;
     private int techniqueEnjoyment;
@@ -21,19 +22,19 @@ public class UserTrainingSessionModel {
     private Set<String> tags;
     private Boolean attended;
 
-    public UserTrainingSessionModel(String email, String eventId, Date date, String type) {
+    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type) {
         this.email = email;
         this.eventId = eventId;
-        this.date = date;
+        this.timeAndDate = timeAndDate;
         this.type = type;
         tags = new HashSet<>();
     }
 
-    public UserTrainingSessionModel(String email, String eventId, Date date, String type, Double intensityRating,
+    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, Double intensityRating,
                                     int techniqueEnjoyment, int performanceRating,
                                     int noteNumber, int goalNumber,
                                     Set<String> tags, Boolean attended) {
-        this(email, eventId, date, type);
+        this(email, eventId, timeAndDate, type);
         this.intensityRating = intensityRating;
         this.techniqueEnjoyment = techniqueEnjoyment;
         this.performanceRating = performanceRating;
@@ -53,8 +54,8 @@ public class UserTrainingSessionModel {
         return eventId;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getTimeAndDate() {
+        return timeAndDate;
     }
 
     public String getType() {
@@ -108,7 +109,7 @@ public class UserTrainingSessionModel {
     public static class Builder{
         private String email;
         private String eventId;
-        private Date date;
+        private LocalDateTime timeAndDate;
         private String type;
         private Double intensityRating;
         private int techniqueEnjoyment;
@@ -128,8 +129,8 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withDate(Date date) {
-            this.date = date;
+        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
+            this.timeAndDate = timeAndDate;
             return this;
         }
 
@@ -174,7 +175,7 @@ public class UserTrainingSessionModel {
         }
 
         public UserTrainingSessionModel build() {
-            return new UserTrainingSessionModel(email, eventId, date, type,
+            return new UserTrainingSessionModel(email, eventId, timeAndDate, type,
                     intensityRating, techniqueEnjoyment, performanceRating, noteNumber,
                     goalNumber, tags, attended);
         }
