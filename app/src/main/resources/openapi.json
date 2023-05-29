@@ -43,7 +43,7 @@
   "paths": {
 
     "/training-sessions": {
-      "patch": {
+      "post": {
         "tags": [
           "training"
         ],
@@ -52,7 +52,10 @@
         "operationId": "SyncTrainingSessions",
         "parameters": [
           {"name":"googleCalId",
-            "in":"path"}
+            "in":"path",
+            "description": "The value of the calendar to pull data from",
+            "required": true
+            }
         ],
         "responses": {
           "200": {

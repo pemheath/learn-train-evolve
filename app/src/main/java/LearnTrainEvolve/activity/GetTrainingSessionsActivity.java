@@ -12,6 +12,8 @@ import LearnTrainEvolve.dynamodb.TrainingSessionDao;
 
 
 import javax.inject.Inject;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,13 +29,15 @@ public class GetTrainingSessionsActivity {
     }
 
     public GetTrainingSessionsResponse handleRequest(final GetTrainingSessionsRequest request) {
+        List<TrainingSessionModel> listOfSessions = new ArrayList<>();
         log.info("Received GetTrainingSessionsActivity {}}", request);
-
-        List<TrainingSessionModel> listOfTrainingSessionModels = new ModelConverter()
-                .toListOfTrainingSessionModels(trainingSessionDao.getNextWeekOfTrainingSessions(request.getTimeandDate()));
+        if(request.getType()==null) {
+            listOfSessions = new ModelConverter()
+                    .toListOfTrainingSessionModels(trainingSessionDao.getFutureTrainingSessions(LocalDateTime.now()));
+        }
 
         return GetTrainingSessionsResponse.builder()
-                .withTrainingSessionModelList(listOfTrainingSessionModels)
+                .withTrainingSessionModelList(listOfSessions)
                 .build();
 
     }

@@ -9,6 +9,7 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName="training_sessions")
 public class TrainingSession {
+    public static final String TIME_AND_DATE_INDEX = "TrainingSessionsDateIndex";
 
     private String eventId;
     private LocalDateTime timeAndDate;

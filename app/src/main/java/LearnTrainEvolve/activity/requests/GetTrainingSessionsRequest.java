@@ -4,47 +4,42 @@ import java.time.LocalDateTime;
 
 public class GetTrainingSessionsRequest {
 
-    private LocalDateTime timeAndDate;
-
-    private GetTrainingSessionsRequest(){
-        this.timeAndDate = LocalDateTime.now();
-    }
+    private String type;
 
 
     /**
      *  A GetTrainingSessionsRequest object to request a list of training sessions
-     * @param timeAndDate, the date after which training sessions will be returned (default to current date)
+     * @param type, an optional parameter for filtering by type
      */
-
-    private GetTrainingSessionsRequest(LocalDateTime timeAndDate) {
-        this.timeAndDate = timeAndDate;
+    private GetTrainingSessionsRequest(String type){
+        this.type = type;
     }
 
 
 
-    public LocalDateTime getTimeandDate() {
-        return this.timeAndDate;
+    public String getType() {
+        return this.type;
     }
 
 
     @Override
     public String toString() {
-        return "GetTrainingSessionsRequest{" + "date=" + timeAndDate + '}';
+        return "GetTrainingSessionsRequest{" + "tpe=" + type + '}';
     }
 
     public static Builder builder(){ return new Builder();}
 
     public static class Builder {
 
-        private LocalDateTime timeAndDate;
+        private String type;
 
-        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
-            this.timeAndDate = timeAndDate;
+        public Builder withType(String type) {
+            this.type = type;
             return this;
         }
 
         public GetTrainingSessionsRequest build() {
-            return new GetTrainingSessionsRequest(timeAndDate);
+            return new GetTrainingSessionsRequest(type);
         }
 
     }

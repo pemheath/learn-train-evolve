@@ -7,23 +7,30 @@ import LearnTrainEvolve.lambda.infrastructure.LambdaRequest;
 import LearnTrainEvolve.lambda.infrastructure.LambdaResponse;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.time.LocalDateTime;
 
 public class GetTrainingSessionsLambda
         extends LambdaActivityRunner<GetTrainingSessionsRequest, GetTrainingSessionsResponse>
         implements RequestHandler<LambdaRequest<GetTrainingSessionsRequest>, LambdaResponse> {
 
+    private final Logger log = LogManager.getLogger();
+
     @Override
     public LambdaResponse handleRequest(LambdaRequest<GetTrainingSessionsRequest> input, Context context) {
+        System.out.println("do we get here?");
+        log.info("input {}", input);
         return super.runActivity(
-                () -> input.fromPathAndQuery((path, query) ->
-                        GetTrainingSessionsRequest.builder()
-                                .withTimeAndDate(LocalDateTime.now())
-                                .build()),
+                ()-> input.fromQuery(query ->
+                                GetTrainingSessionsRequest.builder()
+                                        .withType(query.get("q"))
+                                        .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetTrainingSessionsActivity().handleRequest(request)
+
         );
+
     }
 }
 

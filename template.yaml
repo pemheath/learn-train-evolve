@@ -215,6 +215,21 @@ Resources:
                   - logs:PutLogEvents
                   - cloudwatch:PutMetricData
                 Resource: '*'
+        - PolicyName: 'AccessTrainingSessionsTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/training_sessions"
+
+        - PolicyName: 'AccessUserTrainingSessionsTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/user_training_sessions"
 
   AuthorizerRole:
     Type: AWS::IAM::Role
@@ -293,6 +308,30 @@ Resources:
           Properties:
             Path: /user-training-sessions
             Method: post
+            Auth:
+              Authorizer: 'NONE'
+
+  GetTrainingSessionsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: LearnTrainEvolve.lambda.GetTrainingSessionsLambda
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        app:
+          Type: Api
+          Properties:
+            Path: /training-sessions
+            Method: get
+            Auth:
+              Authorizer: 'NONE'
             # Because this lambda does not specify an authorizer, it uses the default CognitoAuthorizer.
 
     #-----------------------------------------------------
@@ -305,12 +344,23 @@ Resources:
         AttributeDefinitions:
           - AttributeName: "eventId"
             AttributeType: "S"
+          - AttributeName: "timeAndDate"
+            AttributeType: "S"
         KeySchema:
           - AttributeName: "eventId"
             KeyType: "HASH"
         BillingMode: "PAY_PER_REQUEST"
         TableName: "training_sessions"
-
+        GlobalSecondaryIndexes:
+          - IndexName: "TrainingSessionsDateIndex"
+            KeySchema:
+              - AttributeName: "timeAndDate"
+                KeyType: "HASH"
+            Projection:
+                ProjectionType: "INCLUDE"
+                NonKeyAttributes:
+                  - "type"
+                  - "isCancelled"
 
   UserTrainingSessionTable:
       Type: AWS::DynamoDB::Table
@@ -327,38 +377,6 @@ Resources:
             KeyType: "RANGE"
         BillingMode: "PAY_PER_REQUEST"
         TableName: "user_training_sessions"
-
-  NotesTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: "email"
-            AttributeType: "S"
-          - AttributeName: "noteNumber"
-            AttributeType: "N"
-        KeySchema:
-          - AttributeName: "email"
-            KeyType: "HASH"
-          - AttributeName: "noteNumber"
-            KeyType: "RANGE"
-        BillingMode: "PAY_PER_REQUEST"
-        TableName: "notes"
-
-  GoalsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: "email"
-          AttributeType: "S"
-        - AttributeName: "goalNumber"
-          AttributeType: "N"
-      KeySchema:
-        - AttributeName: "email"
-          KeyType: "HASH"
-        - AttributeName: "goalNumber"
-          KeyType: "RANGE"
-      BillingMode: "PAY_PER_REQUEST"
-      TableName: "goals"
 
   #-----------------------------------------------------
   # The outputs defined below will be printed
