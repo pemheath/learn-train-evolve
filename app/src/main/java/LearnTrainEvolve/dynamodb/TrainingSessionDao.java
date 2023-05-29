@@ -1,20 +1,16 @@
 package LearnTrainEvolve.dynamodb;
 
 import LearnTrainEvolve.dynamodb.models.TrainingSession;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMappingException;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
+
 
 import static LearnTrainEvolve.dynamodb.models.TrainingSession.TIME_AND_DATE_INDEX;
 
@@ -38,25 +34,24 @@ public class TrainingSessionDao {
     }
 
 
-    public PaginatedQueryList<TrainingSession> getFutureTrainingSessions(LocalDateTime date) {
-
+    public PaginatedScanList<TrainingSession> getFutureTrainingSessions() {
+            System.out.println("reached getFutureTrainingSessions method in TrainingDao");
 
             Map<String, AttributeValue> valueMap = new HashMap<>();
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-            dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String startDate = dateFormatter.format(date);
-            valueMap.put(":startDate", new AttributeValue().withS(startDate));
-            DynamoDBQueryExpression<TrainingSession> queryExpression = new DynamoDBQueryExpression<TrainingSession>()
-                    .withIndexName(TIME_AND_DATE_INDEX)
-                    .withKeyConditionExpression("timeAndDate > :startDate")
+            valueMap.put(":startDate", new AttributeValue().withS(LocalDateTime.now().toString()));
+            System.out.println("value map created" + valueMap);
+            DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
+                    .withFilterExpression("timeAndDate > :startDate")
                     .withExpressionAttributeValues(valueMap);
 
-        PaginatedQueryList<TrainingSession> list = this.mapper.query(TrainingSession.class, queryExpression);
-            for (TrainingSession session : list) {
-                System.out.println(session.toString());
-            }
+            System.out.println("scan-expression created.");
 
-            return list;
+            PaginatedScanList<TrainingSession> sessionList = mapper.scan(TrainingSession.class, scanExpression);
+
+            System.out.println("list exists");
+
+            return sessionList;
+
 
 
     }

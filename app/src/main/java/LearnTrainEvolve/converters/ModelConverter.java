@@ -5,6 +5,7 @@ import LearnTrainEvolve.dynamodb.models.UserTrainingSession;
 import LearnTrainEvolve.models.TrainingSessionModel;
 import LearnTrainEvolve.models.UserTrainingSessionModel;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 

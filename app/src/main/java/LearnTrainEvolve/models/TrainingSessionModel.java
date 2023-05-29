@@ -7,11 +7,11 @@ import java.util.Objects;
 public class TrainingSessionModel {
 
     private String eventId;
-    private LocalDateTime timeAndDate;
+    private String timeAndDate;
     private String type;
     private Boolean isCancelled;
 
-private TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled){
+private TrainingSessionModel(String eventId, String timeAndDate, String type, Boolean isCancelled){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
@@ -22,7 +22,7 @@ private TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String t
         return eventId;
     }
 
-    public LocalDateTime getTimeAndDate() {
+    public String getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -52,7 +52,7 @@ private TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String t
 
     public static class Builder{
     private String eventId;
-    private LocalDateTime timeAndDate;
+    private String timeAndDate;
     private String type;
     private Boolean isCancelled;
         public Builder withEventId(String eventId){
@@ -60,7 +60,7 @@ private TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String t
             return this;
         }
 
-        public Builder withTimeAndDate(LocalDateTime timeAndDate){
+        public Builder withTimeAndDate(String timeAndDate){
             this.timeAndDate = timeAndDate;
             return this;
         }

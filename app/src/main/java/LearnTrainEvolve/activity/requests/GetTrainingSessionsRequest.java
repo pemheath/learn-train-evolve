@@ -1,5 +1,5 @@
 package LearnTrainEvolve.activity.requests;
-import java.time.LocalDateTime;
+
 
 
 public class GetTrainingSessionsRequest {
@@ -24,7 +24,7 @@ public class GetTrainingSessionsRequest {
 
     @Override
     public String toString() {
-        return "GetTrainingSessionsRequest{" + "tpe=" + type + '}';
+        return "GetTrainingSessionsRequest{" + "type=" + type + '}';
     }
 
     public static Builder builder(){ return new Builder();}
@@ -39,7 +39,10 @@ public class GetTrainingSessionsRequest {
         }
 
         public GetTrainingSessionsRequest build() {
-            return new GetTrainingSessionsRequest(type);
+            System.out.println("Building request object.");
+            GetTrainingSessionsRequest request = new GetTrainingSessionsRequest(type);
+            System.out.println("GetTrainingSessionsRequest object is " + request);
+            return request;
         }
 
     }

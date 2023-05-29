@@ -1,6 +1,5 @@
 package LearnTrainEvolve.activity.responses;
 import LearnTrainEvolve.models.TrainingSessionModel;
-import java.util.ArrayList;
 import java.util.List;
 
 public class GetTrainingSessionsResponse {
@@ -9,6 +8,10 @@ public class GetTrainingSessionsResponse {
 
     private GetTrainingSessionsResponse(List<TrainingSessionModel> trainingSessionModelList) {
         this.trainingSessionModelList = trainingSessionModelList;
+    }
+
+    public List<TrainingSessionModel> getTrainingSessionModelList(){
+        return trainingSessionModelList;
     }
 
     @Override
@@ -25,7 +28,8 @@ public class GetTrainingSessionsResponse {
         private List<TrainingSessionModel> trainingSessionModelList;
 
         public Builder withTrainingSessionModelList(List<TrainingSessionModel> trainingSessionModelList) {
-            this.trainingSessionModelList = new ArrayList<>(trainingSessionModelList);
+            System.out.println("building response");
+            this.trainingSessionModelList = trainingSessionModelList;
             return this;
         }
 

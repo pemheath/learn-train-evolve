@@ -20,16 +20,18 @@ public class GetTrainingSessionsLambda
     @Override
     public LambdaResponse handleRequest(LambdaRequest<GetTrainingSessionsRequest> input, Context context) {
         System.out.println("do we get here?");
-        log.info("input {}", input);
+        System.out.println("input is " + input);
+
         return super.runActivity(
                 ()-> input.fromQuery(query ->
                                 GetTrainingSessionsRequest.builder()
-                                        .withType(query.get("q"))
+                                        .withType(query.get("type"))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetTrainingSessionsActivity().handleRequest(request)
 
         );
+
 
     }
 }
