@@ -1,0 +1,57 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-learntrainevolve-dev-113426-authRole",
+      "UnauthRoleArn": "arn:aws:iam::281009835117:role/amplify-learntrainevolve-dev-113426-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::281009835117:role/amplify-learntrainevolve-dev-113426-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-learntrainevolve-dev-113426-deployment",
+      "UnauthRoleName": "amplify-learntrainevolve-dev-113426-unauthRole",
+      "StackName": "amplify-learntrainevolve-dev-113426",
+      "StackId": "arn:aws:cloudformation:us-east-2:281009835117:stack/amplify-learntrainevolve-dev-113426/cd1967f0-fbda-11ed-a0aa-063e53c14a9d",
+      "AmplifyAppId": "d2m7y65wyfnuia"
+    }
+  },
+  "auth": {
+    "learntrainevolve083c1738": {
+      "service": "Cognito",
+      "serviceType": "imported",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "output": {
+        "UserPoolId": "us-east-2_3zouQoSIO",
+        "UserPoolName": "learn-train-evolve-service-ph-user-pool",
+        "AppClientID": "532nuo0f43gnqld9pqkaqll6fe",
+        "AppClientIDWeb": "532nuo0f43gnqld9pqkaqll6fe",
+        "HostedUIDomain": "learn-train-evolve-service-ph",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\",\"implicit\"],\"AllowedOAuthScopes\":[\"email\",\"openid\",\"phone\",\"profile\"],\"CallbackURLs\":[\"http://localhost:8000\"],\"LogoutURLs\":[\"http://localhost:8000\"]}"
+      },
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "signupAttributes": [
+          "NAME",
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": [
+            "REQUIRES_LOWERCASE",
+            "REQUIRES_UPPERCASE",
+            "REQUIRES_NUMBERS",
+            "REQUIRES_SYMBOLS"
+          ]
+        },
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "lastPushTimeStamp": "2023-05-26T15:40:16.432Z"
+    }
+  }
+}

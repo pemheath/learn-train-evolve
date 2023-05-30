@@ -8,9 +8,12 @@ import Pillar from "./components/pillar";
 import Header from "./components/header";
 
 
+
 Amplify.configure(awsExports);
 
-function App(){
+
+function App () {
+
     return (
     <Authenticator>
         {
