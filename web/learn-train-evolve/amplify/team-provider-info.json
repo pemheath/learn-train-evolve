@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-learntrainevolve-dev-113426-authRole",
+      "UnauthRoleArn": "arn:aws:iam::281009835117:role/amplify-learntrainevolve-dev-113426-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::281009835117:role/amplify-learntrainevolve-dev-113426-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-learntrainevolve-dev-113426-deployment",
+      "UnauthRoleName": "amplify-learntrainevolve-dev-113426-unauthRole",
+      "StackName": "amplify-learntrainevolve-dev-113426",
+      "StackId": "arn:aws:cloudformation:us-east-2:281009835117:stack/amplify-learntrainevolve-dev-113426/cd1967f0-fbda-11ed-a0aa-063e53c14a9d",
+      "AmplifyAppId": "d2m7y65wyfnuia"
+    },
+    "categories": {
+      "auth": {
+        "learntrainevolve083c1738": {
+          "userPoolId": "us-east-2_3zouQoSIO",
+          "userPoolName": "learn-train-evolve-service-ph-user-pool",
+          "webClientId": "532nuo0f43gnqld9pqkaqll6fe",
+          "nativeClientId": "532nuo0f43gnqld9pqkaqll6fe"
+        }
+      }
+    }
+  }
+}

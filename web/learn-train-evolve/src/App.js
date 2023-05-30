@@ -1,17 +1,31 @@
 import React from "react";
-import Header from "./components/header";
+import {Amplify} from "aws-amplify";
+import {Authenticator} from "@aws-amplify/ui-react";
+import '@aws-amplify/ui-react/styles.css';
+import awsExports from "./aws-exports";
 import Footer from "./components/footer";
-import AdminDashboard from "./components/adminDashboard";
+import Pillar from "./components/pillar";
+import Header from "./components/header";
+
+
+
+Amplify.configure(awsExports);
 
 
 function App () {
-    return (
-        <div>
-            <Header />
-            <AdminDashboard/>
-            <Footer />
-        </div>
 
+    return (
+    <Authenticator>
+        {
+            ({ signOut, user }) => (
+                <main>
+                    <Header/>
+                    <button onClick={signOut}>Sign out</button>
+                    <Pillar/>
+                    <Footer/>
+                </main>
+            )}
+    </Authenticator>
     );
 }
 

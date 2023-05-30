@@ -9,6 +9,26 @@ h1 {
     gap: 5px;
     justify-content: center;
 }
+.container2 {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 300px;
+    margin: 20px auto;
+}
+
+.title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.content {
+    font-size: 14px;
+}
+
 
 .container > * {
     flex-basis: 100px;
@@ -22,8 +42,8 @@ Header {
 .white {
     background-color: white;}
 .blue{background-color: blue;}
-.purple{background-color: fuchsia;}
-.brown{background-color: firebrick;}
+.purple{background-color: rebeccapurple;}
+.brown{background-color: saddlebrown;}
 .black{background-color: black; border: 5px solid red;}
 
 html, body {

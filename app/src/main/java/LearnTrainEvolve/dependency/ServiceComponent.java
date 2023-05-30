@@ -1,6 +1,7 @@
 package LearnTrainEvolve.dependency;
 
-import LearnTrainEvolve.activity.AdminCreateUserActivity;
+import LearnTrainEvolve.activity.CreateUserTrainingSessionActivity;
+import LearnTrainEvolve.activity.GetTrainingSessionsActivity;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -16,7 +17,9 @@ public interface ServiceComponent {
      * Provides the relevant activity.
      * @return CreateUserActivity
      */
-    AdminCreateUserActivity provideAdminCreateUserActivity();
+    CreateUserTrainingSessionActivity provideCreateUserTrainingSessionActivity();
+
+    GetTrainingSessionsActivity provideGetTrainingSessionsActivity();
 
 
 

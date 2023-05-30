@@ -1,92 +1,89 @@
 {
-  "users": [
+  "training_sessions": [
     {
       "PutRequest": {
         "Item": {
-          "email": {"S":  "test@aol.com"},
-          "firstName": {"S":  "Paulette"},
-          "lastName": {"S":  "Jenning"},
-          "motivationalWhy": {"S":  "To stay in recovery"},
-          "membership": {"S":  "Limited"},
-          "rank": {"S":  "WHITE1"}
+          "eventId": {"S":  "123"},
+          "type": {"S":  "Fundamentals"},
+          "timeAndDate": {"S":  "2022-07-28T13:14:15.123+01:00"},
+          "isCancelled": {
+            "BOOL":  false}
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "email": {"S":  "test2@aol.com"},
-          "firstName": {"S":  "Mason"},
-          "lastName": {"S":  "Hawking"},
-          "motivationalWhy": {"S":  "To keep my body and mind healthy"},
-          "membership": {"S":  "Unlimited"},
-          "rank": {"S":  "BLUE"}
-        }
-      }
-    },
-
-    {
-      "PutRequest": {
-        "Item": {
-          "email": {"S":  "test3@aol.com"},
-          "firstName": {"S":  "Bonnie"},
-          "lastName": {"S":  "Wilcox"},
-          "motivationalWhy": {"S":  "To test myself and win in competitions"},
-          "membership": {"S":  "Unlimited"},
-          "rank": {"S":  "PURPLE"}
-        }
-      }
-    },
-
-    {
-      "PutRequest": {
-        "Item": {
-          "email": {"S":  "test4@aol.com"},
-          "firstName": {"S":  "Kevin"},
-          "lastName": {"S":  "Mendoza"},
-          "motivationalWhy": {"S":  "To have fun"},
-          "membership": {"S":  "Unlimited"},
-          "rank": {"S":  "BROWN"}
-        }
-      }
-    },
-
-    {
-      "PutRequest": {
-        "Item": {
-          "email": {"S":  "test5@aol.com"},
-          "firstName": {"S":  "Jean"},
-          "lastName": {"S":  "Salzar"},
-          "motivationalWhy": {"S":  "To lose weight"},
-          "membership": {"S":  "Limited"},
-          "rank": {"S":  "WHITE2"}
+          "eventId": {"S":  "456"},
+          "type": {"S":  "Advanced"},
+          "timeAndDate": {"S":  "2023-05-28T13:00:00.123+01:00"},
+          "isCancelled": {
+            "BOOL":  false}
         }
       }
     },
     {
       "PutRequest": {
         "Item": {
-          "email": {"S":  "test6@aol.com"},
-          "firstName": {"S":  "Peter"},
-          "lastName": {"S":  "Smith"},
-          "motivationalWhy": {"S":  "To maintain an exercise habit"},
-          "membership": {"S":  "Unlimited"},
-          "rank": {"S":  "PURPLE"}
+          "eventId": {"S":  "8910"},
+          "type": {"S":  "No-gi"},
+          "timeAndDate": {"S":  "2023-05-29T13:00:00.123+01:00"},
+          "isCancelled": {
+            "BOOL":  false}
         }
       }
     },
-
     {
       "PutRequest": {
         "Item": {
-          "email": {"S":  "test7@aol.com"},
-          "firstName": {"S":  "Fernando"},
-          "lastName": {"S":  "Jacobs"},
-          "motivationalWhy": {"S":  "To develop expertise"},
-          "membership": {"S":  "Unlimited"},
-          "rank": {"S":  "BLACK"}
+          "eventId": {"S":  "456001"},
+          "type": {"S":  "Advanced"},
+          "timeAndDate": {"S":  "2023-05-28T18:00:00.123+01:00"},
+          "isCancelled": {
+            "BOOL":  false}
         }
       }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "eventId": {"S":  "0909"},
+          "type": {"S":  "Basics"},
+          "timeAndDate": {"S":  "2023-05-31T08:00:00.123+01:00"},
+          "isCancelled": {
+            "BOOL":  false}
+        }
+      }
+    },
+    {"PutRequest": {
+      "Item": {
+        "eventId": {"S":  "111"},
+        "type": {"S":  "No-gi"},
+        "timeAndDate": {"S":  "2023-06-01T13:00:00.123+01:00"},
+        "isCancelled": {
+          "BOOL":  false}
+      }
+    }
+    },
+    {"PutRequest": {
+      "Item": {
+        "eventId": {"S":  "891000"},
+        "type": {"S":  "Fundamentals"},
+        "timeAndDate": {"S":  "2023-06-02T13:00:00.123+01:00"},
+        "isCancelled": {
+          "BOOL":  false}
+      }
+    }
+    },
+    {"PutRequest": {
+      "Item": {
+        "eventId": {"S":  "2020"},
+        "type": {"S":  "Fundamentals"},
+        "timeAndDate": {"S":  "2023-06-04T13:00:00.123+01:00"},
+        "isCancelled": {
+          "BOOL":  false}
+      }
+    }
     }
   ]
 }

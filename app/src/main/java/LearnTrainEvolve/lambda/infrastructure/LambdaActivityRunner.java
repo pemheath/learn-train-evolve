@@ -45,5 +45,6 @@ public class LambdaActivityRunner<TRequest, TResult> {
             service = DaggerServiceComponent.create();
         }
         return service;
+
     }
 }
