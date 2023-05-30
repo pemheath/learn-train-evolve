@@ -25,7 +25,7 @@ public class GetTrainingSessionsLambda
         return super.runActivity(
                 ()-> input.fromQuery(query ->
                                 GetTrainingSessionsRequest.builder()
-                                        .withType(query.get("type"))
+                                        .withType(query.get("category"))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetTrainingSessionsActivity().handleRequest(request)

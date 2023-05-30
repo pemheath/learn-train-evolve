@@ -30,11 +30,15 @@ public class GetTrainingSessionsActivity {
 
     public GetTrainingSessionsResponse handleRequest(final GetTrainingSessionsRequest request) {
         List<TrainingSessionModel> listOfSessions = new ArrayList<>();
-        System.out.println("received request" + request);
         log.info("Received GetTrainingSessionsActivity {}}", request);
         if(request.getType()==null) {
             listOfSessions = new ModelConverter()
-                    .toListOfTrainingSessionModels(trainingSessionDao.getFutureTrainingSessions());
+                    .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessions());
+        }
+
+        else {
+            listOfSessions = new ModelConverter()
+                    .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessionsByType(request.getType()));
         }
 
         return GetTrainingSessionsResponse.builder()

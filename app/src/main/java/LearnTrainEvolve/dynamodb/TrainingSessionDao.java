@@ -9,7 +9,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 import static LearnTrainEvolve.dynamodb.models.TrainingSession.TIME_AND_DATE_INDEX;
@@ -34,27 +36,30 @@ public class TrainingSessionDao {
     }
 
 
-    public PaginatedScanList<TrainingSession> getFutureTrainingSessions() {
-            System.out.println("reached getFutureTrainingSessions method in TrainingDao");
-
+    public List<TrainingSession> getUpcomingTrainingSessions() {
             Map<String, AttributeValue> valueMap = new HashMap<>();
             valueMap.put(":startDate", new AttributeValue().withS(LocalDateTime.now().toString()));
-            System.out.println("value map created" + valueMap);
+            valueMap.put(":endDate", new AttributeValue().withS(LocalDateTime.now().plusDays(7).toString()));
             DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
-                    .withFilterExpression("timeAndDate > :startDate")
+                    .withFilterExpression("timeAndDate >= :startDate and timeAndDate <= :endDate")
                     .withExpressionAttributeValues(valueMap);
 
-            System.out.println("scan-expression created.");
-
             PaginatedScanList<TrainingSession> sessionList = mapper.scan(TrainingSession.class, scanExpression);
+            return sessionList.stream()
+                    .filter(s-> !s.getIsCancelled())
+                    .collect(Collectors.toList());
+    }
 
-            System.out.println("list exists");
-
-            return sessionList;
-
-
+    public List<TrainingSession> getUpcomingTrainingSessionsByType(String category) {
+        return getUpcomingTrainingSessions()
+                .stream()
+                .filter(s -> s.getType().equals(category))
+                .filter(s-> !s.getIsCancelled())
+                .collect(Collectors.toList());
 
     }
+
+
 
 }
 
