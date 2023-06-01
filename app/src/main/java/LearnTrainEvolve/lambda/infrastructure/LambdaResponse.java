@@ -4,6 +4,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.Map;
+
 /**
  * An APIGateway response from a lambda function.
  */
@@ -13,6 +15,11 @@ public class LambdaResponse extends APIGatewayProxyResponseEvent {
     private LambdaResponse(int statusCode, String body) {
         super.setStatusCode(statusCode);
         super.setBody(body);
+        super.setHeaders(Map.of(
+                "Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS",
+                "Access-Control-Allow-Headers", "Content-Type,Authorization",
+                "Access-Control-Allow-Origin", "*"
+        ));
     }
 
     /**

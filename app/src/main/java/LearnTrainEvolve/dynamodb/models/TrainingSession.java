@@ -13,6 +13,8 @@ public class TrainingSession {
     private String type;
     private Boolean isCancelled;
 
+    private String coach;
+
     @DynamoDBHashKey(attributeName = "eventId")
     public String getEventId() {
         return eventId;
@@ -48,6 +50,13 @@ public class TrainingSession {
         this.isCancelled = isCancelled;
     }
 
+    public String getCoach() {
+        return coach;
+    }
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
 
     @Override
     public String toString() {
@@ -56,6 +65,7 @@ public class TrainingSession {
                 ", timeAndDate=" + timeAndDate +
                 ", type='" + type + '\'' +
                 ", isCancelled=" + isCancelled +
+                ", coach='" + coach + '\'' +
                 '}';
     }
 

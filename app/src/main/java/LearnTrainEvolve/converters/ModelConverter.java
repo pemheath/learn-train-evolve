@@ -6,6 +6,7 @@ import LearnTrainEvolve.models.TrainingSessionModel;
 import LearnTrainEvolve.models.UserTrainingSessionModel;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,11 +30,13 @@ public class ModelConverter {
     }
 
     public TrainingSessionModel toTrainingSessionModel(TrainingSession trainingSession) {
+        LocalDateTime dateTime = LocalDateTime.parse(trainingSession.getTimeAndDate(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         return TrainingSessionModel.builder()
                 .withEventId(trainingSession.getEventId())
-                .withTimeAndDate(trainingSession.getTimeAndDate())
+                .withTimeAndDate(dateTime)
                 .withType(trainingSession.getType())
                 .withIsCancelled(trainingSession.getIsCancelled())
+                .withCoach(trainingSession.getCoach())
                 .build();
     }
 

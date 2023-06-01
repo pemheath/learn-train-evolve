@@ -1,5 +1,8 @@
 package LearnTrainEvolve.models;
 
+import LearnTrainEvolve.utils.serializers.CustomDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDateTime;
 
 import java.util.Objects;
@@ -7,22 +10,26 @@ import java.util.Objects;
 public class TrainingSessionModel {
 
     private String eventId;
-    private String timeAndDate;
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
+    private String coach;
 
-private TrainingSessionModel(String eventId, String timeAndDate, String type, Boolean isCancelled){
+
+    public TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled, String coach){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
     this.isCancelled = isCancelled;
+    this.coach = coach;
 }
 
     public String getEventId() {
         return eventId;
     }
 
-    public String getTimeAndDate() {
+    public LocalDateTime getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -33,6 +40,12 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
     public Boolean getIsCancelled() {
         return isCancelled;
     }
+
+    public String getCoach() {
+        return coach;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -52,15 +65,17 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
 
     public static class Builder{
     private String eventId;
-    private String timeAndDate;
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
+    private String coach;
+
         public Builder withEventId(String eventId){
             this.eventId = eventId;
             return this;
         }
 
-        public Builder withTimeAndDate(String timeAndDate){
+        public Builder withTimeAndDate(LocalDateTime timeAndDate){
             this.timeAndDate = timeAndDate;
             return this;
         }
@@ -75,8 +90,13 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
             return this;
         }
 
+        public Builder withCoach(String coach){
+            this.coach = coach;
+            return this;
+        }
+
         public TrainingSessionModel build(){
-            return new TrainingSessionModel(eventId, timeAndDate, type, isCancelled);
+            return new TrainingSessionModel(eventId, timeAndDate, type, isCancelled, coach);
         }
     }
 }
