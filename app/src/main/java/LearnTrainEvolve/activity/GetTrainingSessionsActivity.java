@@ -29,7 +29,7 @@ public class GetTrainingSessionsActivity {
     }
 
     public GetTrainingSessionsResponse handleRequest(final GetTrainingSessionsRequest request) {
-        List<TrainingSessionModel> listOfSessions = new ArrayList<>();
+        List<TrainingSessionModel> listOfSessions;
         log.info("Received GetTrainingSessionsActivity {}}", request);
         if(request.getType()==null) {
             listOfSessions = new ModelConverter()

@@ -265,7 +265,7 @@ Within React I envision the following components to begin with:
 - Footer 
 - AdminDashboard (for syncing data)
 - NavMenu
-- Pillar (Learn, Train, or Evolve, will have nested comonents based on what it is)
+- TrainingSessions (Learn, Train, or Evolve, will have nested comonents based on what it is)
 - Schedule 
 - TrainingSession 
 - Note 

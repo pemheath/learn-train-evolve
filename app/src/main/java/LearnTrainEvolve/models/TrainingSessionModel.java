@@ -1,5 +1,10 @@
 package LearnTrainEvolve.models;
 
+import LearnTrainEvolve.utils.serializers.CustomDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.time.LocalDateTime;
 
 import java.util.Objects;
@@ -7,11 +12,13 @@ import java.util.Objects;
 public class TrainingSessionModel {
 
     private String eventId;
-    private String timeAndDate;
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
 
-private TrainingSessionModel(String eventId, String timeAndDate, String type, Boolean isCancelled){
+
+    public TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
@@ -22,7 +29,7 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
         return eventId;
     }
 
-    public String getTimeAndDate() {
+    public LocalDateTime getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -33,6 +40,7 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
     public Boolean getIsCancelled() {
         return isCancelled;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -52,7 +60,7 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
 
     public static class Builder{
     private String eventId;
-    private String timeAndDate;
+    private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
         public Builder withEventId(String eventId){
@@ -60,7 +68,7 @@ private TrainingSessionModel(String eventId, String timeAndDate, String type, Bo
             return this;
         }
 
-        public Builder withTimeAndDate(String timeAndDate){
+        public Builder withTimeAndDate(LocalDateTime timeAndDate){
             this.timeAndDate = timeAndDate;
             return this;
         }

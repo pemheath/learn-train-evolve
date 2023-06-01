@@ -3,9 +3,9 @@ import {Amplify} from "aws-amplify";
 import {Authenticator} from "@aws-amplify/ui-react";
 import '@aws-amplify/ui-react/styles.css';
 import awsExports from "./aws-exports";
-import Footer from "./components/footer";
-import Pillar from "./components/pillar";
-import Header from "./components/header";
+import Footer from "./components/Footer";
+import TrainingSessions from "./components/TrainingSessions";
+import Header from "./components/Header";
 
 
 
@@ -13,7 +13,6 @@ Amplify.configure(awsExports);
 
 
 function App () {
-
     return (
     <Authenticator>
         {
@@ -21,7 +20,7 @@ function App () {
                 <main>
                     <Header/>
                     <button onClick={signOut}>Sign out</button>
-                    <Pillar/>
+                    <TrainingSessions/>
                     <Footer/>
                 </main>
             )}

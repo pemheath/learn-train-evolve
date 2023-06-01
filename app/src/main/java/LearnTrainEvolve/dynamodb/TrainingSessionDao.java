@@ -14,8 +14,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-import static LearnTrainEvolve.dynamodb.models.TrainingSession.TIME_AND_DATE_INDEX;
-
 @Singleton
 public class TrainingSessionDao {
 
@@ -51,6 +49,7 @@ public class TrainingSessionDao {
     }
 
     public List<TrainingSession> getUpcomingTrainingSessionsByType(String category) {
+        System.out.println("made it to dao");
         return getUpcomingTrainingSessions()
                 .stream()
                 .filter(s -> s.getType().equals(category))

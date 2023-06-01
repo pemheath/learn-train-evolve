@@ -1,47 +1,54 @@
 import React from "react";
+import axios from "axios";
+import {useEffect} from "react";
+import SingleTrainingSession from "./SingleTrainingSession";
+
 import {
-    Card,
-    Image,
-    View,
+    Collection,
+    ScrollView,
     Heading,
-    Flex,
     Text,
-    Button,
     useTheme,
 } from '@aws-amplify/ui-react';
 
- const Pillar = () => {
-    const { tokens } = useTheme();
-    return (
-        <View
-            backgroundColor={tokens.colors.background.secondary}
-            padding={tokens.space.medium}
-        >
-            <Card>
-                <Flex direction="row" alignItems="flex-start">
-                    <Image
-                        src="https://images.pexels.com/photos/1917328/pexels-photo-1917328.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260./images/pexels-ravi-kant-1917328"
-                        width="20%"
-                        objectFit="initial"
-                        alt="Climing"/>
-                    <Flex
-                        direction="column"
-                        alignItems="flex-start"
-                        gap={tokens.space.xs}
-                    >
-                        <Heading level={5}>
-                            Training Sessions for This Week
-                        </Heading>
+ const TrainingSessions = () => {
 
-                        <Text as="span">
-                            What commitments will you make?
-                        </Text>
-                        <Button variation="primary">Book it</Button>
-                    </Flex>
-                </Flex>
-            </Card>
-        </View>
-    );
-};
+     const [trainingSessionList, setTrainingSessionList] = React.useState([]);
 
- export default Pillar;
+     useEffect(() => {fetchSessions();}, []);
+
+     const fetchSessions = async () => {
+         try {
+             const api = axios.create({
+                 baseURL: 'http://localhost:3000'
+             })
+             const trainingSessionData = await api.get('/training-sessions');
+             const trainingSessionList = trainingSessionData.data.trainingSessionModelList;
+             setTrainingSessionList(trainingSessionList);
+             console.log(trainingSessionList);
+         } catch (error) {
+             console.log("error fetching training sessions", error);
+         }
+     }
+
+         return (
+             <div>
+             <h2 style={{fillOpacity: "0.5"}}>Training Sessions</h2>
+             <ScrollView height = "300px" width = "400px" padding = "1rem">
+             <Collection
+                 type = "list"
+                 items={trainingSessionList}
+                 gap = "1.rem"
+             >
+                 {(item, index) => (
+            <SingleTrainingSession
+                key={index}
+                trainingSession={item}/>
+                 )}
+             </Collection>
+             </ScrollView>
+             </div>
+         );
+ };
+
+ export default TrainingSessions;
