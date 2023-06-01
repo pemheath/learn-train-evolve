@@ -1,8 +1,6 @@
 package LearnTrainEvolve.models;
 
 import LearnTrainEvolve.utils.serializers.CustomDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.time.LocalDateTime;
@@ -16,13 +14,15 @@ public class TrainingSessionModel {
     private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
+    private String coach;
 
 
-    public TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled){
+    public TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled, String coach){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
     this.isCancelled = isCancelled;
+    this.coach = coach;
 }
 
     public String getEventId() {
@@ -40,6 +40,11 @@ public class TrainingSessionModel {
     public Boolean getIsCancelled() {
         return isCancelled;
     }
+
+    public String getCoach() {
+        return coach;
+    }
+
 
 
     @Override
@@ -63,6 +68,8 @@ public class TrainingSessionModel {
     private LocalDateTime timeAndDate;
     private String type;
     private Boolean isCancelled;
+    private String coach;
+
         public Builder withEventId(String eventId){
             this.eventId = eventId;
             return this;
@@ -83,8 +90,13 @@ public class TrainingSessionModel {
             return this;
         }
 
+        public Builder withCoach(String coach){
+            this.coach = coach;
+            return this;
+        }
+
         public TrainingSessionModel build(){
-            return new TrainingSessionModel(eventId, timeAndDate, type, isCancelled);
+            return new TrainingSessionModel(eventId, timeAndDate, type, isCancelled, coach);
         }
     }
 }

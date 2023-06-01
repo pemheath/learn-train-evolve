@@ -56,6 +56,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
     return (
         <Card variation = "elevated">
             <h2>{trainingSession.type}</h2>
+            <h3>{trainingSession.coach}</h3>
             <p>{formattedDateTime}</p>
             <Button
                 variation="priimary"

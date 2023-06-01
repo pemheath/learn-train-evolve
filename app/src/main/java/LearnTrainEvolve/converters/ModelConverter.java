@@ -36,6 +36,7 @@ public class ModelConverter {
                 .withTimeAndDate(dateTime)
                 .withType(trainingSession.getType())
                 .withIsCancelled(trainingSession.getIsCancelled())
+                .withCoach(trainingSession.getCoach())
                 .build();
     }
 

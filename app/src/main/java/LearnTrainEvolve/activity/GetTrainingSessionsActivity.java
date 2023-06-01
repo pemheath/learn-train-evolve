@@ -12,8 +12,6 @@ import LearnTrainEvolve.dynamodb.TrainingSessionDao;
 
 
 import javax.inject.Inject;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 
