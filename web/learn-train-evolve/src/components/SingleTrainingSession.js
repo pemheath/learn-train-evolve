@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Card, Button} from "@aws-amplify/ui-react";
 
 const SingleTrainingSession = ({ trainingSession }) => {
@@ -28,38 +28,40 @@ const SingleTrainingSession = ({ trainingSession }) => {
         },
     };
 
-    console.log(trainingSession);
-
-   const isoDateTimeString = trainingSession.timeAndDate;
-
-   console.log(isoDateTimeString);
-
-   const date = new Date(isoDateTimeString);
-   console.log(date);
 
 
-// Define the options for formatting the date and time
-   const options = {
-        weekday: 'long', // Display the full name of the weekday
-        month: 'long', // Display the full name of the month
-        day: 'numeric', // Display the day of the month
-        hour: 'numeric', // Display the hour
-        minute: 'numeric', // Display the minute
-        hour12: true, // Use 12-hour format (am/pm)
-    };
+    const [formattedDateTime, setFormattedDateTime] = React.useState("");
 
-   const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(date);
+    useEffect(() => {
 
-   console.log(formattedDateTime); // Output: "Saturday, June 2, 1:00 PM"
+        const isoDateTimeString = trainingSession.timeAndDate;
+
+        const date = new Date(isoDateTimeString); // create date object from string
+
+// Define the options for formatting the date and time, which will happen when timeAndDate changes
+        const options = {
+            weekday: 'long', // Display the full name of the weekday
+            month: 'long', // Display the full name of the month
+            day: 'numeric', // Display the day of the month
+            hour: 'numeric', // Display the hour
+            minute: 'numeric', // Display the minute
+            hour12: true, // Use 12-hour format (am/pm)
+        };
+        setFormattedDateTime(new Intl.DateTimeFormat('en-US', options).format(date));
+
+    }, [trainingSession.timeAndDate]);
 
 
-    return (
+
+
+
+    return ( formattedDateTime &&
         <Card variation = "elevated">
             <h2>{trainingSession.type}</h2>
             <h3>{trainingSession.coach}</h3>
             <p>{formattedDateTime}</p>
             <Button
-                variation="priimary"
+                variation="primary"
                 onClick={() => alert('Functionality pending!')}
             >Sign Up</Button>
         </Card>

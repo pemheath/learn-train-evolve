@@ -294,7 +294,7 @@ Resources:
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: app
-      Handler: LearnTrainEvolve.lambda.CreateUserTrainingSessionLambda::handleRequest
+      Handler: learntrainevolve.lambda.CreateUserTrainingSessionLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -316,7 +316,7 @@ Resources:
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: app
-      Handler: LearnTrainEvolve.lambda.GetTrainingSessionsLambda
+      Handler: learntrainevolve.lambda.GetTrainingSessionsLambda
       Runtime: java11
       Architectures:
         - x86_64
