@@ -33,7 +33,7 @@ public class UserTrainingSession {
         this.email = email;
     }
 
-    @DynamoDBRangeKey(attributeName = "event_id")
+    @DynamoDBRangeKey(attributeName = "eventId")
     public String getEventId() {
         return eventId;
     }

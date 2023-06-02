@@ -65,6 +65,7 @@ public class CreateUserTrainingSessionActivity {
         userTrainingSession.setCoach(request.getCoach());
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
 
+
         userTrainingSessionDao.save(userTrainingSession);
         log.info("Saved UserTrainingSession {}", userTrainingSession);
 

@@ -142,17 +142,23 @@ public class UserTrainingSessionModel {
         }
 
         public Builder withType(String type) {
-            this.type = type;
+            if (type!=null) {this.type = type;
+                return this;}
             return this;
+
         }
 
         public Builder withCoach(String coach) {
+            if (coach!=null) {
             this.coach = coach;
+            return this;}
             return this;
         }
 
         public Builder withIntensityRating(Double intensityRating) {
+            if (intensityRating != null) {
             this.intensityRating = intensityRating;
+            return this; }
             return this;
         }
 
@@ -177,12 +183,19 @@ public class UserTrainingSessionModel {
         }
 
         public Builder withTags(Set<String> tags) {
+            if (tags != null) {
             this.tags = tags;
+            return this;}
+            else {
+                this.tags = new HashSet<>();
+            }
             return this;
         }
 
         public Builder withAttended(Boolean attended) {
+            if (attended != null) {
             this.attended = attended;
+            return this;}
             return this;
         }
 

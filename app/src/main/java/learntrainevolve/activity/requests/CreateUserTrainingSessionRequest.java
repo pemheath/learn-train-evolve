@@ -90,6 +90,7 @@ public class CreateUserTrainingSessionRequest {
 
 
         public CreateUserTrainingSessionRequest build() {
+            System.out.println("building the java request object");
             return new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type, coach);
 
 

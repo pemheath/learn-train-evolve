@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 public class ModelConverter {
 
+
     public UserTrainingSessionModel toUserTrainingSessionModel(UserTrainingSession userTrainingSession) {
         LocalDateTime dateTime = LocalDateTime.parse(userTrainingSession.getTimeandDate(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
@@ -20,6 +21,7 @@ public class ModelConverter {
                 .withEventId(userTrainingSession.getEventId())
                 .withTimeAndDate(dateTime)
                 .withType(userTrainingSession.getType())
+                .withCoach(userTrainingSession.getCoach())
                 .withIntensityRating(userTrainingSession.getIntensityRating())
                 .withTechniqueEnjoyment(userTrainingSession.getTechniqueEnjoyment())
                 .withPerformanceRating(userTrainingSession.getPerformanceRating())

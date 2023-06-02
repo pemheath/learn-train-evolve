@@ -271,7 +271,7 @@ Resources:
     Properties:
       Role: !GetAtt AuthorizerRole.Arn
       CodeUri: app
-      Handler: LearnTrainEvolve.lambda.infrastructure.auth.LambdaAuthorizer::handleRequest
+      Handler: learntrainevolve.lambda.infrastructure.auth.LambdaAuthorizer::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -344,30 +344,18 @@ Resources:
         AttributeDefinitions:
           - AttributeName: "eventId"
             AttributeType: "S"
-          - AttributeName: "timeAndDate"
-            AttributeType: "S"
         KeySchema:
           - AttributeName: "eventId"
             KeyType: "HASH"
         BillingMode: "PAY_PER_REQUEST"
         TableName: "training_sessions"
-        GlobalSecondaryIndexes:
-          - IndexName: "TrainingSessionsDateIndex"
-            KeySchema:
-              - AttributeName: "timeAndDate"
-                KeyType: "HASH"
-            Projection:
-                ProjectionType: "INCLUDE"
-                NonKeyAttributes:
-                  - "type"
-                  - "isCancelled"
 
-  UserTrainingSessionTable:
+  UserTrainingSessionsTable:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
           - AttributeName: "email"
-            AttributeType: "N"
+            AttributeType: "S"
           - AttributeName: "eventId"
             AttributeType: "S"
         KeySchema:
