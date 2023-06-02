@@ -28,6 +28,7 @@ public class CreateUserTrainingSessionActivity {
     private final UserTrainingSessionDao userTrainingSessionDao;
 
 
+
     /**
      * Instantiates a new CreatePlaylistActivity object.
      *
@@ -50,20 +51,22 @@ public class CreateUserTrainingSessionActivity {
      *
      * @param request CreateUserTrainingSession request object containing the playlist name and customer ID
      *                              associated with it
-     * @return adminCreateUserResponse result object containing the API defined {@link UserModel}
+     * @return adminCreateUserResponse result object containing the API defined {@link UserTrainingSessionModel}
      * @throws learntrainevolve.exceptions.InvalidRequestException when playlist name or customerID is invalid.
      */
 
     public CreateUserTrainingSessionResponse handleRequest(final CreateUserTrainingSessionRequest request) {
-        log.info("Received CreateUserRequest{}", request);
+        log.info("Received CreateUserTrainingSessionRequest{}", request);
 
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setEventId(request.getEventId());
         userTrainingSession.setEmail(request.getEmail());
         userTrainingSession.setType(request.getType());
+        userTrainingSession.setCoach(request.getCoach());
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
 
         userTrainingSessionDao.save(userTrainingSession);
+        log.info("Saved UserTrainingSession {}", userTrainingSession);
 
 
         UserTrainingSessionModel userTrainingSessionModel = new ModelConverter().toUserTrainingSessionModel(userTrainingSession);

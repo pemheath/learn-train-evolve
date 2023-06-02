@@ -2,40 +2,45 @@ package learntrainevolve.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import learntrainevolve.lambda.infrastructure.auth.CognitoClaims;
 
 import java.time.LocalDateTime;
 
 @JsonDeserialize(builder = CreateUserTrainingSessionRequest.Builder.class)
 public class CreateUserTrainingSessionRequest {
+
     private final String email;
     private final String eventId;
-    private final LocalDateTime timeAndDate;
+    private final String timeAndDate;
     private final String type;
+    private final String coach;
 
 
-    public CreateUserTrainingSessionRequest(String email, String eventId,  LocalDateTime timeAndDate, String type) {
+    public CreateUserTrainingSessionRequest(String email, String eventId,  String timeAndDate, String type, String coach) {
+
         this.email = email;
         this.eventId = eventId;
         this.timeAndDate = timeAndDate;
         this.type = type;
+        this.coach = coach;
     }
 
-
-    public String getEmail() {
+    public String getEmail () {
         return email;
     }
-
     public String getEventId() {return eventId;}
 
-    public LocalDateTime getTimeAndDate() {return timeAndDate;}
+    public String getTimeAndDate() {return timeAndDate;}
 
     public String getType() {
         return type;
     }
 
+    public String getCoach() {return coach;}
+
     @Override
     public String toString() {
-        return "CreateUserTrainingSessionRequest{" + "email='" + email + '\'' +
+        return "CreateUserTrainingSessionRequest{" + '\'' +
                 ", eventId='" + eventId + '\'' +
                 ", timeAndDate=" + timeAndDate + ", type=" + type + '}';
 
@@ -49,23 +54,26 @@ public class CreateUserTrainingSessionRequest {
     @JsonPOJOBuilder
     public static class Builder {
 
-        private String email;
         private String eventId;
-        private LocalDateTime timeAndDate;
+
+        private String email;
+        private String timeAndDate;
         private String type;
+        private String coach;
 
 
-        public Builder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
 
         public Builder withEventId(String eventId) {
             this.eventId = eventId;
             return this;
         }
 
-        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withTimeAndDate(String timeAndDate) {
             this.timeAndDate = timeAndDate;
             return this;
         }
@@ -75,10 +83,14 @@ public class CreateUserTrainingSessionRequest {
             return this;
         }
 
+        public Builder withCoach(String coach) {
+            this.coach = coach;
+            return this;
+        }
 
 
         public CreateUserTrainingSessionRequest build() {
-            return new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type);
+            return new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type, coach);
 
 
         }

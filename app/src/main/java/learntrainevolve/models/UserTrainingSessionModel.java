@@ -1,5 +1,8 @@
 package learntrainevolve.models;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import learntrainevolve.utils.serializers.CustomDateTimeSerializer;
+
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -9,8 +12,10 @@ public class UserTrainingSessionModel {
 
     private String email;
     private String eventId;
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
     private LocalDateTime timeAndDate;
     private String type;
+    private String coach;
     private Double intensityRating;
     private int techniqueEnjoyment;
     private int performanceRating;
@@ -19,19 +24,20 @@ public class UserTrainingSessionModel {
     private Set<String> tags;
     private Boolean attended;
 
-    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type) {
+    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, String coach) {
         this.email = email;
         this.eventId = eventId;
         this.timeAndDate = timeAndDate;
         this.type = type;
+        this.coach = coach;
         tags = new HashSet<>();
     }
 
-    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, Double intensityRating,
-                                    int techniqueEnjoyment, int performanceRating,
+    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, String coach,
+                                    Double intensityRating, int techniqueEnjoyment, int performanceRating,
                                     int noteNumber, int goalNumber,
                                     Set<String> tags, Boolean attended) {
-        this(email, eventId, timeAndDate, type);
+        this(email, eventId, timeAndDate, type, coach);
         this.intensityRating = intensityRating;
         this.techniqueEnjoyment = techniqueEnjoyment;
         this.performanceRating = performanceRating;
@@ -58,6 +64,8 @@ public class UserTrainingSessionModel {
     public String getType() {
         return type;
     }
+
+    public String getCoach() { return coach ;}
 
     public Double getIntensityRating() {
         return intensityRating;
@@ -108,6 +116,8 @@ public class UserTrainingSessionModel {
         private String eventId;
         private LocalDateTime timeAndDate;
         private String type;
+
+        private String coach;
         private Double intensityRating;
         private int techniqueEnjoyment;
         private int performanceRating;
@@ -133,6 +143,11 @@ public class UserTrainingSessionModel {
 
         public Builder withType(String type) {
             this.type = type;
+            return this;
+        }
+
+        public Builder withCoach(String coach) {
+            this.coach = coach;
             return this;
         }
 
@@ -172,7 +187,7 @@ public class UserTrainingSessionModel {
         }
 
         public UserTrainingSessionModel build() {
-            return new UserTrainingSessionModel(email, eventId, timeAndDate, type,
+            return new UserTrainingSessionModel(email, eventId, timeAndDate, type, coach,
                     intensityRating, techniqueEnjoyment, performanceRating, noteNumber,
                     goalNumber, tags, attended);
         }

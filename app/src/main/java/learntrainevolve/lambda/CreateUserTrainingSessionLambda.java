@@ -17,13 +17,16 @@ public class CreateUserTrainingSessionLambda
         return super.runActivity(
                 () -> {
                     CreateUserTrainingSessionRequest unauthenticatedRequest = input.fromBody(CreateUserTrainingSessionRequest.class);
-                    return input.fromUserClaims(claims ->
-                            CreateUserTrainingSessionRequest.builder()
+                    System.out.println(unauthenticatedRequest);
+            //        return input.fromUserClaims(claims ->
+
+                      return CreateUserTrainingSessionRequest.builder()
+                                    .withEmail(unauthenticatedRequest.getEmail())
                                     .withTimeAndDate(unauthenticatedRequest.getTimeAndDate())
                                     .withEventId(unauthenticatedRequest.getEventId())
                                     .withType(unauthenticatedRequest.getType())
-                                    .withEmail(claims.getEmail())
-                                    .build());
+                                    .withCoach(unauthenticatedRequest.getCoach())
+                                    .build();
                 },
 
                 (request, serviceComponent) ->

@@ -14,8 +14,9 @@ public class UserTrainingSession {
 
     private String email;
     private String eventId;
-    private LocalDateTime timeAndDate;
+    private String timeAndDate;
     private String type;
+    private String coach;
     private Double intensityRating;
     private int techniqueEnjoyment;
     private int performanceRating;
@@ -42,11 +43,11 @@ public class UserTrainingSession {
     }
 
     @DynamoDBAttribute(attributeName = "timeAndDate")
-    public LocalDateTime getTimeandDate() {
+    public String getTimeandDate() {
         return timeAndDate;
     }
 
-    public void setTimeAndDate(LocalDateTime timeAndDate) {
+    public void setTimeAndDate(String timeAndDate) {
         this.timeAndDate = timeAndDate;
     }
 
@@ -59,6 +60,12 @@ public class UserTrainingSession {
         this.type = type;
     }
 
+    @DynamoDBAttribute(attributeName = "coach")
+    public String getCoach() {return coach;}
+
+    public void setCoach(String coach) {
+        this.coach = coach;
+    }
     @DynamoDBAttribute(attributeName = "intensityRating")
     public Double getIntensityRating() {
         return intensityRating;
@@ -130,6 +137,7 @@ public class UserTrainingSession {
                 ", eventId='" + eventId + '\'' +
                 ", timeAndDate=" + timeAndDate +
                 ", type='" + type + '\'' +
+                ", coach='" + coach + '\'' +
                 ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment +
                 ", performanceRating=" + performanceRating +
