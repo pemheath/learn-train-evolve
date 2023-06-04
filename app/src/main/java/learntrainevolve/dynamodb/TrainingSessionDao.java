@@ -8,6 +8,7 @@ import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,6 +44,9 @@ public class TrainingSessionDao {
                     .withExpressionAttributeValues(valueMap);
 
             PaginatedScanList<TrainingSession> sessionList = mapper.scan(TrainingSession.class, scanExpression);
+            if (sessionList == null) {
+                return new ArrayList<>();
+            }
             return sessionList.stream()
                     .filter(s-> !s.getIsCancelled())
                     .collect(Collectors.toList());
