@@ -12,8 +12,7 @@ public class UserTrainingSessionModel {
 
     private String email;
     private String eventId;
-    @JsonSerialize(using = CustomDateTimeSerializer.class)
-    private LocalDateTime timeAndDate;
+    private Long timeAndDate;
     private String type;
     private String coach;
     private Double intensityRating;
@@ -24,7 +23,7 @@ public class UserTrainingSessionModel {
     private Set<String> tags;
     private Boolean attended;
 
-    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, String coach) {
+    public UserTrainingSessionModel(String email, String eventId, Long timeAndDate, String type, String coach) {
         this.email = email;
         this.eventId = eventId;
         this.timeAndDate = timeAndDate;
@@ -33,7 +32,7 @@ public class UserTrainingSessionModel {
         tags = new HashSet<>();
     }
 
-    public UserTrainingSessionModel(String email, String eventId, LocalDateTime timeAndDate, String type, String coach,
+    public UserTrainingSessionModel(String email, String eventId, Long timeAndDate, String type, String coach,
                                     Double intensityRating, int techniqueEnjoyment, int performanceRating,
                                     int noteNumber, int goalNumber,
                                     Set<String> tags, Boolean attended) {
@@ -57,7 +56,7 @@ public class UserTrainingSessionModel {
         return eventId;
     }
 
-    public LocalDateTime getTimeAndDate() {
+    public Long getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -114,7 +113,7 @@ public class UserTrainingSessionModel {
     public static class Builder{
         private String email;
         private String eventId;
-        private LocalDateTime timeAndDate;
+        private Long timeAndDate;
         private String type;
 
         private String coach;
@@ -136,7 +135,7 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withTimeAndDate(LocalDateTime timeAndDate) {
+        public Builder withTimeAndDate(Long timeAndDate) {
             this.timeAndDate = timeAndDate;
             return this;
         }

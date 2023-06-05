@@ -14,12 +14,10 @@ public class ModelConverter {
 
 
     public UserTrainingSessionModel toUserTrainingSessionModel(UserTrainingSession userTrainingSession) {
-        LocalDateTime dateTime = LocalDateTime.parse(userTrainingSession.getTimeandDate(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
-
         return UserTrainingSessionModel.builder()
                 .withEmail(userTrainingSession.getEmail())
                 .withEventId(userTrainingSession.getEventId())
-                .withTimeAndDate(dateTime)
+                .withTimeAndDate(userTrainingSession.getTimeandDate())
                 .withType(userTrainingSession.getType())
                 .withCoach(userTrainingSession.getCoach())
                 .withIntensityRating(userTrainingSession.getIntensityRating())
@@ -33,10 +31,9 @@ public class ModelConverter {
     }
 
     public TrainingSessionModel toTrainingSessionModel(TrainingSession trainingSession) {
-        LocalDateTime dateTime = LocalDateTime.parse(trainingSession.getTimeAndDate(), DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         return TrainingSessionModel.builder()
                 .withEventId(trainingSession.getEventId())
-                .withTimeAndDate(dateTime)
+                .withTimeAndDate(trainingSession.getTimeAndDate())
                 .withType(trainingSession.getType())
                 .withIsCancelled(trainingSession.getIsCancelled())
                 .withCoach(trainingSession.getCoach())

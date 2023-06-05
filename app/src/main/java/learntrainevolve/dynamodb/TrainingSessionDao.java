@@ -37,8 +37,11 @@ public class TrainingSessionDao {
 
     public List<TrainingSession> getUpcomingTrainingSessions() {
             Map<String, AttributeValue> valueMap = new HashMap<>();
-            valueMap.put(":startDate", new AttributeValue().withS(LocalDateTime.now().toString()));
-            valueMap.put(":endDate", new AttributeValue().withS(LocalDateTime.now().plusDays(7).toString()));
+            Long epochStart = System.currentTimeMillis()/1000;
+            System.out.println(epochStart);
+            Long epochEnd = epochStart + 604800;
+            valueMap.put(":startDate", new AttributeValue().withN(String.valueOf(epochStart)));
+            valueMap.put(":endDate", new AttributeValue().withN(String.valueOf(epochEnd)));
             DynamoDBScanExpression scanExpression = new DynamoDBScanExpression()
                     .withFilterExpression("timeAndDate >= :startDate and timeAndDate <= :endDate")
                     .withExpressionAttributeValues(valueMap);

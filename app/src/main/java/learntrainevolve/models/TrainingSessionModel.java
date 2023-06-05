@@ -1,23 +1,23 @@
 package learntrainevolve.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import learntrainevolve.utils.serializers.CustomDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import java.time.LocalDateTime;
 
 import java.util.Objects;
 
 public class TrainingSessionModel {
 
     private String eventId;
-    @JsonSerialize(using = CustomDateTimeSerializer.class)
-    private LocalDateTime timeAndDate;
+
+    private Long timeAndDate;
     private String type;
     private Boolean isCancelled;
     private String coach;
 
 
-    public TrainingSessionModel(String eventId, LocalDateTime timeAndDate, String type, Boolean isCancelled, String coach){
+    public TrainingSessionModel(String eventId, Long timeAndDate, String type, Boolean isCancelled, String coach){
     this.eventId = eventId;
     this.timeAndDate = timeAndDate;
     this.type = type;
@@ -29,7 +29,7 @@ public class TrainingSessionModel {
         return eventId;
     }
 
-    public LocalDateTime getTimeAndDate() {
+    public Long getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -65,7 +65,8 @@ public class TrainingSessionModel {
 
     public static class Builder{
     private String eventId;
-    private LocalDateTime timeAndDate;
+    @JsonProperty("timeAndDate")
+    private long timeAndDate;
     private String type;
     private Boolean isCancelled;
     private String coach;
@@ -75,7 +76,7 @@ public class TrainingSessionModel {
             return this;
         }
 
-        public Builder withTimeAndDate(LocalDateTime timeAndDate){
+        public Builder withTimeAndDate(long timeAndDate){
             this.timeAndDate = timeAndDate;
             return this;
         }

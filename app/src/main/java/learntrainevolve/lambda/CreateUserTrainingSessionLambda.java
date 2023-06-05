@@ -18,13 +18,16 @@ public class CreateUserTrainingSessionLambda
                 () -> {
                     CreateUserTrainingSessionRequest unauthenticatedRequest = input.fromBody(CreateUserTrainingSessionRequest.class);
                     System.out.println("The unauthenticated request from the body of the curl request is" + unauthenticatedRequest);
-                      return CreateUserTrainingSessionRequest.builder()
+
+                      CreateUserTrainingSessionRequest request =  CreateUserTrainingSessionRequest.builder()
                                     .withEmail(unauthenticatedRequest.getEmail())
                                     .withTimeAndDate(unauthenticatedRequest.getTimeAndDate())
                                     .withEventId(unauthenticatedRequest.getEventId())
                                     .withType(unauthenticatedRequest.getType())
                                     .withCoach(unauthenticatedRequest.getCoach())
                                     .build();
+                    System.out.println(request);
+                    return request;
                 },
 
                 (request, serviceComponent) ->
