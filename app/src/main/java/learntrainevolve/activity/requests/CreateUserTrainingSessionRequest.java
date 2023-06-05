@@ -55,7 +55,6 @@ public class CreateUserTrainingSessionRequest {
     public static class Builder {
 
         private String eventId;
-
         private String email;
         private String timeAndDate;
         private String type;
@@ -91,8 +90,9 @@ public class CreateUserTrainingSessionRequest {
 
         public CreateUserTrainingSessionRequest build() {
             System.out.println("building the java request object");
-            return new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type, coach);
-
+            CreateUserTrainingSessionRequest request = new CreateUserTrainingSessionRequest(email, eventId, timeAndDate, type, coach);
+            System.out.println(request);
+            return request;
 
         }
     }

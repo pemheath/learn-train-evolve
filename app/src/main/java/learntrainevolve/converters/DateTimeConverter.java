@@ -11,7 +11,7 @@ public class DateTimeConverter implements DynamoDBTypeConverter<String, LocalDat
     public String convert(LocalDateTime dateTime) {
         String timeAndDate = null;
         try {
-            timeAndDate = dateTime.format(DateTimeFormatter.ISO_DATE_TIME);
+            timeAndDate = dateTime.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME);
         } catch(Exception e ) {e.printStackTrace();}
         return timeAndDate;
     }
@@ -20,7 +20,7 @@ public class DateTimeConverter implements DynamoDBTypeConverter<String, LocalDat
     public LocalDateTime unconvert(String dateTimeRepresentation) {
         LocalDateTime localDateTime = null;
         try {localDateTime =
-         LocalDateTime.parse(dateTimeRepresentation); }
+         LocalDateTime.parse(dateTimeRepresentation, DateTimeFormatter.ISO_OFFSET_DATE_TIME); }
         catch (Exception e) {
             e.printStackTrace();
         }

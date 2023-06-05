@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
 import {Card, Button} from "@aws-amplify/ui-react";
+import axios from "axios";
+import {Auth} from "aws-amplify";
 
 const SingleTrainingSession = ({ trainingSession }) => {
 
@@ -51,9 +53,34 @@ const SingleTrainingSession = ({ trainingSession }) => {
 
     }, [trainingSession.timeAndDate]);
 
+    const getUserInfo = async ()=> {
+        const congnitoUser = await Auth.currentAuthenticatedUser();
+        const { email, name } = congnitoUser.signInUserSession.idToken.payload;
+        return { email, name };
+    }
 
-
-
+    const addToUserTrainingSessions = async (eventId, timeAndDate, type, coach) => {
+        console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
+        try {
+            const api = axios.create({
+                baseURL: 'http://localhost:3000'
+            })
+            const authenticatedEmail = (await getUserInfo()).email;
+            console.log("Email is: " + authenticatedEmail);
+            const result = await api.post(`user-training-sessions`, {
+                email: authenticatedEmail,
+                eventId: eventId,
+                timeAndDate: timeAndDate,
+                type: type,
+                coach: coach
+                }
+            );
+            const userTrainingSession = result.data;
+            console.log(userTrainingSession);
+        } catch (error) {
+            console.log("error create user-training-session", error);
+        }
+    }
 
     return ( formattedDateTime &&
         <Card variation = "elevated">
@@ -62,7 +89,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
             <p>{formattedDateTime}</p>
             <Button
                 variation="primary"
-                onClick={() => alert('Functionality pending!')}
+                onClick={() => addToUserTrainingSessions(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
             >Sign Up</Button>
         </Card>
     )
