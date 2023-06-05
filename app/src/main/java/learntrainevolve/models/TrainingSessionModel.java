@@ -1,17 +1,14 @@
 package learntrainevolve.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import learntrainevolve.utils.serializers.CustomDateTimeSerializer;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 
 import java.util.Objects;
 
 public class TrainingSessionModel {
 
     private String eventId;
-
-    private Long timeAndDate;
+    private long timeAndDate;
     private String type;
     private Boolean isCancelled;
     private String coach;

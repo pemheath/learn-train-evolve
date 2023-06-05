@@ -2,8 +2,12 @@ import React, {useEffect} from 'react';
 import {Card, Button} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
+import {useNavigate} from "react-router-dom";
+
 
 const SingleTrainingSession = ({ trainingSession }) => {
+
+    const navigate = useNavigate();
 
     const theme = {
         name: 'card-theme',
@@ -61,7 +65,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
         return { email, name };
     }
 
-    const addToUserTrainingSessions = async (eventId, timeAndDate, type, coach) => {
+    const handleClick = async (eventId, timeAndDate, type, coach) => {
         console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
         try {
             const api = axios.create({
@@ -70,19 +74,21 @@ const SingleTrainingSession = ({ trainingSession }) => {
             const authenticatedEmail = (await getUserInfo()).email;
             console.log("Email is: " + authenticatedEmail);
             const result = await api.post(`user-training-sessions`, {
-                email: authenticatedEmail,
-                eventId: eventId,
-                timeAndDate: timeAndDate,
-                type: type,
-                coach: coach
+                    email: authenticatedEmail,
+                    eventId: eventId,
+                    timeAndDate: timeAndDate,
+                    type: type,
+                    coach: coach
                 }
             );
             const userTrainingSession = result.data;
+            navigate('/train');
             console.log(userTrainingSession);
         } catch (error) {
             console.log("error create user-training-session", error);
         }
     }
+
 
     return ( formattedDateTime &&
         <Card variation = "elevated">
@@ -91,7 +97,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
             <p>{formattedDateTime}</p>
             <Button
                 variation="primary"
-                onClick={() => addToUserTrainingSessions(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
+                onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
             >Sign Up</Button>
         </Card>
     )
