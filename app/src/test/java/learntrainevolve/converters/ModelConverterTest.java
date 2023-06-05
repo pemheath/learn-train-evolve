@@ -6,7 +6,6 @@ import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,7 +18,8 @@ public class ModelConverterTest {
     void toTrainingSessionModel_withISODate_convertsTrainingSession() {
         TrainingSession trainingSession = new TrainingSession();
         trainingSession.setEventId("123");
-        trainingSession.setTimeAndDate("2023-05-31T08:00:00.123+01:00");
+        Long time = new Long(1686235200);
+        trainingSession.setTimeAndDate(time);
         trainingSession.setType("Advanced");
         trainingSession.setIsCancelled(false);
 
@@ -29,9 +29,7 @@ public class ModelConverterTest {
      //   assertEquals(model.getTimeAndDate(), "2023-05-31T08:00:00.123+01:00");
         assertEquals(model.getType(), "Advanced");
 
-        LocalDateTime dateTime = model.getTimeAndDate();
-        String day = dateTime.getDayOfWeek().toString();
-        assertEquals("WEDNESDAY", day);
+        assertEquals(String.valueOf(model.getTimeAndDate()), "1686235200");
 
     }
 
@@ -45,7 +43,6 @@ public class ModelConverterTest {
         userTrainingSession.setEventId("123");
         userTrainingSession.setCoach("Kevin");
         userTrainingSession.setType("Advanced");
-        userTrainingSession.setTimeAndDate("2023-05-31T08:00:00.123+01:00");
         //WHEN
         UserTrainingSessionModel model = modelConverter.toUserTrainingSessionModel(userTrainingSession);
         //THEN
@@ -55,9 +52,7 @@ public class ModelConverterTest {
         assertEquals(model.getType(), userTrainingSession.getType());
         assertEquals(model.getEmail(), userTrainingSession.getEmail());
         assertEquals(model.getTags(), new HashSet<>());
-        LocalDateTime dateTime = model.getTimeAndDate();
-        String day = dateTime.getDayOfWeek().toString();
-        assertEquals("WEDNESDAY", day);
+
 
 
     }

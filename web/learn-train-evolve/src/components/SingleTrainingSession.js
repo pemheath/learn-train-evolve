@@ -36,9 +36,11 @@ const SingleTrainingSession = ({ trainingSession }) => {
 
     useEffect(() => {
 
-        const isoDateTimeString = trainingSession.timeAndDate;
+        const epochTime = trainingSession.timeAndDate;
 
-        const date = new Date(isoDateTimeString); // create date object from string
+        const date = new Date(epochTime * 1000); // Convert epoch time to milliseconds (*1000)
+        const readableDate = date.toLocaleString(); // Convert to readable format
+        console.log(readableDate);
 
 // Define the options for formatting the date and time, which will happen when timeAndDate changes
         const options = {

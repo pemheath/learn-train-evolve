@@ -14,7 +14,7 @@ public class UserTrainingSession {
 
     private String email;
     private String eventId;
-    private String timeAndDate;
+    private Long timeAndDate;
     private String type;
     private String coach;
     private Double intensityRating;
@@ -43,11 +43,11 @@ public class UserTrainingSession {
     }
 
     @DynamoDBAttribute(attributeName = "timeAndDate")
-    public String getTimeandDate() {
+    public Long getTimeandDate() {
         return timeAndDate;
     }
 
-    public void setTimeAndDate(String timeAndDate) {
+    public void setTimeAndDate(Long timeAndDate) {
         this.timeAndDate = timeAndDate;
     }
 

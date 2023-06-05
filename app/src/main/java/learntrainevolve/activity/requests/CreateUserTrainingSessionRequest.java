@@ -11,12 +11,12 @@ public class CreateUserTrainingSessionRequest {
 
     private final String email;
     private final String eventId;
-    private final String timeAndDate;
+    private final Long timeAndDate;
     private final String type;
     private final String coach;
 
 
-    public CreateUserTrainingSessionRequest(String email, String eventId,  String timeAndDate, String type, String coach) {
+    public CreateUserTrainingSessionRequest(String email, String eventId,  Long timeAndDate, String type, String coach) {
 
         this.email = email;
         this.eventId = eventId;
@@ -30,7 +30,7 @@ public class CreateUserTrainingSessionRequest {
     }
     public String getEventId() {return eventId;}
 
-    public String getTimeAndDate() {return timeAndDate;}
+    public Long getTimeAndDate() {return timeAndDate;}
 
     public String getType() {
         return type;
@@ -56,7 +56,7 @@ public class CreateUserTrainingSessionRequest {
 
         private String eventId;
         private String email;
-        private String timeAndDate;
+        private Long timeAndDate;
         private String type;
         private String coach;
 
@@ -72,7 +72,7 @@ public class CreateUserTrainingSessionRequest {
             return this;
         }
 
-        public Builder withTimeAndDate(String timeAndDate) {
+        public Builder withTimeAndDate(Long timeAndDate) {
             this.timeAndDate = timeAndDate;
             return this;
         }

@@ -6,10 +6,9 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName="training_sessions")
 public class TrainingSession {
-    public static final String TIME_AND_DATE_INDEX = "TrainingSessionsDateIndex";
 
     private String eventId;
-    private String timeAndDate;
+    private long timeAndDate;
     private String type;
     private Boolean isCancelled;
 
@@ -25,11 +24,11 @@ public class TrainingSession {
     }
 
     @DynamoDBAttribute(attributeName = "timeAndDate")
-    public String getTimeAndDate() {
+    public long getTimeAndDate() {
         return timeAndDate;
     }
 
-    public void setTimeAndDate(String timeAndDate) {
+    public void setTimeAndDate(long timeAndDate) {
         this.timeAndDate = timeAndDate;}
 
     @DynamoDBAttribute(attributeName = "type")

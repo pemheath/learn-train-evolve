@@ -5,9 +5,10 @@
         "Item": {
           "eventId": {"S":  "123"},
           "type": {"S":  "Fundamentals"},
-          "timeAndDate": {"S":  "2022-07-28T13:14:15.123+01:00"},
+          "timeAndDate": {"N": "1686232800"},
           "isCancelled": {
-            "BOOL":  false}
+            "BOOL":  false},
+          "coach": {"S":  "Felix"}
         }
       }
     },
@@ -16,9 +17,10 @@
         "Item": {
           "eventId": {"S":  "456"},
           "type": {"S":  "Advanced"},
-          "timeAndDate": {"S":  "2023-05-28T13:00:00.123+01:00"},
+          "timeAndDate": {"N":  "1686242800"},
           "isCancelled": {
-            "BOOL":  false}
+            "BOOL":  false},
+          "coach": {"S":  "Felix"}
         }
       }
     },
@@ -27,9 +29,10 @@
         "Item": {
           "eventId": {"S":  "8910"},
           "type": {"S":  "No-gi"},
-          "timeAndDate": {"S":  "2023-05-29T13:00:00.123+01:00"},
+          "timeAndDate": {"N":  "1686272800"},
           "isCancelled": {
-            "BOOL":  false}
+            "BOOL":  false},
+          "coach": {"S":  "Felix"}
         }
       }
     },
@@ -38,9 +41,10 @@
         "Item": {
           "eventId": {"S":  "456001"},
           "type": {"S":  "Advanced"},
-          "timeAndDate": {"S":  "2023-05-28T18:00:00.123+01:00"},
+          "timeAndDate": {"N":  "1686292800"},
           "isCancelled": {
-            "BOOL":  false}
+            "BOOL":  false},
+          "coach": {"S":  "Felix"}
         }
       }
     },
@@ -49,9 +53,10 @@
         "Item": {
           "eventId": {"S":  "0909"},
           "type": {"S":  "Basics"},
-          "timeAndDate": {"S":  "2023-05-31T08:00:00.123+01:00"},
+          "timeAndDate": {"N":  "1686832800"},
           "isCancelled": {
-            "BOOL":  false}
+            "BOOL":  false},
+          "coach": {"S":  "Felix"}
         }
       }
     },
@@ -59,9 +64,10 @@
       "Item": {
         "eventId": {"S":  "111"},
         "type": {"S":  "No-gi"},
-        "timeAndDate": {"S":  "2023-06-01T13:00:00.123+01:00"},
+        "timeAndDate": {"N":  "1686235200"},
         "isCancelled": {
-          "BOOL":  false}
+          "BOOL":  false},
+        "coach": {"S":  "Felix"}
       }
     }
     },
@@ -69,9 +75,10 @@
       "Item": {
         "eventId": {"S":  "891000"},
         "type": {"S":  "Fundamentals"},
-        "timeAndDate": {"S":  "2023-06-02T13:00:00.123+01:00"},
+        "timeAndDate": {"N":  "1687232800"},
         "isCancelled": {
-          "BOOL":  false}
+          "BOOL":  false},
+        "coach": {"S":  "Felix"}
       }
     }
     },
@@ -79,9 +86,10 @@
       "Item": {
         "eventId": {"S":  "2020"},
         "type": {"S":  "Fundamentals"},
-        "timeAndDate": {"S":  "2023-06-04T13:00:00.123+01:00"},
+        "timeAndDate": {"N":  "1686232800"},
         "isCancelled": {
-          "BOOL":  false}
+          "BOOL":  false},
+        "coach": {"S":  "Felix"}
       }
     }
     }
