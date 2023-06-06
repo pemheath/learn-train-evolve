@@ -1,8 +1,9 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Card, Button} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
+
 
 
 const SingleTrainingSession = ({ trainingSession }) => {
@@ -41,10 +42,9 @@ const SingleTrainingSession = ({ trainingSession }) => {
     useEffect(() => {
 
         const epochTime = trainingSession.timeAndDate;
-
         const date = new Date(epochTime * 1000); // Convert epoch time to milliseconds (*1000)
         const readableDate = date.toLocaleString(); // Convert to readable format
-        console.log(readableDate);
+        console.log("readable date is" + readableDate);
 
 // Define the options for formatting the date and time, which will happen when timeAndDate changes
         const options = {
@@ -65,6 +65,8 @@ const SingleTrainingSession = ({ trainingSession }) => {
         return { email, name };
     }
 
+    const [userTrainingSession, setUserTrainingSession] = useState([]);
+    const [name, setName] = useState('');
     const handleClick = async (eventId, timeAndDate, type, coach) => {
         console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
         try {
@@ -81,11 +83,15 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     coach: coach
                 }
             );
-            const userTrainingSession = result.data;
-            navigate('/train');
+            const userTrainingSession = result.data.userTrainingSession;
+            setUserTrainingSession(userTrainingSession);
+            setName((await  getUserInfo()).name);
+            navigate('/train', {state:{userTrainingSession: userTrainingSession, name: name}});
             console.log(userTrainingSession);
+
         } catch (error) {
             console.log("error create user-training-session", error);
+
         }
     }
 

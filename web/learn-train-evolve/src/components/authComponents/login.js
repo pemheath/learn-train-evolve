@@ -1,27 +1,20 @@
-import {Authenticator} from "@aws-amplify/ui-react";
-import Header from "../../routes/Header";
-import Footer from "../Footer";
-import React from "react";
-import {Amplify} from "aws-amplify";
+import { Amplify } from 'aws-amplify';
+
+import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import awsExports   from "../../aws-exports";
 
-
+import awsExports from '../../aws-exports';
 Amplify.configure(awsExports);
-function Login () {
+
+export default function Login() {
     return (
         <Authenticator>
-            {
-                ({ signOut, user }) => (
-                    <main>
-                        <Header/>
-                        <button onClick={signOut}>Sign out</button>
-                        <Footer/>
-                    </main>
-                )}
+            {({ signOut, user }) => (
+                <main>
+                    <h1>Hello {user.email}</h1>
+                    <button onClick={signOut}>Sign out</button>
+                </main>
+            )}
         </Authenticator>
     );
-
 }
-
-export default Login;

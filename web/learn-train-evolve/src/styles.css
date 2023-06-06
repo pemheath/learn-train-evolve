@@ -19,6 +19,7 @@ h1 {
     margin: 20px auto;
 }
 
+
 .title {
     font-weight: bold;
     font-size: 18px;
@@ -77,7 +78,7 @@ html, body {
 .btn-1 {
     -webkit-tap-highlight-color: transparent;
     -webkit-appearance: button;
-    background-color: #000;
+    background-color: gray;
     background-image: none;
     color: #fff;
     cursor: pointer;
