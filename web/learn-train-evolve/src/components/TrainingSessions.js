@@ -10,23 +10,18 @@ import {
     Flex,
     Heading,
     Button,
-    Text
+    Text,
+    useTheme
 } from '@aws-amplify/ui-react';
 
-const css = `.custom-card-class {
-    border: 3px solid gray;
-    background-color: #e6f0ff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-}`
 
  const TrainingSessions = () => {
 
      const [trainingSessionList, setTrainingSessionList] = React.useState([]);
 
      useEffect(() => {fetchSessions();}, []);
+
+     const { tokens } = useTheme();
 
      const fetchSessions = async () => {
          try {
@@ -44,25 +39,31 @@ const css = `.custom-card-class {
 
          return (
              <div>
-                 <style>{css}</style>
-                 <Card variation="outlined" className="custom-card-class">
-                     <Flex direction="column">
-                     <Heading level={5} textAlign={"center"}>Train</Heading>
-                     <ScrollView height = "300px" width = "400px" padding = "1rem">
+                     <Flex
+                         direction="column"
+                     >
+                     <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
+                     <ScrollView
+                         height = "300px"
+                         width = "400px"
+                         padding = "1rem"
+                         backgroundColor={tokens.colors.white}>
                      <Collection
                          type = "list"
+                         backgroundColor={tokens.colors.white}
                          items={trainingSessionList}
                          gap = "1.rem"
                      >
                          {(item, index) => (
-                    <SingleTrainingSession
-                        key={index}
-                        trainingSession={item}/>
+                            <SingleTrainingSession
+                                key={index}
+                                trainingSession={item}
+                            />
                          )}
                      </Collection>
+
                      </ScrollView>
                      </Flex>
-                 </Card>
              </div>
          );
  };

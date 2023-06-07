@@ -6,15 +6,11 @@ import Lessons from "./Lessons";
 
 
 import {
-    Collection,
-    Card,
-    Heading,
-    Text,
-    useTheme,
+    Collection, View
 } from '@aws-amplify/ui-react';
 
+
 export const Home = () => {
-    const { tokens } = useTheme();
     const items = [
         <Lessons/>,
         <TrainingSessions/>,
@@ -22,18 +18,23 @@ export const Home = () => {
     ];
 
     return (
+
         <Collection
-            type="list"
+            type="grid"
             items={items}
-            direction="row"
-            justifyContent="space-between"
-            wrap="no-wrap"
+            templateColumns="1fr 1fr 1fr"
+
         >
-            {(item, index) => (
-                <div>
-                    {item}
-                </div>
-            )}
+            {(item, index) => {
+                return (
+                    <View
+                    key={index}
+                    column={index+1}
+                >
+                {item}
+                </View>
+                );
+            }}
         </Collection>
     );
 };
