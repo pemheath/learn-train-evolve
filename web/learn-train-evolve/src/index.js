@@ -14,9 +14,8 @@ import "./styles.css";
 
 import App from "./App";
 import ErrorPage from "./error-page";
-import TrainingSessions from "./components/TrainingSessions";
-import Goals from "./components/Goals"
 import UserTrainingSession from "./components/UserTrainingSession";
+import {ThemeProvider} from "@aws-amplify/ui-react";
 
 Amplify.configure(awsExports);
 
@@ -38,7 +37,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
+    <ThemeProvider>
         <React.StrictMode>
             <RouterProvider router={router} />
         </React.StrictMode>
+    </ThemeProvider>
 );

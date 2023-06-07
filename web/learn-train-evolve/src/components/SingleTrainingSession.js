@@ -1,42 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme, ThemeProvider} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
+import theme from './Theme'
 
 
 
 const SingleTrainingSession = ({ trainingSession }) => {
 
     const navigate = useNavigate();
-
-    const theme = {
-        name: 'card-theme',
-        tokens: {
-            components: {
-                card: {
-                    // You can reference other tokens
-                    backgroundColor: { value: '{colors.background.success}' },
-                    borderRadius: { value: '{radii.large}' },
-                    padding: { value: '{space.xl}' },
-
-                    // Variations
-                    outlined: {
-                        // Or use explicit values
-                        borderWidth: { value: '10px' },
-                        backgroundColor: { value: '{colors.background.warning}' },
-                    },
-                    elevated: {
-                        backgroundColor: { value: '{colors.background.info}' },
-                        boxShadow: { value: '{shadows.large}' },
-                    },
-                },
-            },
-        },
-    };
-
-
-
+    const {tokens} = useTheme();
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
 
     useEffect(() => {
@@ -64,7 +38,6 @@ const SingleTrainingSession = ({ trainingSession }) => {
         const { email, name } = congnitoUser.signInUserSession.idToken.payload;
         return { email, name };
     }
-
     const [userTrainingSession, setUserTrainingSession] = useState([]);
     const [name, setName] = useState('');
     const handleClick = async (eventId, timeAndDate, type, coach) => {
@@ -97,15 +70,19 @@ const SingleTrainingSession = ({ trainingSession }) => {
 
 
     return ( formattedDateTime &&
-        <Card variation = "elevated">
-            <h2>{trainingSession.type}</h2>
-            <h3>{trainingSession.coach}</h3>
-            <p>{formattedDateTime}</p>
-            <Button
-                variation="primary"
-                onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
-            >Sign Up</Button>
-        </Card>
+            <ThemeProvider theme = {theme} >
+                <Card variation = "elevated">
+                    <Heading
+                    >{trainingSession.type}</Heading>
+                    <Heading
+                    >Coach: {trainingSession.coach}</Heading>
+                    <Text>{formattedDateTime}</Text>
+                    <Button
+                        variation="primary"
+                        onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
+                    >Sign Up</Button>
+                </Card>
+            </ThemeProvider>
     )
 }
 

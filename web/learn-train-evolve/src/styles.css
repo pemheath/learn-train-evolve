@@ -9,6 +9,10 @@ h1 {
     gap: 5px;
     justify-content: center;
 }
+
+.smallContainer{
+    max-width: 33%;
+}
 .container2 {
     background-color: #f9f9f9;
     border: 1px solid #ccc;
