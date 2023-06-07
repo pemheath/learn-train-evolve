@@ -11,6 +11,7 @@ function Header() {
         async function fetchUserGroups() {
             try {
                 const user = await Auth.currentAuthenticatedUser();
+                console.log(user);
                 const groups = user.signInUserSession.accessToken.payload['cognito:groups'];
                 setUserGroups(groups || []);
             } catch (error) {
@@ -35,11 +36,6 @@ function Header() {
                     <div className="brown"></div>
                     <div className="black"></div>
                 </div>
-            {isUserInGroup('admin') ? (
-                <h1>Welcome, admin user!</h1>
-            ) : (
-                <h1>Welcome!</h1>
-            )}
             </header>
         </div>
     );

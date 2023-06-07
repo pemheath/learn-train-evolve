@@ -56,7 +56,7 @@ public class TrainingSessionDao {
     }
 
     public List<TrainingSession> getUpcomingTrainingSessionsByType(String category) {
-        System.out.println("made it to dao");
+  //      System.out.println("made it to dao");
         return getUpcomingTrainingSessions()
                 .stream()
                 .filter(s -> s.getType().equals(category))

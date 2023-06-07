@@ -6,16 +6,22 @@ import SingleTrainingSession from "./SingleTrainingSession";
 import {
     Collection,
     ScrollView,
+    Card,
+    Flex,
     Heading,
+    Button,
     Text,
-    useTheme,
+    useTheme
 } from '@aws-amplify/ui-react';
+
 
  const TrainingSessions = () => {
 
      const [trainingSessionList, setTrainingSessionList] = React.useState([]);
 
      useEffect(() => {fetchSessions();}, []);
+
+     const { tokens } = useTheme();
 
      const fetchSessions = async () => {
          try {
@@ -33,20 +39,31 @@ import {
 
          return (
              <div>
-             <h2 style={{fillOpacity: "0.5"}}>Training Sessions</h2>
-             <ScrollView height = "300px" width = "400px" padding = "1rem">
-             <Collection
-                 type = "list"
-                 items={trainingSessionList}
-                 gap = "1.rem"
-             >
-                 {(item, index) => (
-            <SingleTrainingSession
-                key={index}
-                trainingSession={item}/>
-                 )}
-             </Collection>
-             </ScrollView>
+                     <Flex
+                         direction="column"
+                     >
+                     <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
+                     <ScrollView
+                         height = "300px"
+                         width = "400px"
+                         padding = "1rem"
+                         backgroundColor={tokens.colors.white}>
+                     <Collection
+                         type = "list"
+                         backgroundColor={tokens.colors.white}
+                         items={trainingSessionList}
+                         gap = "1.rem"
+                     >
+                         {(item, index) => (
+                            <SingleTrainingSession
+                                key={index}
+                                trainingSession={item}
+                            />
+                         )}
+                     </Collection>
+
+                     </ScrollView>
+                     </Flex>
              </div>
          );
  };
