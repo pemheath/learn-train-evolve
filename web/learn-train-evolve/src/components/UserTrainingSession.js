@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Card, SliderField, ThemeProvider} from "@aws-amplify/ui-react";
+import {Button, Card, ThemeProvider} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
 import theme from "./Theme";
-
+import LogTrainingSessionForm from "./LogTrainingSessionForm";
 
 
 
@@ -12,6 +12,8 @@ const UserTrainingSession = () => {
     const location = useLocation();
     // set up to format the time correctly
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
+
+    const [showForm, setShowForm] = useState(false);
     // function for setting up the time
     useEffect(() => {
         const epochTime = location.state.userTrainingSession.timeAndDate;
@@ -30,63 +32,33 @@ const UserTrainingSession = () => {
 
     }, [location.state.userTrainingSession.timeAndDate]);
 
-    const [showForm, setShowForm] = useState(false);
-
     const handleClick = () => {
         setShowForm(true);
     };
 
     return (
         <div>
-            <ThemeProvider theme = {theme} >
-        <Card variation = "elevated">
-            <h3>Type: {location.state.userTrainingSession.type}</h3>
-            <h3>Coach: {location.state.userTrainingSession.coach}</h3>
-            <h4>{formattedDateTime}</h4>
-            <div>
-                {!showForm && (
-                    <Button
-                        variation="primary"
-                        onClick={() => handleClick()}
-                    >Record Training</Button>
-                )}
-                {showForm && (
-                    <form>
-                        <SliderField
-                            label="How did you enjoy the technique?"
-                            type="techniqueEnjoyment"
-                            min={1}
-                            max={7}
-                            step={1}
-                            defaultValue={4}
-                        />
-
-                        <SliderField
-                            label="How did you perform today?"
-                            type="performanceRating"
-                            min={1}
-                            max={7}
-                            step={1}
-                            defaultValue={4}
-                        />
-                        <SliderField
-                            label="How intense was your training?"
-                            type="techniqueEnjoyment"
-                            min={1}
-                            max={10}
-                            defaultValue={5}
-                        />
-                        );
-                        {/* Additional form fields go here */}
-
-                        <button type="submit">Submit</button>
-                    </form>
-                )}
-            </div>
-    </Card>
-                </ThemeProvider>
+            <ThemeProvider >
+                <Card variation = "elevated">
+                    <h3>Type: {location.state.userTrainingSession.type}</h3>
+                    <h3>Coach: {location.state.userTrainingSession.coach}</h3>
+                    <h4>{formattedDateTime}</h4>
+                    <div>
+                        {!showForm && (
+                            <Button
+                                variation="primary"
+                                onClick={() => handleClick()}
+                            >Record Training</Button>
+                        )}
+                        {showForm && (
+                            <LogTrainingSessionForm/>
+                        )}
+                    </div>
+                </Card>
+            </ThemeProvider>
         </div>
     );
+
 }
 
 export default UserTrainingSession;
