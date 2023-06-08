@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Card, ThemeProvider} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
-import theme from "./Theme";
 import LogTrainingSessionForm from "./LogTrainingSessionForm";
+
 
 
 
@@ -13,7 +13,6 @@ const UserTrainingSession = () => {
     // set up to format the time correctly
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
 
-    const [showForm, setShowForm] = useState(false);
     // function for setting up the time
     useEffect(() => {
         const epochTime = location.state.userTrainingSession.timeAndDate;
@@ -32,9 +31,6 @@ const UserTrainingSession = () => {
 
     }, [location.state.userTrainingSession.timeAndDate]);
 
-    const handleClick = () => {
-        setShowForm(true);
-    };
 
     return (
         <div>
@@ -44,15 +40,7 @@ const UserTrainingSession = () => {
                     <h3>Coach: {location.state.userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
                     <div>
-                        {!showForm && (
-                            <Button
-                                variation="primary"
-                                onClick={() => handleClick()}
-                            >Record Training</Button>
-                        )}
-                        {showForm && (
-                            <LogTrainingSessionForm/>
-                        )}
+            <LogTrainingSessionForm/>
                     </div>
                 </Card>
             </ThemeProvider>

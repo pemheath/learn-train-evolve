@@ -1,25 +1,76 @@
-import React from 'react';
-import {SliderField, ToggleButton, ToggleButtonGroup, Button} from "@aws-amplify/ui-react";
-import SentimentDissatisfiedIcon from '@mui/icons-material/SentimentDissatisfied';
-import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
-import SentimentSatisfiedIcon from '@mui/icons-material/SentimentSatisfied';
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt';
-import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
+import React, {useState} from 'react';
+import {SliderField, ToggleButton, ToggleButtonGroup, Button, Card} from "@aws-amplify/ui-react";
+import axios from "axios";
+import {Auth} from "aws-amplify";
+
 
 const LogTrainingSessionForm= ()=> {
 
+    const[showForm, setShowForm] = useState(false);
+    const[status, setStatus] = setStatus('inProgress');
+    const[intensityRating, setIntensityRating] = useState(0);
+    const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
+    const[performanceRating, setPerformanceRating] = useState(0);
+    const[goalNumber, setGoalNumber] = useState(0);
+    const[tags, setTags] = useState([]);
+    const[updatedSession, setUpdatedSession] = useState([]);
 
-    const [enjoyment, setEnjoyment] = React.useState(4);
-    const [intensity, setIntensity] = React.useState(50);
-    const [performance, setPerformance] = React.useState(4);
-    const [feeling, setFeeling] = React.useState("3");
+    const getUserInfo = async ()=> {
+        const congnitoUser = await Auth.currentAuthenticatedUser();
+        const { email, name } = congnitoUser.signInUserSession.idToken.payload;
+        return { email, name };
+    }
+
+    function handleCheckIn(e){
+        e.preventDefault();
+        setShowForm(true);
+    }
+
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+        setShowForm(false);
+        setStatus('submitted');
+        try {
+            const api = axios.create({
+                baseURL: 'http://localhost:3000'
+            })
+            const result = await api.put('/user-training-sessions/{email}/{eventId}',
+                {
+                    email: (await getUserInfo()).email,
+                    eventId: eventId,
+                    timeAndDate: timeAndDate,
+                    type: type,
+                    coach: coach,
+                    intensityRating: intensityRating,
+                    techniqueEnjoyment: techniqueEnjoyment,
+                    performanceRating: performanceRating,
+                    noteNumber: noteNumber,
+                    goalNumber: goalNumber,
+                    tags: tags,
+                    attended: true,
+
+                });
+            const userTrainingSession = result.trainingSessionModelList;
+            setUpdatedSession(userTrainingSession);
+        } catch (error) {
+            setError(error);
+            console.log("error updating user training session", error);
+        }
+    }
 
     return (
         <form>
+            (!showForm && <Button //on when form has not been filled out
+                variation="primary"
+                onClick={handleCheckIn}
+                >Record My Training</Button> )
             <SliderField
                 label="How did you enjoy the technique?"
                 descriptiveText="Rate your enjoyment from 1 (Strongly dislike) to 7 (Strongly like)"
-                type="techniqueEnjoyment"
                 min={1}
                 max={7}
                 step={1}
@@ -49,22 +100,27 @@ const LogTrainingSessionForm= ()=> {
                 onChange={setFeeling}
             >
                 <ToggleButton value="1">
-                    <SentimentDissatisfiedIcon/>
+
                 </ToggleButton>
                 <ToggleButton value="2">
-                    <SentimentNeutralIcon/>
+
                 </ToggleButton>
                 <ToggleButton value="3">
-                    <SentimentSatisfiedIcon/>
+
                 </ToggleButton>
                 <ToggleButton value="4">
-                    <SentimentSatisfiedAltIcon/>
+
                 </ToggleButton>
                 <ToggleButton value="5">
-                    <SentimentVerySatisfiedIcon/>
+
                 </ToggleButton>
             </ToggleButtonGroup>
-            <Button>Submit</Button>
+            <Button onClick={handleSubmit}>Submit</Button>
+
+         <Card {status=='submitted'}>
+            <p>updatedSession</p>
+        </Card>
+
         </form>
     );
 }

@@ -9,6 +9,7 @@
     "@mui/material": "^5.13.4",
     "aws-amplify": "^5.2.2",
     "dotenv": "^16.0.3",
+    "react-icons": "^4.9.0",
     "react-router-dom": "^6.11.2"
   }
 }
