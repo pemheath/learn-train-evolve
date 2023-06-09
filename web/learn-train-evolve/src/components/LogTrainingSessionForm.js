@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {SliderField, ToggleButton, ToggleButtonGroup, Button, Card, useTheme, View} from "@aws-amplify/ui-react";
+import {SliderField, TextAreaField, ToggleButton, ToggleButtonGroup, Button, Card, useTheme, View} from "@aws-amplify/ui-react";
 import axios from "axios";
-import {Auth} from "aws-amplify";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
 import TagSelector from "./TagSelector";
 
@@ -25,6 +24,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     function handleCheckIn(e){
         e.preventDefault();
         setShowForm(true);
+
     }
 
     async function handleSubmit(e) {
@@ -61,10 +61,12 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     return (
         <form>
+            {!showForm &&
             <Button //on when form has not been filled out
                 variation="primary"
                 onClick={handleCheckIn}
-            >Record My Training</Button>
+            >Record My Training</Button>}
+            {showForm&&
             <View
                 position="relative"
             >
@@ -119,13 +121,14 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                     tags={["come up sweep", "guard retention", "single leg takedown", "pressure passing", "submission defense", "back control", "conditioning", "mindset"]}
                 />
             </Card>
-            <Button onClick={handleSubmit}>Submit</Button>
+
+            <TextAreaField
+                label="Notes from today"
+            ></TextAreaField >
+            <Button onClick={handleSubmit}> Submit</Button>
 
             </Card>
-            </View>
-         <Card>
-            <p>updatedSession</p>
-        </Card>
+            </View>}
 
         </form>
     );

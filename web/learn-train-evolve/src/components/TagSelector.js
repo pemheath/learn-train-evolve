@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Card,
     TextField,
@@ -7,19 +7,17 @@ import {
     ToggleButton,
     Text,
     useTheme,
-    Flex
+    Flex, View, Collection,
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
 
 const TagSelector = ({ tags }) => {
     const[tagsToDisplay, setTagsToDisplay] = useState(tags);
     const [selectedTags, setSelectedTags] = useState([]);
-    console.log(selectedTags);
     const[newTag, setNewTag] = useState('');
-    const[secondNewTag, setSecondNewTag] = useState('');
-
-
     const {tokens} = useTheme();
+    const [showMessage ,setShowMessage] = useState(false)
+
 
     const handleTagToggle = (tag) => {
 
@@ -28,21 +26,39 @@ const TagSelector = ({ tags }) => {
         } else {
             setSelectedTags([...selectedTags, tag]);
         }
-        console.log(selectedTags);
     };
 
-    function handleTextAreaChange(e) {
-        setNewTag(e.target.value);
+    useEffect(() => {
+        let timeoutId;
+        if (showMessage) {
+            timeoutId = setTimeout(() => {
+                setShowMessage(false);
+                // Reset the form here
+            }, 3000);
+        }
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [showMessage]);
+
+
+    const handleClick= (word) => {
+        if (tagsToDisplay.includes(word)) {
+            setNewTag('');
+            alert("Tag already exists.")
+        }
+        else{
+            setShowMessage(true);
+            selectedTags.push(word);
+            setSelectedTags(selectedTags);
+            tagsToDisplay.push(word);
+            setTagsToDisplay(tagsToDisplay);}
+
     }
 
-    const addTag= (word) => {
-        selectedTags.push(word);
-        setSelectedTags(selectedTags);
-        tagsToDisplay.push(word);
 
-    }
     return (
-        <div>
+        <View>
             <Heading
             textAlign="center"
             ><ImPriceTags
@@ -71,28 +87,59 @@ const TagSelector = ({ tags }) => {
                 <Text
                 variation="info"
                 >
-                    You may enter up to two additional tags. These will be saved to your profile.
+                    You may enter additional tags.
                 </Text>
-                <label htmlFor="tag1">Tag 1:</label>
-                <TextField value={newTag} onChange={handleTextAreaChange}  placeholder="Enter tag 1"/>
+                <TextField
+                    label="Tag"
+                    value={newTag} onChange={e => setNewTag(e.target.value)} placeholder="Optinal tag 1"/>
                 <Button
                     variation="primary"
-                    onClick={() => addTag(newTag)}
-                >
-                    <ImPlus/> Add Tags
+                    onClick={() => handleClick(newTag)}
+                ><ImPlus/> Add Tags
                 </Button>
-                <label htmlFor="tag2">Tag 2:</label>
-                <TextField value={secondNewTag} onChange={handleTextAreaChange} placeholder="Enter tag 2"/>
-                    <Button
-                        variation="primary"
-                        onClick={() => addTag(secondNewTag)}
-                    >
-                        <ImPlus/> Add Tags
-                    </Button>
+                    {showMessage && <div>
+                        <View
+                            backgroundColor={tokens.colors.green[20]}
+                        > New tag Successfully added!
+                        </View>
+                    </div>}
+
             </form>
             </Card>
-        </div>
+            {selectedTags &&
+                <div>
+                    <Heading level={6}>Tags you are adding</Heading>
+                <Collection
+                    type = "list"
+                    backgroundColor={tokens.colors.white}
+                    items={selectedTags}
+                    gap = "1.rem"
+                >
+                    {(item, index) => (
+                        <Card
+                            key={index}
+                            selectedTag={item}
+                            backgroundColor={tokens.colors.brand.primary[20]}
+                            padding={tokens.space.medium}
+                        >{item}
+                        </Card>
+                    )}
+            </Collection> </div>}
+        </View>
     );
 };
 
 export default TagSelector;
+
+
+
+
+
+
+
+
+
+
+
+
+
