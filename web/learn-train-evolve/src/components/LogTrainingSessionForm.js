@@ -1,34 +1,31 @@
 import React, {useState} from 'react';
-import {SliderField, ToggleButton, ToggleButtonGroup, Button, Card} from "@aws-amplify/ui-react";
+import {SliderField, ToggleButton, ToggleButtonGroup, Button, Card, useTheme, View} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
+import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
+import TagSelector from "./TagSelector";
 
 
-const LogTrainingSessionForm= ()=> {
+const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
+    const {tokens} = useTheme();
+
+    const[error, setError] = useState(null);
     const[showForm, setShowForm] = useState(false);
-    const[status, setStatus] = setStatus('inProgress');
+    const[status, setStatus] = useState('inProgress');
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
-    const[performanceRating, setPerformanceRating] = useState(0);
+    const[performanceRating, setPerformanceRating] = useState("0");
+    const[noteNumber, setNoteNumber] = useState(0);
     const[goalNumber, setGoalNumber] = useState(0);
     const[tags, setTags] = useState([]);
     const[updatedSession, setUpdatedSession] = useState([]);
 
-    const getUserInfo = async ()=> {
-        const congnitoUser = await Auth.currentAuthenticatedUser();
-        const { email, name } = congnitoUser.signInUserSession.idToken.payload;
-        return { email, name };
-    }
 
     function handleCheckIn(e){
         e.preventDefault();
         setShowForm(true);
     }
-
-    const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value });
-    };
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -40,21 +37,21 @@ const LogTrainingSessionForm= ()=> {
             })
             const result = await api.put('/user-training-sessions/{email}/{eventId}',
                 {
-                    email: (await getUserInfo()).email,
-                    eventId: eventId,
-                    timeAndDate: timeAndDate,
-                    type: type,
-                    coach: coach,
-                    intensityRating: intensityRating,
-                    techniqueEnjoyment: techniqueEnjoyment,
-                    performanceRating: performanceRating,
-                    noteNumber: noteNumber,
-                    goalNumber: goalNumber,
-                    tags: tags,
+                    email: email, //from props
+                    eventId: eventId, //from props
+                    timeAndDate: timeAndDate, //from props
+                    type: type, //from props
+                    coach: coach, //from props
+                    intensityRating: intensityRating, //user input
+                    techniqueEnjoyment: techniqueEnjoyment, //user input
+                    performanceRating: performanceRating, //user input
+                    noteNumber: 0, //not adding this functionality yet
+                    goalNumber: 0, //not adding this functionality yet
+                    tags: tags, //user input
                     attended: true,
 
                 });
-            const userTrainingSession = result.trainingSessionModelList;
+            const userTrainingSession = result.data.userTrainingSession;
             setUpdatedSession(userTrainingSession);
         } catch (error) {
             setError(error);
@@ -64,60 +61,69 @@ const LogTrainingSessionForm= ()=> {
 
     return (
         <form>
-            (!showForm && <Button //on when form has not been filled out
+            <Button //on when form has not been filled out
                 variation="primary"
                 onClick={handleCheckIn}
-                >Record My Training</Button> )
+            >Record My Training</Button>
+            <View
+                position="relative"
+            >
+            <Card
+                variation="elevated"
+                display="inline-block"
+            >
+            <ToggleButtonGroup
+                isExclusive
+                value={performanceRating}
+                onChange={setPerformanceRating}
+                variation="menu"
+            >How was your performance today?
+                <ToggleButton value="1">
+                    <ImFrustrated/>
+                </ToggleButton>
+                <ToggleButton value="2" >
+                    <ImSad/>
+                </ToggleButton>
+                <ToggleButton value="3">
+                    <ImNeutral/>
+                </ToggleButton>
+                <ToggleButton value="4">
+                    <ImSmile/>
+                </ToggleButton>
+                <ToggleButton value="5">
+                    <ImHappy/>
+                </ToggleButton>
+            </ToggleButtonGroup>
+
             <SliderField
-                label="How did you enjoy the technique?"
-                descriptiveText="Rate your enjoyment from 1 (Strongly dislike) to 7 (Strongly like)"
+                label="Rate your enjoyment of today's technique."
+                descriptiveText="Hate it, love it?"
+                filledTrackColor={tokens.colors.brand.secondary[80]}
                 min={1}
                 max={7}
                 step={1}
-                value={enjoyment}
-                onChange={setEnjoyment}
-            />
-            <SliderField
-                label="How did you perform today?"
-                descriptiveText="Rate your perfromance, form 1 (I shit the bed) to 7 (At my best)"
-                type="performanceRating"
-                min={1}
-                max={7}
-                step={1}
-                value={performance}
-                onChange={setPerformance}
+                value={techniqueEnjoyment}
+                onChange={setTechniqueEnjoyment}
             />
             <SliderField
                 label="How intense was your training?"
-                type="techniqueEnjoyment"
+                descriptiveText="Chill day of drilling, or all out competition class?"
+                filledTrackColor={tokens.colors.brand.secondary[80]}
                 min={1}
                 max={100}
-                value={intensity}
-                onChange={setIntensity}
+                value={intensityRating}
+                onChange={setIntensityRating}
             />
-            <ToggleButtonGroup
-                value={feeling}
-                onChange={setFeeling}
-            >
-                <ToggleButton value="1">
-
-                </ToggleButton>
-                <ToggleButton value="2">
-
-                </ToggleButton>
-                <ToggleButton value="3">
-
-                </ToggleButton>
-                <ToggleButton value="4">
-
-                </ToggleButton>
-                <ToggleButton value="5">
-
-                </ToggleButton>
-            </ToggleButtonGroup>
+            <Card>
+                <TagSelector
+                    tags={["come up sweep", "guard retention", "single leg takedown", "pressure passing", "submission defense", "back control", "conditioning", "mindset"]}
+                />
+            </Card>
             <Button onClick={handleSubmit}>Submit</Button>
 
-         <Card {status=='submitted'}>
+            </Card>
+            </View>
+         <Card>
             <p>updatedSession</p>
         </Card>
 

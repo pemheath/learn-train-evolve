@@ -59,7 +59,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
             const userTrainingSession = result.data.userTrainingSession;
             setUserTrainingSession(userTrainingSession);
             setName((await  getUserInfo()).name);
-            navigate('/train}', {state:{userTrainingSession: userTrainingSession, name: name}});
+            navigate('/train', {state:{userTrainingSession: userTrainingSession, name: name}});
             console.log(userTrainingSession);
 
         } catch (error) {

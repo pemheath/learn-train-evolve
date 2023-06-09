@@ -40,7 +40,13 @@ const UserTrainingSession = () => {
                     <h3>Coach: {location.state.userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
                     <div>
-            <LogTrainingSessionForm/>
+            <LogTrainingSessionForm
+                email={location.state.userTrainingSession.email}
+                eventId={location.state.userTrainingSession.type}
+                timeAndDate={location.state.userTrainingSession.timeAndDate}
+                type={location.state.userTrainingSession.type}
+                coach={location.state.userTrainingSession.coach}
+            />
                     </div>
                 </Card>
             </ThemeProvider>
