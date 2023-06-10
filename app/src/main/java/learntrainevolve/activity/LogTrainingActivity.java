@@ -13,6 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 /**
  * Implementation of the LogTrainingActivity for the LearnTrainEvolveService's LogTraining API.
  *
@@ -52,17 +55,18 @@ public class LogTrainingActivity {
     public LogTrainingResponse handleRequest(final LogTrainingRequest request) {
         log.info("Received LogTrainingRequest{}", request);
 
+
         UserTrainingSession userTrainingSession = new UserTrainingSession();
-        userTrainingSession.setEventId(request.getEventId());
-        userTrainingSession.setType(request.getType());
         userTrainingSession.setEmail(request.getEmail());
+        userTrainingSession.setEventId(request.getEventId());
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
+        userTrainingSession.setType(request.getType());
         userTrainingSession.setCoach(request.getCoach());
         userTrainingSession.setIntensityRating(request.getIntensityRating());
-        userTrainingSession.setPerformanceRating(request.getPerformanceRating());
         userTrainingSession.setTechniqueEnjoyment(request.getTechniqueEnjoyment());
-        userTrainingSession.setNoteNumber(request.getNoteNumber());
-        userTrainingSession.setGoalNumber(request.getGoalNumber());
+        userTrainingSession.setPerformanceRating(request.getPerformanceRating());
+        userTrainingSession.setNote(request.getNote());
+        userTrainingSession.setGoal(request.getGoal());
         userTrainingSession.setTags(request.getTags());
         userTrainingSession.setAttended(request.getAttended());
 

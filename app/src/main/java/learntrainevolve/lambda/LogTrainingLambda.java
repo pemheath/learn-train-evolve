@@ -8,6 +8,9 @@ import learntrainevolve.lambda.infrastructure.auth.AuthenticatedLambdaRequest;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 
 public class LogTrainingLambda
         extends LambdaActivityRunner<LogTrainingRequest, LogTrainingResponse>
@@ -18,12 +21,14 @@ public class LogTrainingLambda
                 () -> {
                     LogTrainingRequest unauthenticatedRequest = input.fromBody(LogTrainingRequest.class);
 
+
+
                     System.out.println("The unauthenticated request from the body of the curl request is" + unauthenticatedRequest);
 
                     return  input.fromPath(path ->
 
                             LogTrainingRequest.builder()
-                            .withEmail(path.get("email"))
+                            .withEmail(URLDecoder.decode(path.get("email"), StandardCharsets.UTF_8))
                             .withEventId(path.get("eventId"))
                             .withTimeAndDate(unauthenticatedRequest.getTimeAndDate())
                             .withType(unauthenticatedRequest.getType())
@@ -31,9 +36,10 @@ public class LogTrainingLambda
                             .withIntensityRating(unauthenticatedRequest.getIntensityRating())
                             .withTechniqueEnjoyment(unauthenticatedRequest.getTechniqueEnjoyment())
                             .withPerformanceRating(unauthenticatedRequest.getPerformanceRating())
-                            .withNoteNumber(unauthenticatedRequest.getNoteNumber())
-                            .withGoalNumber(unauthenticatedRequest.getGoalNumber())
+                            .withNote(unauthenticatedRequest.getNote())
+                            .withGoal(unauthenticatedRequest.getGoal())
                             .withTags(unauthenticatedRequest.getTags())
+                            .withAttended(unauthenticatedRequest.getAttended())
                             .build());
                 },
                 (request, serviceComponent) ->

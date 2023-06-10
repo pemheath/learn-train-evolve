@@ -2,32 +2,32 @@ package learntrainevolve.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import learntrainevolve.lambda.infrastructure.auth.CognitoClaims;
 
-import java.time.LocalDateTime;
 import java.util.Set;
+
+import static learntrainevolve.utils.CollectionUtlis.copyToSet;
 
 @JsonDeserialize(builder = LogTrainingRequest.Builder.class)
 public class LogTrainingRequest {
 
     private final String email;
     private final String eventId;
-    private final Long timeAndDate;
+    private final long timeAndDate;
     private final String type;
     private final String coach;
-    private Double intensityRating;
+    private int intensityRating;
     private int techniqueEnjoyment;
     private int performanceRating;
-    private int noteNumber;
-    private int goalNumber;
+    private String note;
+    private String goal;
     private Set<String> tags;
     private Boolean attended;
 
 
     public LogTrainingRequest(String email, String eventId, long timeAndDate,
-                              String type, String coach, Double intensityRating,
+                              String type, String coach, int intensityRating,
                               int techniqueEnjoyment, int performanceRating,
-                              int noteNumber, int goalNumber, Set<String> tags,
+                              String note, String goal, Set<String> tags,
                               Boolean attended)
     {
         this.email = email;
@@ -38,8 +38,8 @@ public class LogTrainingRequest {
         this.intensityRating = intensityRating;
         this.techniqueEnjoyment = techniqueEnjoyment;
         this.performanceRating = performanceRating;
-        this.noteNumber = noteNumber;
-        this.goalNumber = goalNumber;
+        this.note = note;
+        this.goal = goal;
         this.tags = tags;
         this.attended = attended;
     }
@@ -57,7 +57,7 @@ public class LogTrainingRequest {
 
     public String getCoach() {return coach;}
 
-    public Double getIntensityRating() {return intensityRating;}
+    public int getIntensityRating() {return intensityRating;}
 
 
     public int getTechniqueEnjoyment() {return techniqueEnjoyment;}
@@ -66,13 +66,13 @@ public class LogTrainingRequest {
     public int getPerformanceRating() {return performanceRating;}
 
 
-    public int getNoteNumber() {return noteNumber;}
+    public String getNote() {return note;}
 
 
-    public int getGoalNumber() {return goalNumber;}
+    public String getGoal() {return goal;}
 
 
-    public Set<String> getTags() {return tags;}
+    public Set<String> getTags() {return copyToSet(tags);}
 
 
     public Boolean getAttended() {return attended;}
@@ -85,7 +85,7 @@ public class LogTrainingRequest {
                 ", timeAndDate=" + timeAndDate + ", type=" + type +
                 ", coach=" + coach + ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment + ", performanceRating=" + performanceRating +
-                ", noteNumber=" + noteNumber + ", goalNumber=" + goalNumber +
+                ", noteNumber=" + note + ", goalNumber=" + goal +
                 ", tags=" + tags + ", attended=" + attended +'}';
 
     }
@@ -103,11 +103,11 @@ public class LogTrainingRequest {
         private Long timeAndDate;
         private String type;
         private String coach;
-        private Double intensityRating;
+        private int intensityRating;
         private int techniqueEnjoyment;
         private int performanceRating;
-        private int noteNumber;
-        private int goalNumber;
+        private String note;
+        private String goal;
         private Set<String> tags;
         private Boolean attended;
 
@@ -138,7 +138,7 @@ public class LogTrainingRequest {
             return this;
         }
 
-        public Builder withIntensityRating(Double intensityRating) {
+        public Builder withIntensityRating(int intensityRating) {
             this.intensityRating = intensityRating;
             return this;
         }
@@ -153,19 +153,19 @@ public class LogTrainingRequest {
             return this;
         }
 
-        public Builder withNoteNumber(int noteNumber) {
+        public Builder withNote(String note) {
 
-            this.noteNumber = noteNumber;
+            this.note = note;
             return this;
         }
 
-        public Builder withGoalNumber(int goalNumber) {
-            this.goalNumber = goalNumber;
+        public Builder withGoal(String goal) {
+            this.goal = goal;
             return this;
         }
 
         public Builder withTags(Set<String> tags) {
-            this.tags = tags;
+            this.tags = copyToSet(tags);
             return this;
         }
 
@@ -178,7 +178,7 @@ public class LogTrainingRequest {
         public LogTrainingRequest build() {
             System.out.println("building the java request object");
             LogTrainingRequest request = new LogTrainingRequest(email, eventId, timeAndDate, type, coach,  intensityRating,
-                    techniqueEnjoyment, performanceRating, noteNumber, goalNumber, tags, attended);
+                    techniqueEnjoyment, performanceRating, note, goal, tags, attended);
             System.out.println(request);
             return request;
 

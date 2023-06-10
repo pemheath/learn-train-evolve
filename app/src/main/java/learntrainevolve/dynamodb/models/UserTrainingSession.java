@@ -5,7 +5,6 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,11 +16,11 @@ public class UserTrainingSession {
     private Long timeAndDate;
     private String type;
     private String coach;
-    private Double intensityRating;
+    private int intensityRating;
     private int techniqueEnjoyment;
     private int performanceRating;
-    private int noteNumber;
-    private int goalNumber;
+    private String note;
+    private String goal;
     private Set<String> tags;
     private Boolean attended;
 
@@ -67,11 +66,11 @@ public class UserTrainingSession {
         this.coach = coach;
     }
     @DynamoDBAttribute(attributeName = "intensityRating")
-    public Double getIntensityRating() {
+    public int getIntensityRating() {
         return intensityRating;
     }
 
-    public void setIntensityRating(Double intensityRating) {
+    public void setIntensityRating(int intensityRating) {
         this.intensityRating = intensityRating;
     }
 
@@ -94,21 +93,21 @@ public class UserTrainingSession {
     }
 
     @DynamoDBAttribute(attributeName = "noteNumber")
-    public int getNoteNumber() {
-        return noteNumber;
+    public String getNote() {
+        return note;
     }
 
-    public void setNoteNumber(int noteNumber) {
-        this.noteNumber = noteNumber;
+    public void setNote(String note) {
+        this.note = note;
     }
 
     @DynamoDBAttribute(attributeName = "goalNumber")
-    public int getGoalNumber() {
-        return goalNumber;
+    public String getGoal() {
+        return goal;
     }
 
-    public void setGoalNumber(int goalNumber) {
-        this.goalNumber = goalNumber;
+    public void setGoal(String goal) {
+        this.goal = goal;
     }
 
     @DynamoDBAttribute(attributeName = "tags")
@@ -141,8 +140,8 @@ public class UserTrainingSession {
                 ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment +
                 ", performanceRating=" + performanceRating +
-                ", noteNumber=" + noteNumber +
-                ", goalNumber=" + goalNumber +
+                ", noteNumber=" + note +
+                ", goalNumber=" + goal +
                 ", tags=" + tags +
                 ", attended=" + attended +
                 '}';
