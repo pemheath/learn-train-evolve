@@ -19,7 +19,9 @@ import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
 const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     const {tokens} = useTheme();
+    const [showCheckInButton, setShowCheckInButton] = useState(true);
     const[showForm, setShowForm] = useState(false);
+    const[showData, setShowData] = useState(false);
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
     const[performanceRating, setPerformanceRating] = useState("3");
@@ -31,6 +33,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     function handleCheckIn(e){
         e.preventDefault();
         setShowForm(true);
+        setShowCheckInButton(false);
     }
 
     const handleTagToggle = (tag) => {
@@ -51,7 +54,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
         e.preventDefault();
         setShowForm(false);
         const tagsToSubmit = selectedTags.size === 0 ? new Set(['none']) : selectedTags;
-
+        console.log("performance rating is:" + performanceRating)
         try {
             const api = axios.create({
                 baseURL: 'http://localhost:3000'
@@ -71,7 +74,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
                 });
             setUserTrainingSession(result.data.userTrainingSession);
-            setShowForm(false);
+            setShowData(true);
         } catch (error) {
             console.log("error updating user training session", error);
         }
@@ -79,7 +82,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     return (
         <form>
-            {!showForm &&
+            {showCheckInButton &&
             <Button //on when form has not been filled out
                 variation="link"
                 onClick={handleCheckIn}
@@ -155,7 +158,6 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                             {(item, index) => (
                                 <Card
                                     key={index}
-                                    selectedTag={item}
                                     backgroundColor={tokens.colors.brand.primary[20]}
                                     padding={tokens.space.medium}
                                 >{item}
@@ -175,12 +177,11 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             <Button onClick={handleSubmit} size="large"> Submit</Button>
             </Card>
             </View>}
-            {!showForm &&
+            {showData &&
             <Card>
                 <UpdatedUserTrainingSession
                 userTrainingSession={userTrainingSession}
                 />
-
             </Card>
             }
         </form>

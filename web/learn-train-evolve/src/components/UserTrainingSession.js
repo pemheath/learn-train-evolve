@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Button, Card, ThemeProvider} from "@aws-amplify/ui-react";
+import React, {useEffect} from 'react';
+import {Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
 import LogTrainingSessionForm from "./LogTrainingSessionForm";
 
@@ -8,6 +8,8 @@ import LogTrainingSessionForm from "./LogTrainingSessionForm";
 
 
 const UserTrainingSession = () => {
+
+    const {tokens} = useTheme();
     // allow component to read data passed from the state of the previous component
     const location = useLocation();
     // set up to format the time correctly
@@ -17,7 +19,6 @@ const UserTrainingSession = () => {
     useEffect(() => {
         const epochTime = location.state.userTrainingSession.timeAndDate;
         const date = new Date(epochTime * 1000); // Convert epoch time to milliseconds (*1000)
-        const readableDate = date.toLocaleString(); // Convert to readable format
 // Define the options for formatting the date and time, which will happen when timeAndDate changes
         const options = {
             weekday: 'long', // Display the full name of the weekday
@@ -34,8 +35,9 @@ const UserTrainingSession = () => {
 
     return (
         <div>
-            <ThemeProvider >
-                <Card variation = "elevated">
+                <Card variation = "elevated"
+                        backgroundColor={tokens.colors.background.tertiary}
+                >
                     <h3>Type: {location.state.userTrainingSession.type}</h3>
                     <h3>Coach: {location.state.userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
@@ -49,7 +51,6 @@ const UserTrainingSession = () => {
             />
                     </div>
                 </Card>
-            </ThemeProvider>
         </div>
     );
 
