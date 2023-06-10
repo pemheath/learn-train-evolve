@@ -42,7 +42,7 @@ const UserTrainingSession = () => {
                     <div>
             <LogTrainingSessionForm
                 email={location.state.userTrainingSession.email}
-                eventId={location.state.userTrainingSession.type}
+                eventId={location.state.userTrainingSession.eventId}
                 timeAndDate={location.state.userTrainingSession.timeAndDate}
                 type={location.state.userTrainingSession.type}
                 coach={location.state.userTrainingSession.coach}

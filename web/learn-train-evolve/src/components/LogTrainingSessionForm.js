@@ -1,33 +1,50 @@
 import React, {useState} from 'react';
-import {SliderField, TextAreaField, ToggleButton, ToggleButtonGroup, Button, Card, useTheme, View} from "@aws-amplify/ui-react";
+import {
+    SliderField,
+    TextAreaField,
+    ToggleButton,
+    ToggleButtonGroup,
+    Button,
+    Card,
+    useTheme,
+    View,
+    SelectField
+} from "@aws-amplify/ui-react";
 import axios from "axios";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
 import TagSelector from "./TagSelector";
+import GoalSelector from "./GoalSelector";
 
 
 const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     const {tokens} = useTheme();
-
     const[error, setError] = useState(null);
     const[showForm, setShowForm] = useState(false);
     const[status, setStatus] = useState('inProgress');
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
-    const[performanceRating, setPerformanceRating] = useState("0");
-    const[noteNumber, setNoteNumber] = useState(0);
-    const[goalNumber, setGoalNumber] = useState(0);
+    const[performanceRating, setPerformanceRating] = useState("3");
+    const[note, setNote] = useState("");
     const[tags, setTags] = useState([]);
-    const[updatedSession, setUpdatedSession] = useState([]);
-
 
     function handleCheckIn(e){
         e.preventDefault();
         setShowForm(true);
-
     }
 
     async function handleSubmit(e) {
+        console.log("here is the data for the request object");
+        console.log("intensity rating is: " + intensityRating);
+        console.log("technique enjoyment is: " + techniqueEnjoyment);
+        console.log("performance rating is: " + performanceRating);
+        console.log("note is: " + note);
+        console.log("tags are: " + tags);
+        console.log("eventId is: " + eventId);
+        console.log("email is: " + email);
+        console.log("timeAndDate is: " + timeAndDate);
+        console.log("type is: " + type);
+        console.log("coach is: " + coach);
         e.preventDefault();
         setShowForm(false);
         setStatus('submitted');
@@ -37,7 +54,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             })
             const result = await api.put('/user-training-sessions/{email}/{eventId}',
                 {
-                    email: email, //from props
+                    email: encodeURIComponent(email), //from props
                     eventId: eventId, //from props
                     timeAndDate: timeAndDate, //from props
                     type: type, //from props
@@ -45,14 +62,13 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                     intensityRating: intensityRating, //user input
                     techniqueEnjoyment: techniqueEnjoyment, //user input
                     performanceRating: performanceRating, //user input
-                    noteNumber: 0, //not adding this functionality yet
-                    goalNumber: 0, //not adding this functionality yet
+                    note: note, //not adding this functionality yet
+                    goal: note, //not adding this functionality yet
                     tags: tags, //user input
                     attended: true,
 
                 });
             const userTrainingSession = result.data.userTrainingSession;
-            setUpdatedSession(userTrainingSession);
         } catch (error) {
             setError(error);
             console.log("error updating user training session", error);
@@ -77,7 +93,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             <ToggleButtonGroup
                 isExclusive
                 value={performanceRating}
-                onChange={setPerformanceRating}
+                onChange={(value) => setPerformanceRating(value[0])}
                 variation="menu"
             >How was your performance today?
                 <ToggleButton value="1">
@@ -125,12 +141,13 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             <TextAreaField
                 label="Notes from today"
             ></TextAreaField >
-            <Button onClick={handleSubmit}> Submit</Button>
-
+                <GoalSelector goals={["Not today", "Train 4 days in one week", "Manage frustration while rolling with Taylor", "Defend the berimbolo"]}
+                              ></GoalSelector>
+            <Button onClick={handleSubmit} size="large"> Submit</Button>
             </Card>
             </View>}
-
         </form>
+
     );
 }
 
