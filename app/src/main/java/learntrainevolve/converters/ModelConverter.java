@@ -5,8 +5,6 @@ import learntrainevolve.dynamodb.models.UserTrainingSession;
 import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,8 +21,8 @@ public class ModelConverter {
                 .withIntensityRating(userTrainingSession.getIntensityRating())
                 .withTechniqueEnjoyment(userTrainingSession.getTechniqueEnjoyment())
                 .withPerformanceRating(userTrainingSession.getPerformanceRating())
-                .withNoteNumber(userTrainingSession.getNoteNumber())
-                .withGoalNumber(userTrainingSession.getGoalNumber())
+                .withNote(userTrainingSession.getNote())
+                .withGoal(userTrainingSession.getGoal())
                 .withTags(userTrainingSession.getTags())
                 .withAttended(userTrainingSession.getAttended())
                 .build();

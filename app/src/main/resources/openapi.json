@@ -278,7 +278,7 @@
         }
       }
     },
-    "/user-training-sessions/{email}/{sessionId}": {
+    "/user-training-sessions/{email}/{eventId}": {
       "get": {
         "tags": [
           "user-training"
@@ -394,7 +394,7 @@
             }
           },
           {
-            "name": "sessionId",
+            "name": "eventId",
             "in": "path",
             "description": "id of training session to update",
             "required": true,
