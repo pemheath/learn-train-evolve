@@ -1,20 +1,24 @@
 import React, {useEffect} from 'react';
-import {Button, Card, ThemeProvider} from "@aws-amplify/ui-react";
+import {Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
-import theme from "./Theme";
+import LogTrainingSessionForm from "./LogTrainingSessionForm";
+
 
 
 
 
 const UserTrainingSession = () => {
 
+    const {tokens} = useTheme();
+    // allow component to read data passed from the state of the previous component
     const location = useLocation();
-
+    // set up to format the time correctly
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
+
+    // function for setting up the time
     useEffect(() => {
         const epochTime = location.state.userTrainingSession.timeAndDate;
         const date = new Date(epochTime * 1000); // Convert epoch time to milliseconds (*1000)
-        const readableDate = date.toLocaleString(); // Convert to readable format
 // Define the options for formatting the date and time, which will happen when timeAndDate changes
         const options = {
             weekday: 'long', // Display the full name of the weekday
@@ -28,21 +32,28 @@ const UserTrainingSession = () => {
 
     }, [location.state.userTrainingSession.timeAndDate]);
 
+
     return (
         <div>
-            <ThemeProvider theme = {theme} >
-        <Card variation = "elevated">
-            <h3>Type: {location.state.userTrainingSession.type}</h3>
-            <h3>Coach: {location.state.userTrainingSession.coach}</h3>
-            <h4>{formattedDateTime}</h4>
-            <Button
-                variation="primary"
-                onClick={() => alert("Functionality pending!")}
-            >Record Training</Button>
-    </Card>
-                </ThemeProvider>
+                <Card variation = "elevated"
+                        backgroundColor={tokens.colors.background.tertiary}
+                >
+                    <h3>Type: {location.state.userTrainingSession.type}</h3>
+                    <h3>Coach: {location.state.userTrainingSession.coach}</h3>
+                    <h4>{formattedDateTime}</h4>
+                    <div>
+            <LogTrainingSessionForm
+                email={location.state.userTrainingSession.email}
+                eventId={location.state.userTrainingSession.eventId}
+                timeAndDate={location.state.userTrainingSession.timeAndDate}
+                type={location.state.userTrainingSession.type}
+                coach={location.state.userTrainingSession.coach}
+            />
+                    </div>
+                </Card>
         </div>
     );
+
 }
 
 export default UserTrainingSession;

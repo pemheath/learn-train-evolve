@@ -44,7 +44,7 @@ import {
                          height = "300px"
                          width = "400px"
                          padding = "1rem"
-                         backgroundColor={tokens.colors.white}>
+                         backgroundColor={tokens.colors.brand.primary[60]}>
                      <Collection
                          type = "list"
                          backgroundColor={tokens.colors.white}

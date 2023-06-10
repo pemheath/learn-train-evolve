@@ -3,7 +3,7 @@ import {Card, Button, Heading, Text, useTheme, ThemeProvider} from "@aws-amplify
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
-import theme from './Theme'
+
 
 
 
@@ -70,7 +70,6 @@ const SingleTrainingSession = ({ trainingSession }) => {
 
 
     return ( formattedDateTime &&
-            <ThemeProvider theme = {theme} >
                 <Card variation = "elevated">
                     <Heading
                     >{trainingSession.type}</Heading>
@@ -82,7 +81,6 @@ const SingleTrainingSession = ({ trainingSession }) => {
                         onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
                     >Sign Up</Button>
                 </Card>
-            </ThemeProvider>
     )
 }
 
