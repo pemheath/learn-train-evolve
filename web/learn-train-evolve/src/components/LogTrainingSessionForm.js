@@ -7,55 +7,57 @@ import {
     Button,
     Card,
     useTheme,
-    View,
-    SelectField
+    View, Heading, Collection,
 } from "@aws-amplify/ui-react";
 import axios from "axios";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
+import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
 
 
 const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     const {tokens} = useTheme();
-    const[error, setError] = useState(null);
     const[showForm, setShowForm] = useState(false);
-    const[status, setStatus] = useState('inProgress');
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
     const[performanceRating, setPerformanceRating] = useState("3");
     const[note, setNote] = useState("");
-    const[tags, setTags] = useState([]);
+    const[selectedTags, setSelectedTags] = useState([]);
+    const[goal, setGoal] = useState("none");
+    const[userTrainingSession, setUserTrainingSession] = useState({});
 
     function handleCheckIn(e){
         e.preventDefault();
         setShowForm(true);
     }
 
+    const handleTagToggle = (tag) => {
+        console.log("in handleTagToggle");
+        console.log("tag is: " + tag);
+        console.log("before doing anything, selectedTags are: " + selectedTags);
+
+        if (selectedTags.includes(tag)) {
+            setSelectedTags(selectedTags.filter((t) => t !== tag));
+        } else {
+            selectedTags.push(tag)
+            setSelectedTags(selectedTags);
+            console.log("now, selected Tags are" + selectedTags);
+        }
+    };
+
     async function handleSubmit(e) {
-        console.log("here is the data for the request object");
-        console.log("intensity rating is: " + intensityRating);
-        console.log("technique enjoyment is: " + techniqueEnjoyment);
-        console.log("performance rating is: " + performanceRating);
-        console.log("note is: " + note);
-        console.log("tags are: " + tags);
-        console.log("eventId is: " + eventId);
-        console.log("email is: " + email);
-        console.log("timeAndDate is: " + timeAndDate);
-        console.log("type is: " + type);
-        console.log("coach is: " + coach);
         e.preventDefault();
         setShowForm(false);
-        setStatus('submitted');
+        const tagsToSubmit = selectedTags.size === 0 ? new Set(['none']) : selectedTags;
+
         try {
             const api = axios.create({
                 baseURL: 'http://localhost:3000'
             })
-            const result = await api.put('/user-training-sessions/{email}/{eventId}',
-                {
-                    email: encodeURIComponent(email), //from props
-                    eventId: eventId, //from props
+            const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
+                {//from props
                     timeAndDate: timeAndDate, //from props
                     type: type, //from props
                     coach: coach, //from props
@@ -63,14 +65,14 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                     techniqueEnjoyment: techniqueEnjoyment, //user input
                     performanceRating: performanceRating, //user input
                     note: note, //not adding this functionality yet
-                    goal: note, //not adding this functionality yet
-                    tags: tags, //user input
+                    goal: goal, //not adding this functionality yet
+                    tags: tagsToSubmit, //user input
                     attended: true,
 
                 });
-            const userTrainingSession = result.data.userTrainingSession;
+            setUserTrainingSession(result.data.userTrainingSession);
+            setShowForm(false);
         } catch (error) {
-            setError(error);
             console.log("error updating user training session", error);
         }
     }
@@ -79,9 +81,10 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
         <form>
             {!showForm &&
             <Button //on when form has not been filled out
-                variation="primary"
+                variation="link"
                 onClick={handleCheckIn}
             >Record My Training</Button>}
+
             {showForm&&
             <View
                 position="relative"
@@ -135,18 +138,53 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             <Card>
                 <TagSelector
                     tags={["come up sweep", "guard retention", "single leg takedown", "pressure passing", "submission defense", "back control", "conditioning", "mindset"]}
+                    selectedTags={selectedTags}
+                    key={selectedTags}
+                    onSelect={(word)=> handleTagToggle(word)}
                 />
-            </Card>
 
+                {selectedTags &&
+                    <div>
+                        <Heading level={6}>Tags you are adding</Heading>
+                        <Collection
+                            type = "list"
+                            backgroundColor={tokens.colors.white}
+                            items={selectedTags}
+                            gap = "1.rem"
+                        >
+                            {(item, index) => (
+                                <Card
+                                    key={index}
+                                    selectedTag={item}
+                                    backgroundColor={tokens.colors.brand.primary[20]}
+                                    padding={tokens.space.medium}
+                                >{item}
+                                </Card>
+                            )}
+                        </Collection> </div>}
+            </Card>
             <TextAreaField
                 label="Notes from today"
+                value={note}
+                onChange={(e)=>setNote(e.target.value)}
             ></TextAreaField >
-                <GoalSelector goals={["Not today", "Train 4 days in one week", "Manage frustration while rolling with Taylor", "Defend the berimbolo"]}
+                <GoalSelector
+                    onChange={(e)=>setGoal(e.target.value)}
+                    goals={["Not today", "Train 4 days in one week", "Manage frustration while rolling with Taylor", "Defend the berimbolo"]}
                               ></GoalSelector>
             <Button onClick={handleSubmit} size="large"> Submit</Button>
             </Card>
             </View>}
+            {!showForm &&
+            <Card>
+                <UpdatedUserTrainingSession
+                userTrainingSession={userTrainingSession}
+                />
+
+            </Card>
+            }
         </form>
+
 
     );
 }

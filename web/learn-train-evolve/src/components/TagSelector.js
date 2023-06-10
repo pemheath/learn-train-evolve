@@ -11,22 +11,11 @@ import {
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
 
-const TagSelector = ({ tags }) => {
+const TagSelector = ({ tags, selectedTags, onSelect }) => {
     const[tagsToDisplay, setTagsToDisplay] = useState(tags);
-    const [selectedTags, setSelectedTags] = useState([]);
     const[newTag, setNewTag] = useState('');
     const {tokens} = useTheme();
     const [showMessage ,setShowMessage] = useState(false)
-
-
-    const handleTagToggle = (tag) => {
-
-        if (selectedTags.includes(tag)) {
-            setSelectedTags(selectedTags.filter((t) => t !== tag));
-        } else {
-            setSelectedTags([...selectedTags, tag]);
-        }
-    };
 
     useEffect(() => {
         let timeoutId;
@@ -50,10 +39,9 @@ const TagSelector = ({ tags }) => {
         else{
             setShowMessage(true);
             selectedTags.push(word);
-            setSelectedTags(selectedTags);
             tagsToDisplay.push(word);
+            onSelect(word);
             setTagsToDisplay(tagsToDisplay);}
-
     }
 
 
@@ -73,7 +61,7 @@ const TagSelector = ({ tags }) => {
                     tag={tag}
                     value={tag}
                     isPressed={selectedTags.includes(tag)}
-                    onChange={handleTagToggle}
+                    onChange={onSelect}
                     isExclusive={false}
                 >{tag}
                 </ToggleButton>
@@ -103,28 +91,8 @@ const TagSelector = ({ tags }) => {
                         > New tag Successfully added!
                         </View>
                     </div>}
-
             </form>
             </Card>
-            {selectedTags &&
-                <div>
-                    <Heading level={6}>Tags you are adding</Heading>
-                <Collection
-                    type = "list"
-                    backgroundColor={tokens.colors.white}
-                    items={selectedTags}
-                    gap = "1.rem"
-                >
-                    {(item, index) => (
-                        <Card
-                            key={index}
-                            selectedTag={item}
-                            backgroundColor={tokens.colors.brand.primary[20]}
-                            padding={tokens.space.medium}
-                        >{item}
-                        </Card>
-                    )}
-            </Collection> </div>}
         </View>
     );
 };
