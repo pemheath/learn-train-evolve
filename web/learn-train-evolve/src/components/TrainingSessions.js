@@ -6,11 +6,8 @@ import SingleTrainingSession from "./SingleTrainingSession";
 import {
     Collection,
     ScrollView,
-    Card,
     Flex,
     Heading,
-    Button,
-    Text,
     useTheme
 } from '@aws-amplify/ui-react';
 

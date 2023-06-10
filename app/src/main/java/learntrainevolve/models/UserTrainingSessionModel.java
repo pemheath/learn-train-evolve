@@ -1,9 +1,5 @@
 package learntrainevolve.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import learntrainevolve.utils.serializers.CustomDateTimeSerializer;
-
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -15,11 +11,11 @@ public class UserTrainingSessionModel {
     private Long timeAndDate;
     private String type;
     private String coach;
-    private Double intensityRating;
+    private int intensityRating;
     private int techniqueEnjoyment;
     private int performanceRating;
-    private int noteNumber;
-    private int goalNumber;
+    private String note;
+    private String goal;
     private Set<String> tags;
     private Boolean attended;
 
@@ -33,15 +29,15 @@ public class UserTrainingSessionModel {
     }
 
     public UserTrainingSessionModel(String email, String eventId, Long timeAndDate, String type, String coach,
-                                    Double intensityRating, int techniqueEnjoyment, int performanceRating,
-                                    int noteNumber, int goalNumber,
+                                    int intensityRating, int techniqueEnjoyment, int performanceRating,
+                                    String noteNumber, String goalNumber,
                                     Set<String> tags, Boolean attended) {
         this(email, eventId, timeAndDate, type, coach);
         this.intensityRating = intensityRating;
         this.techniqueEnjoyment = techniqueEnjoyment;
         this.performanceRating = performanceRating;
-        this.noteNumber = noteNumber;
-        this.goalNumber = goalNumber;
+        this.note = noteNumber;
+        this.goal = goalNumber;
         this.tags = new HashSet<>(tags);
         this.attended = attended;
     }
@@ -66,7 +62,7 @@ public class UserTrainingSessionModel {
 
     public String getCoach() { return coach ;}
 
-    public Double getIntensityRating() {
+    public int getIntensityRating() {
         return intensityRating;
     }
 
@@ -78,12 +74,12 @@ public class UserTrainingSessionModel {
         return performanceRating;
     }
 
-    public int getNoteNumber() {
-        return noteNumber;
+    public String getNote() {
+        return note;
     }
 
-    public int getGoalNumber() {
-        return goalNumber;
+    public String getGoal() {
+        return goal;
     }
 
     public Set<String> getTags() {
@@ -115,13 +111,12 @@ public class UserTrainingSessionModel {
         private String eventId;
         private Long timeAndDate;
         private String type;
-
         private String coach;
-        private Double intensityRating;
+        private int intensityRating;
         private int techniqueEnjoyment;
         private int performanceRating;
-        private int noteNumber;
-        private int goalNumber;
+        private String note;
+        private String goal;
         private Set<String> tags;
         private Boolean attended;
 
@@ -154,11 +149,10 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withIntensityRating(Double intensityRating) {
-            if (intensityRating != null) {
+        public Builder withIntensityRating(int intensityRating) {
             this.intensityRating = intensityRating;
-            return this; }
             return this;
+
         }
 
         public Builder withTechniqueEnjoyment(int techniqueEnjoyment) {
@@ -171,13 +165,18 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withNoteNumber(int noteNumber) {
-            this.noteNumber = noteNumber;
+        public Builder withNote(String note) {
+            if(note!= null) {
+            this.note = note;
+            return this; }
             return this;
+
         }
 
-        public Builder withGoalNumber(int goalNumber) {
-            this.goalNumber = goalNumber;
+        public Builder withGoal(String goal) {
+            if(goal!=null) {
+            this.goal = goal;
+            return this;}
             return this;
         }
 
@@ -200,8 +199,8 @@ public class UserTrainingSessionModel {
 
         public UserTrainingSessionModel build() {
             return new UserTrainingSessionModel(email, eventId, timeAndDate, type, coach,
-                    intensityRating, techniqueEnjoyment, performanceRating, noteNumber,
-                    goalNumber, tags, attended);
+                    intensityRating, techniqueEnjoyment, performanceRating, note,
+                    goal, tags, attended);
         }
     }
 }
