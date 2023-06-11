@@ -4,32 +4,45 @@ import learntrainevolve.models.UserTrainingSessionModel;
 
 public class SyncTrainingSessionsResponse {
 
-    private final UserTrainingSessionModel userTrainingSessionModel;
+    private final String message;
+    private final int numberOfEventsProcessed;
 
-    private SyncTrainingSessionsResponse(UserTrainingSessionModel userTrainingSessionModel) {
-        this.userTrainingSessionModel = userTrainingSessionModel;
+    private SyncTrainingSessionsResponse(String message, int numberOfEventsProcessed) {
+        this.message = message;
+        this.numberOfEventsProcessed = numberOfEventsProcessed;
     }
 
-    public UserTrainingSessionModel getUserTrainingSession() {return userTrainingSessionModel;}
+
+    public String getMessage() {return message;}
+    public int getNumberOfEventsProcessed() {return numberOfEventsProcessed;}
 
     @Override
     public String toString() {
         return "LogTrainingResponse{" +
-                "userTrainingSessionModel=" + userTrainingSessionModel +
+                "message='" + message + '\'' +
+                "numberOfEventsProcessed=" + numberOfEventsProcessed +
                 '}';
     }
 
     public static Builder builder() {return new Builder();}
     public static class Builder {
-        private UserTrainingSessionModel userTrainingSessionModel;
+        private String message;
 
-        public Builder withUserTrainingSessionModel(UserTrainingSessionModel userTrainingSessionModel) {
-            this.userTrainingSessionModel = userTrainingSessionModel;
+        private int numberOfEventsProcessed;
+
+        public Builder withMessage(String message) {
+
+            this.message = message;
+            return this;
+        }
+
+        public Builder withNumberOfEventsProcessed(int numberOfEventsProcessed) {
+            this.numberOfEventsProcessed = numberOfEventsProcessed;
             return this;
         }
 
         public SyncTrainingSessionsResponse build() {
-            return new SyncTrainingSessionsResponse(userTrainingSessionModel);}
+            return new SyncTrainingSessionsResponse(message, numberOfEventsProcessed);}
     }
 
 

@@ -30,6 +30,14 @@ public class TrainingSessionDao {
         return trainingSession;
     }
 
+    public String saveList(List<TrainingSession> trainingSessions) {
+        try{
+        this.mapper.batchSave(trainingSessions);
+        return "Success";} catch (Exception e){
+            return "Failure";
+        }
+    }
+
     public TrainingSession getTrainingSessionById(String eventId) {
         return this.mapper.load(TrainingSession.class, eventId);
     }

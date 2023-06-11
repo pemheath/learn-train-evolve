@@ -11,7 +11,6 @@ public class TrainingSession {
     private long timeAndDate;
     private String type;
     private Boolean isCancelled;
-
     private String coach;
 
     @DynamoDBHashKey(attributeName = "eventId")

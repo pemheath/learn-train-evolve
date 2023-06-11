@@ -1,5 +1,6 @@
 package learntrainevolve.utils;
 
+ import dagger.Provides;
  import software.amazon.awssdk.regions.Region;
  import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
  import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
@@ -11,12 +12,11 @@ public class GoogleCalAPIUtils {
 
     /**
      * @param secretName
-     * @return
-     * @throws ResourceNotFoundException
-     * @throws InvalidParameterException
-     * @throws InvalidRequestException
+     * @return Secret
+     * @throws Exception
      */
-    public static void getSecret(String secretName) throws Exception{
+
+    public static String getSecret(String secretName) throws Exception{
 
 
         Region region = Region.of("us-east-2");
@@ -38,9 +38,6 @@ public class GoogleCalAPIUtils {
             throw new Exception(e.getMessage(), e.getCause());
         }
 
-        String secret = getSecretValueResponse.secretString();
-
-
+        return getSecretValueResponse.secretString();
     }
-
 }
