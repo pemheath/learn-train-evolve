@@ -355,6 +355,28 @@ Resources:
             Auth:
               Authorizer: 'NONE'
 
+  SyncTrainingSessionsLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: learntrainevolve.lambda.SyncTrainingSessionsLambda
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        app:
+          Type: Api
+          Properties:
+            Path: /training-sessions
+            Method: post
+            Auth:
+              Authorizer: AdminLambdaAuthorizer
+
     #-----------------------------------------------------
     # DynamoDB Configuration
     #-----------------------------------------------------

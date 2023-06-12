@@ -18,7 +18,7 @@ public class SyncTrainingSessionsLambda
                 () ->
                     input.fromQuery(query ->
                                     SyncTrainingSessionsRequest.builder()
-                                            .withCalId(query.get("calId"))
+                                            .withCalId(query.get("cal"))
                                             .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideSyncTrainingSessionsActivity().handleRequest(request)

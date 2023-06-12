@@ -1,14 +1,10 @@
 package learntrainevolve.externalApis;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.DateTime;
-import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
-import learntrainevolve.dynamodb.models.TrainingSession;
+
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

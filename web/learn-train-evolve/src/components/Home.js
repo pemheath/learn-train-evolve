@@ -3,14 +3,27 @@ import '../styles.css';
 import TrainingSessions from "./TrainingSessions";
 import Goals from "./Goals";
 import Lessons from "./Lessons";
+import {Auth} from "aws-amplify";
 
 
 import {
     Collection, View
 } from '@aws-amplify/ui-react';
+import {Auth} from "aws-amplify";
 
 
 export const Home = () => {
+
+    const[loggedIn, setLoggedIn] = React.useState(false);
+    const isUserLoggedIn = async ()=> {
+        try {
+            await Auth.currentAuthenticatedUser();
+            setLoggedIn(true);
+        }
+        catch(e) {
+            setLoggedIn(false);
+        }
+    }
     const items = [
         <Lessons/>,
         <TrainingSessions/>,
@@ -19,6 +32,7 @@ export const Home = () => {
 
     return (
 
+        loggedIn &&
         <Collection
             type="grid"
             items={items}
@@ -28,15 +42,15 @@ export const Home = () => {
             {(item, index) => {
                 return (
                     <View
-                    key={index}
-                    column={index+1}
-                >
-                {item}
-                </View>
+                        key={index}
+                        column={index + 1}
+                    >
+                        {item}
+                    </View>
                 );
             }}
         </Collection>
-    );
+);
 };
 
 export default Home;
