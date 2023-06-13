@@ -12,20 +12,14 @@ public class SyncTrainingSessionsRequest {
 
     private final String calId;
 
-
-
-
-
     public SyncTrainingSessionsRequest(String calId) {
         this.calId = calId;
 
     }
 
-
     public String getCalId() {
         return calId;
     }
-
 
     @Override
     public String toString() {
@@ -49,11 +43,8 @@ public class SyncTrainingSessionsRequest {
             return this;
         }
 
-
-
-
         public SyncTrainingSessionsRequest build() {
-            System.out.println("building the java request object");
+            System.out.println("building the java request object with calId" + calId);
             return new SyncTrainingSessionsRequest(calId);
 
         }

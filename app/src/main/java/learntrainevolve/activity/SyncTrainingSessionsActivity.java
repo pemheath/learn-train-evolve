@@ -5,8 +5,9 @@ import learntrainevolve.activity.requests.SyncTrainingSessionsRequest;
 import learntrainevolve.activity.responses.SyncTrainingSessionsResponse;
 import learntrainevolve.dynamodb.TrainingSessionDao;
 import learntrainevolve.dynamodb.models.TrainingSession;
+import learntrainevolve.exceptions.FailedExternalAPICallException;
+import learntrainevolve.exceptions.IllegalEventFormatException;
 import learntrainevolve.externalApis.GoogleCalEventDao;
-import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,44 +44,57 @@ public class SyncTrainingSessionsActivity {
         this.googleCalEventDao = googleCalEventDao;
     }
     /**
-     * This method handles the incoming request by updating a user training session.
-     * with the provided UserTrainingSession information (eventId, timeAndDate, type, coach, email, intensityRatung,
-     * techniqueEnjoyment, performanceRating, noteNumber, goalNumber, tags, attended).
+     * This method handles the incoming request by retrieving all events from the Google Calendar and adding them as training sessions to DynamoDB
      *
-     * It then returns the updated UserTrainingSession.
-     * <p>
-     * If the provided tags object is an invalid type, throws an
-     * InvalidAttributeValueException
+     * The method accepts the Calendar ID, and, if successful, returns a message of how many events have been synced to the table.
+
+     * <p>If the request includes an invalid CalId, throws an InvalidRequestException.
      *
-     * @param request SyncTrainingSessions request object containing the eventId, timeAndDate, type, coach, email, intensityRating,
-     *      * techniqueEnjoyment, performanceRating, noteNumber, goalNumber, tags, and attended information.
-     * @return SyncTrainingSessionsResponse  object containing the API defined {@link UserTrainingSessionModel}
-     * @throws learntrainevolve.exceptions.InvalidRequestException when tags or type are invalid.
+     * If the calendar contain events that are not properly formatted with a title, start time, and optional caoch, throws an IllegelEventFormatException.
+     *
+     *
+     * @param request SyncTrainingSessions request object containing the CalendarID belonging to the admin submitting the request.
+     * @return SyncTrainingSessionsResponse  object reporting the number of events successfully synced.
+     * @throws learntrainevolve.exceptions.FailedExternalAPICallException when Google Calendar API call fails.
+     * @throws learntrainevolve.exceptions.InvalidRequestException when CalendarID is invalid.
+     * @throws learntrainevolve.exceptions.IllegalEventFormatException when event is not properly formatted.
+     *
      */
 
-    public SyncTrainingSessionsResponse handleRequest(final SyncTrainingSessionsRequest request) throws GeneralSecurityException, IOException, InterruptedException {
+    public SyncTrainingSessionsResponse handleRequest(final SyncTrainingSessionsRequest request) {
 
         log.info("Received SyncTrainingSessionsRequest{}", request);
 
         // Use the information in the request to fetch a list of all google events
 
-        List<Event> calendarEvents = googleCalEventDao.getAllEvents(request.getCalId());
-        log.info("Received {} events from Google Calendar", calendarEvents.size());
-        // convert the list of google events to a list of TrainingSession objects
+        List<Event> calendarEvents = null;
+        try {
+            calendarEvents = googleCalEventDao.getAllEvents(request.getCalId());
+        }catch (GeneralSecurityException | IOException e) {
+            throw new FailedExternalAPICallException(e.getMessage(), e.getCause());
+        }
+
+        // convert the list of Google events to a list of TrainingSession objects
         List<TrainingSession> sessionList = new ArrayList<>();
         for (Event event : calendarEvents) {
-            TrainingSession session = new TrainingSession();
-            session.setType(event.getSummary());
-            session.setEventId(event.getId());
-            session.setTimeAndDate(event.getStart().getDateTime().getValue() / 1000);
-            session.setCoach(event.getDescription());
-            sessionList.add(session);
+            try {
+                TrainingSession session = new TrainingSession();
+                session.setType(event.getSummary());
+                session.setEventId(event.getId());
+                session.setTimeAndDate(event.getStart().getDateTime().getValue() / 1000);
+                session.setCoach(event.getDescription());
+                session.setIsCancelled(false);
+                sessionList.add(session);
+            } catch (NullPointerException e) {
+                throw new IllegalEventFormatException("Event may not have been properly formatted" +
+                        "leading to a NPE in transition to a Training Session", e.getCause());
+            }
         }
+        System.out.println("converted events to training sessions");
         //upload those sessions to DynamoDB
         String message = trainingSessionDao.saveList(sessionList);
         return SyncTrainingSessionsResponse.builder()
                 .withMessage(message)
-                .withNumberOfEventsProcessed(sessionList.size())
                 .build();
         }
 

@@ -33,7 +33,7 @@ public class TrainingSessionDao {
     public String saveList(List<TrainingSession> trainingSessions) {
         try{
         this.mapper.batchSave(trainingSessions);
-        return "Success";} catch (Exception e){
+        return "Training Sessions Successfully added";} catch (Exception e){
             return "Failure";
         }
     }

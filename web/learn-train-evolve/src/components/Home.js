@@ -5,11 +5,10 @@ import Goals from "./Goals";
 import Lessons from "./Lessons";
 import {Auth} from "aws-amplify";
 
-
 import {
     Collection, View
 } from '@aws-amplify/ui-react';
-import {Auth} from "aws-amplify";
+
 
 
 export const Home = () => {
@@ -18,6 +17,7 @@ export const Home = () => {
     const isUserLoggedIn = async ()=> {
         try {
             await Auth.currentAuthenticatedUser();
+            console.log('user is logged in');
             setLoggedIn(true);
         }
         catch(e) {
@@ -32,7 +32,6 @@ export const Home = () => {
 
     return (
 
-        loggedIn &&
         <Collection
             type="grid"
             items={items}

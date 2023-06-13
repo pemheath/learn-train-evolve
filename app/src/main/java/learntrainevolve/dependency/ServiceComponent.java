@@ -5,6 +5,7 @@ import learntrainevolve.activity.GetTrainingSessionsActivity;
 import dagger.Component;
 import learntrainevolve.activity.LogTrainingActivity;
 import learntrainevolve.activity.SyncTrainingSessionsActivity;
+import learntrainevolve.externalApis.GoogleCalEventDao;
 
 import javax.inject.Singleton;
 
@@ -26,6 +27,7 @@ public interface ServiceComponent {
     LogTrainingActivity provideLogTrainingActivity();
 
     SyncTrainingSessionsActivity provideSyncTrainingSessionsActivity();
+
 
 
 }

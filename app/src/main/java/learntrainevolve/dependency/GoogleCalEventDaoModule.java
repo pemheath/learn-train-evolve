@@ -3,7 +3,6 @@ import static learntrainevolve.utils.GoogleCalAPIUtils.getSecret;
 
 import dagger.Module;
 import dagger.Provides;
-import java.net.http.HttpClient;
 import learntrainevolve.externalApis.Credentials;
 
 import javax.inject.Singleton;
@@ -12,11 +11,7 @@ import javax.inject.Singleton;
 @Module
 public class GoogleCalEventDaoModule {
 
-    @Singleton
-    @Provides
-    public HttpClient provideHttpClient() {
-        return HttpClient.newHttpClient();
-    }
+
 
     @Singleton
     @Provides

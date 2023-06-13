@@ -29,9 +29,9 @@ const AdminComponent = () => {
             const api = axios.create({
                 baseURL: 'http://localhost:3000'
             })
-            const queryParams = new URLSearchParams({cal: calId})
-            const queryString = queryParams.toString();
-            const response = await api.post(`training-sessions?${queryString}`);
+            console.log("calling post with url `training-sessions?cal=${}`", calId);
+            const response = await api.post(`training-sessions?cal=${calId}`);
+
             return response.data;
         } catch (error) {
             console.log('Error syncing sessions with user calendar ID:', error);
