@@ -52,10 +52,15 @@
         "operationId": "SyncTrainingSessions",
         "parameters": [
           {"name":"googleCalId",
-            "in":"path",
+            "in":"query",
             "description": "The value of the calendar to pull data from",
             "required": true
-            }
+            },
+          {"name":"filter",
+            "in":"query",
+            "description": "An optional parameter to only syn certain training sessions",
+            "required": false
+          }
         ],
         "responses": {
           "200": {

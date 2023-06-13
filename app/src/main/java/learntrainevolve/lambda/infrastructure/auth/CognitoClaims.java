@@ -77,4 +77,12 @@ public class CognitoClaims {
         }
         return email;
     }
+
+    public String getCalId() {
+        String calId = jwtClaims.getClaimValueAsString("calId");
+        if (StringUtils.isAllBlank(calId)) {
+            throw new RuntimeException("ERROR! Unable to get 'calId' claim. Claim does not exist or is blank.");
+        }
+        return calId;
+    }
 }
