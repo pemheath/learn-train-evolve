@@ -5,6 +5,8 @@ import learntrainevolve.activity.GetTrainingSessionsActivity;
 import dagger.Component;
 import learntrainevolve.activity.GetUserTrainingSessionsActivity;
 import learntrainevolve.activity.LogTrainingActivity;
+import learntrainevolve.activity.SyncTrainingSessionsActivity;
+import learntrainevolve.externalApis.GoogleCalEventDao;
 
 import javax.inject.Singleton;
 
@@ -12,7 +14,7 @@ import javax.inject.Singleton;
  * Dagger component for providing dependency injection in the Music Playlist Service.
  */
 @Singleton
-@Component(modules = {DaoModule.class})
+@Component(modules = {DaoModule.class, GoogleCalEventDaoModule.class})
 public interface ServiceComponent {
 
     /**
@@ -25,6 +27,9 @@ public interface ServiceComponent {
 
     LogTrainingActivity provideLogTrainingActivity();
 
+
     GetUserTrainingSessionsActivity provideGetUserTrainingSessionsActivity();
+
+    SyncTrainingSessionsActivity provideSyncTrainingSessionsActivity();
 
 }
