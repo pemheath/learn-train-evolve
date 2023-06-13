@@ -19,43 +19,26 @@ import UserTrainingSession from "./UserTrainingSession";
 const ListOfUserTrainingSessions = () => {
 
     const [userTrainingSessionList, setUserTrainingSessionList] = React.useState([]);
-    const [email, setEmail] = React.useState('');
-    const [name, setName] = React.useState('');
-    useEffect(() =>{ fetchSessions(); getUserInfo();},[]);
+    useEffect(() =>{ fetchSessions();},[]);
     const {tokens} = useTheme();
+
 
     const getUserInfo = async ()=> {
         const cognitoUser = await Auth.currentAuthenticatedUser();
         const { email, name } = cognitoUser.signInUserSession.idToken.payload;
-        setEmail(email);
-        setName(name);
+        return {email, name};
     }
-    useEffect(() => {
 
-        const epochTime = userTrainingSession.timeAndDate;
-        const date = new Date(epochTime * 1000); // Convert epoch time to milliseconds (*1000)
-        const readableDate = date.toLocaleString(); // Convert to readable format
-        console.log("readable date is" + readableDate);
+    const fetchSessions = async () => {
+        const authenticatedEmail = (await getUserInfo()).email;
 
-// Define the options for formatting the date and time, which will happen when timeAndDate changes
-        const options = {
-            weekday: 'long', // Display the full name of the weekday
-            month: 'long', // Display the full name of the month
-            day: 'numeric', // Display the day of the month
-            hour: 'numeric', // Display the hour
-            minute: 'numeric', // Display the minute
-            hour12: true, // Use 12-hour format (am/pm)
-        };
-        setFormattedDateTime(new Intl.DateTimeFormat('en-US', options).format(date));
-
-    }, [updatedUserTrainingSession.timeAndDate]);
-
-    const fetchSessions = async (email) => {
+        console.log("email for user training sessions is" + authenticatedEmail);
         try {
             const api = axios.create({
                 baseURL: 'http://localhost:3000'
             })
-            const response = await api.get(`/user-training-sessions/${email}`);
+            const response = await api.get(`/user-training-sessions/${authenticatedEmail}`);
+
             setUserTrainingSessionList(response.data.userTrainingSessionModelList);
         } catch (error) {
             console.log("error fetching training sessions", error);
@@ -91,6 +74,6 @@ const ListOfUserTrainingSessions = () => {
             </Flex>
         </div>);
 
-
-
 }
+
+export default ListOfUserTrainingSessions;

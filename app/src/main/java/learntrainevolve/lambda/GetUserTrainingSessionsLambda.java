@@ -21,9 +21,9 @@ public class GetUserTrainingSessionsLambda
     public LambdaResponse handleRequest(LambdaRequest<GetUserTrainingSessionsRequest> input, Context context) {
 
         return super.runActivity(
-                ()-> input.fromQuery(query ->
+                ()-> input.fromPath(p ->
                                 GetUserTrainingSessionsRequest.builder()
-                                        .withEmail(query.get("email"))
+                                        .withEmail(p.get("email"))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetUserTrainingSessionsActivity().handleRequest(request)
