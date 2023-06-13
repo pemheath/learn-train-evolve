@@ -3,6 +3,7 @@ package learntrainevolve.dependency;
 import learntrainevolve.activity.CreateUserTrainingSessionActivity;
 import learntrainevolve.activity.GetTrainingSessionsActivity;
 import dagger.Component;
+import learntrainevolve.activity.GetUserTrainingSessionsActivity;
 import learntrainevolve.activity.LogTrainingActivity;
 
 import javax.inject.Singleton;
@@ -24,5 +25,6 @@ public interface ServiceComponent {
 
     LogTrainingActivity provideLogTrainingActivity();
 
+    GetUserTrainingSessionsActivity provideGetUserTrainingSessionsActivity();
 
 }
