@@ -10,7 +10,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class UserTrainingSessionDao {
@@ -31,16 +33,20 @@ public class UserTrainingSessionDao {
     }
 
 
-    public PaginatedQueryList<UserTrainingSession> getNextWeekOfTrainingSessions(LocalDate today) {
-        String startDate = today.toString();
-        String endDate = today.plusDays(7).toString();
+    public List<UserTrainingSession> getNextWeekOfUserTrainingSessions(String email) {
+        Long timeMin = System.currentTimeMillis()/1000;
+        Long timeMax = timeMin + 604800;
         Map<String, AttributeValue> valueMap = new HashMap<>();
-        valueMap.put(":startDate" , new AttributeValue().withS(startDate));
-        valueMap.put(":endDate" , new AttributeValue().withS(endDate));
+        valueMap.put(":email", new AttributeValue().withS(email));
+        valueMap.put(":startDate" , new AttributeValue().withN(timeMin.toString()));
+        valueMap.put(":endDate" , new AttributeValue().withN(timeMax.toString()));
         DynamoDBQueryExpression<UserTrainingSession> queryExpression = new DynamoDBQueryExpression<UserTrainingSession>()
-                .withKeyConditionExpression("timeAndDate between :startDate and :endDate")
+                .withKeyConditionExpression("email= :email and timeAndDate between :startDate and :endDate")
                 .withExpressionAttributeValues(valueMap);
-        return this.mapper.query(UserTrainingSession.class, queryExpression);
+        PaginatedQueryList<UserTrainingSession> sessions= this.mapper.query(UserTrainingSession.class, queryExpression);
+        return sessions.stream()
+                .filter(userTrainingSession -> !userTrainingSession.getAttended())
+                .collect(Collectors.toList());
     }
 
 

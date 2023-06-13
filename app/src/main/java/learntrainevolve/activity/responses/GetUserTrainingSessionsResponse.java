@@ -1,25 +1,26 @@
 package learntrainevolve.activity.responses;
 
 import learntrainevolve.models.TrainingSessionModel;
+import learntrainevolve.models.UserTrainingSessionModel;
 
 import java.util.List;
 
 public class GetUserTrainingSessionsResponse {
 
-    private final List<TrainingSessionModel> trainingSessionModelList;
+    private final List<UserTrainingSessionModel> userTrainingSessionModelList;
 
-    private GetUserTrainingSessionsResponse(List<TrainingSessionModel> trainingSessionModelList) {
-        this.trainingSessionModelList = trainingSessionModelList;
+    private GetUserTrainingSessionsResponse(List<UserTrainingSessionModel> userTrainingSessionModelList) {
+        this.userTrainingSessionModelList = userTrainingSessionModelList;
     }
 
-    public List<TrainingSessionModel> GetUserTrainingSessionModelList(){
-        return trainingSessionModelList;
+    public List<UserTrainingSessionModel> GetUserTrainingSessionModelList(){
+        return userTrainingSessionModelList;
     }
 
     @Override
     public String toString() {
         return "GetUserTrainingSessionsResponse{" +
-                "trainingSessionModelList=" + trainingSessionModelList +
+                "trainingSessionModelList=" + userTrainingSessionModelList +
                 '}';
     }
 
@@ -27,16 +28,16 @@ public class GetUserTrainingSessionsResponse {
 
     public static class Builder {
 
-        private List<TrainingSessionModel> trainingSessionModelList;
+        private List<UserTrainingSessionModel> userTrainingSessionModelList;
 
-        public Builder withTrainingSessionModelList(List<TrainingSessionModel> trainingSessionModelList) {
+        public Builder withUserTrainingSessionModelList(List<UserTrainingSessionModel> userTrainingSessionModelList) {
             System.out.println("building response");
-            this.trainingSessionModelList = trainingSessionModelList;
+            this.userTrainingSessionModelList = userTrainingSessionModelList;
             return this;
         }
 
         public GetUserTrainingSessionsResponse build() {
-            return new GetUserTrainingSessionsResponse(trainingSessionModelList);
+            return new GetUserTrainingSessionsResponse(userTrainingSessionModelList);
         }
 
     }

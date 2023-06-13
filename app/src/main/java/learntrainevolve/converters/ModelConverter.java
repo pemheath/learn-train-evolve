@@ -44,4 +44,11 @@ public class ModelConverter {
                 .collect(Collectors.toList());
     }
 
+    public List<UserTrainingSessionModel> toListOfUserTrainingSessionModels(List<UserTrainingSession> userTrainingSessions) {
+
+        return userTrainingSessions.stream()
+                .map(this::toUserTrainingSessionModel)
+                .collect(Collectors.toList());
+    }
+
 }

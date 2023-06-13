@@ -23,7 +23,7 @@ public class GetUserTrainingSessionsLambda
         return super.runActivity(
                 ()-> input.fromQuery(query ->
                                 GetUserTrainingSessionsRequest.builder()
-                                        .withType(query.get("category"))
+                                        .withEmail(query.get("email"))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetUserTrainingSessionsActivity().handleRequest(request)

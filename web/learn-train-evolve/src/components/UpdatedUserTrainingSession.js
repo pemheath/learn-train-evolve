@@ -23,9 +23,7 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
             default:
                 return null;
         }
-
     }
-
     const translateTechniqueEnjoyment = (techniqueEnjoyment) => {
         switch (techniqueEnjoyment) {
             case 1:
@@ -47,7 +45,6 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
                 return null;
         }
     }
-
 
     return (
         <div>

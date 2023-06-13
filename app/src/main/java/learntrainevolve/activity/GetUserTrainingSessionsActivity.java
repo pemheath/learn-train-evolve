@@ -4,8 +4,8 @@ package learntrainevolve.activity;
 import learntrainevolve.activity.requests.GetUserTrainingSessionsRequest;
 import learntrainevolve.activity.responses.GetUserTrainingSessionsResponse;
 import learntrainevolve.converters.ModelConverter;
-import learntrainevolve.dynamodb.TrainingSessionDao;
-import learntrainevolve.models.TrainingSessionModel;
+import learntrainevolve.dynamodb.UserTrainingSessionDao;
+import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,28 +17,21 @@ public class GetUserTrainingSessionsActivity {
 
     private final Logger log = LogManager.getLogger();
 
-    private final TrainingSessionDao trainingSessionDao;
+    private final UserTrainingSessionDao userTrainingSessionDao;
 
     @Inject
-    public GetUserTrainingSessionsActivity(TrainingSessionDao trainingSessionDao) {
-        this.trainingSessionDao = trainingSessionDao;
+    public GetUserTrainingSessionsActivity(UserTrainingSessionDao userTrainingSessionDao) {
+        this.userTrainingSessionDao = userTrainingSessionDao;
     }
 
     public GetUserTrainingSessionsResponse handleRequest(final GetUserTrainingSessionsRequest request) {
-        List<TrainingSessionModel> listOfSessions;
+        List<UserTrainingSessionModel> listOfSessions;
         log.info("Received GetUserTrainingSessionsRequest {}}", request);
-        if(request.getType()==null) {
             listOfSessions = new ModelConverter()
-                    .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessions());
-        }
-
-        else {
-            listOfSessions = new ModelConverter()
-                    .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessionsByType(request.getType()));
-        }
+                    .toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail()));
 
         return GetUserTrainingSessionsResponse.builder()
-                .withTrainingSessionModelList(listOfSessions)
+                .withUserTrainingSessionModelList(listOfSessions)
                 .build();
 
     }
