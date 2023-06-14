@@ -1,25 +1,22 @@
 import React from "react";
 import axios from "axios";
-import {useEffect} from "react";
-import SingleTrainingSession from "./SingleTrainingSession";
+
 
 import {
     Collection,
     ScrollView,
     Flex,
     Heading,
-    useTheme
+    useTheme, Button
 } from '@aws-amplify/ui-react';
 import {Auth} from "aws-amplify";
-import userTrainingSession from "./UserTrainingSession";
-import updatedUserTrainingSession from "./UpdatedUserTrainingSession";
+
 import UserTrainingSession from "./UserTrainingSession";
 
 
 const ListOfUserTrainingSessions = () => {
 
     const [userTrainingSessionList, setUserTrainingSessionList] = React.useState([]);
-    useEffect(() =>{ fetchSessions();},[]);
     const {tokens} = useTheme();
 
 
@@ -32,16 +29,17 @@ const ListOfUserTrainingSessions = () => {
     const fetchSessions = async () => {
         const authenticatedEmail = (await getUserInfo()).email;
 
-        console.log("email for user training sessions is" + authenticatedEmail);
+        console.log("email for fetching all user training sessions is" + authenticatedEmail);
         try {
             const api = axios.create({
-                baseURL: 'http://localhost:3000'
+                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const response = await api.get(`/user-training-sessions/${authenticatedEmail}`);
+            console.log(response.status, response.data);
 
             setUserTrainingSessionList(response.data.userTrainingSessionModelList);
         } catch (error) {
-            console.log("error fetching training sessions", error);
+            console.log("error fetching user training sessions", error);
         }
     }
 
@@ -51,6 +49,13 @@ const ListOfUserTrainingSessions = () => {
                 direction="column"
             >
                 <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
+                <Button
+                    onClick={fetchSessions}
+                    variation="link"
+                >
+                    View My Sessions For The Week
+                </Button>
+                ({userTrainingSessionList} &&
                 <ScrollView
                     height = "300px"
                     width = "400px"
@@ -70,7 +75,7 @@ const ListOfUserTrainingSessions = () => {
                         )}
                     </Collection>
 
-                </ScrollView>
+                </ScrollView>)
             </Flex>
         </div>);
 

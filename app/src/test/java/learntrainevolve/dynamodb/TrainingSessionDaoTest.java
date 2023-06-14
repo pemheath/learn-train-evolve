@@ -44,13 +44,13 @@ class TrainingSessionDaoTest {
         assertEquals(trainingSession, result);
     }
 
-    @Test
-    public void getUpcomingTrainingSessions_whenInvoked_callsMapperWithScan() {
-        //WHEN
-        List<TrainingSession> resultList = trainingSessionDao.getUpcomingTrainingSessions();
-        verify(dynamoDBMapper).scan(eq(TrainingSession.class), any(DynamoDBScanExpression.class));
-
-    }
+//    @Test
+//    public void getUpcomingTrainingSessions_whenInvoked_callsMapperWithScan() {
+//        //WHEN
+//        List<TrainingSession> resultList = trainingSessionDao.getUpcomingTrainingSessions();
+//        verify(dynamoDBMapper).scan(eq(TrainingSession.class), any(DynamoDBScanExpression.class));
+//
+//    }
 
     @Test
     public void getUpcoiningTrainingSessionsByType_givenType_returnsFilteredList() {

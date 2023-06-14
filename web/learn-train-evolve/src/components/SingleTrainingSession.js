@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Heading, Text, useTheme, ThemeProvider} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
@@ -10,7 +10,6 @@ import {useNavigate} from "react-router-dom";
 const SingleTrainingSession = ({ trainingSession }) => {
 
     const navigate = useNavigate();
-    const {tokens} = useTheme();
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
 
     useEffect(() => {
@@ -44,7 +43,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
         console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
         try {
             const api = axios.create({
-                baseURL: 'http://localhost:3000'
+                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const authenticatedEmail = (await getUserInfo()).email;
             console.log("Email is: " + authenticatedEmail);
@@ -59,7 +58,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
             const userTrainingSession = result.data.userTrainingSession;
             setUserTrainingSession(userTrainingSession);
             setName((await  getUserInfo()).name);
-            navigate('/train', {state:{userTrainingSession: userTrainingSession, name: name}});
+            navigate(`/train/${authenticatedEmail}`, {state:{userTrainingSession: userTrainingSession, name: name}});
             console.log(userTrainingSession);
 
         } catch (error) {

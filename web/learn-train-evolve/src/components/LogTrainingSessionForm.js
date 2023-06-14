@@ -57,7 +57,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
         console.log("performance rating is:" + performanceRating)
         try {
             const api = axios.create({
-                baseURL: 'http://localhost:3000'
+                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props

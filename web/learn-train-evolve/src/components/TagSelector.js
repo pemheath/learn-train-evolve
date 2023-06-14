@@ -7,7 +7,7 @@ import {
     ToggleButton,
     Text,
     useTheme,
-    Flex, View, Collection,
+    Flex, View,
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
 
@@ -23,7 +23,7 @@ const TagSelector = ({ tags, selectedTags, onSelect }) => {
             timeoutId = setTimeout(() => {
                 setShowMessage(false);
                 // Reset the form here
-            }, 3000);
+            }, 2000);
         }
         return () => {
             clearTimeout(timeoutId);

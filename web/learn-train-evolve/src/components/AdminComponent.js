@@ -27,7 +27,7 @@ const AdminComponent = () => {
         try {
             await getCurrentUserCalId();
             const api = axios.create({
-                baseURL: 'http://localhost:3000'
+                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             console.log("calling post with url `training-sessions?cal=${}`", calId);
             const response = await api.post(`training-sessions?cal=${calId}`);

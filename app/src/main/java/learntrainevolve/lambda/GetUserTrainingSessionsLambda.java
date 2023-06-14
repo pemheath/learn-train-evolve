@@ -19,6 +19,7 @@ public class GetUserTrainingSessionsLambda
 
     @Override
     public LambdaResponse handleRequest(LambdaRequest<GetUserTrainingSessionsRequest> input, Context context) {
+        log.info("handleRequest");
 
         return super.runActivity(
                 ()-> input.fromPath(p ->

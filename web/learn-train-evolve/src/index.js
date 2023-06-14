@@ -15,6 +15,7 @@ import "./styles.css";
 import App from "./App";
 import ErrorPage from "./error-page";
 import ListOfUserTrainingSessions from "./components/ListOfUserTrainingSessions"
+import TrainComponent from "./components/TrainComponent";
 import {ThemeProvider} from "@aws-amplify/ui-react";
 
 
@@ -31,9 +32,15 @@ const router = createBrowserRouter([
     },
     {
         path: "/train",
-        element:<ListOfUserTrainingSessions/>,
+        element:<TrainComponent/>,
         errorElement: <ErrorPage/>,
-    }
+        children: [
+            {
+                path: "/train/:email",
+                element: <ListOfUserTrainingSessions/>,
+            },
+        ],
+    },
 
 ]);
 
