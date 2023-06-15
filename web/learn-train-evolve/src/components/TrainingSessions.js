@@ -19,9 +19,9 @@ import {
          console.log("fetchSessions called");
              try {
                  const api = axios.create({
-                     baseURL: `${process.env.REACT_APP_API_BASE_URL}`
+                     baseURL: process.env.REACT_APP_API_BASE_URL
                  })
-                 const response = await api.get('/training-sessions');
+                 const response = await api.get(`/training-sessions`);
                  const trainingSessionList = response.data.trainingSessionModelList;
                  setTrainingSessionList(trainingSessionList);
                  console.log("response is", response);

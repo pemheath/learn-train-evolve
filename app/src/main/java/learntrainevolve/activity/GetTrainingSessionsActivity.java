@@ -28,7 +28,7 @@ public class GetTrainingSessionsActivity {
 
     public GetTrainingSessionsResponse handleRequest(final GetTrainingSessionsRequest request) {
         List<TrainingSessionModel> listOfSessions;
-        log.info("Received GetTrainingSessionsRequest {}}", request);
+        log.info("Received GetTrainingSessionsRequest {}", request);
         if(request.getType()==null) {
             listOfSessions = new ModelConverter()
                     .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessions());

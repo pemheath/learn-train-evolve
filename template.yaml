@@ -423,6 +423,9 @@ Resources:
             AttributeType: "S"
           - AttributeName: "eventId"
             AttributeType: "S"
+          - AttributeName: "timeAndDate"
+            AttributeType: "N"
+
         KeySchema:
           - AttributeName: "email"
             KeyType: "HASH"
@@ -430,6 +433,18 @@ Resources:
             KeyType: "RANGE"
         BillingMode: "PAY_PER_REQUEST"
         TableName: "user_training_sessions"
+        GlobalSecondaryIndexes:
+          - IndexName: "UserTrainingSessionTimeDateIndex"
+            KeySchema:
+              - AttributeName: "email"
+                KeyType: "HASH"
+              - AttributeName: "timeAndDate"
+                KeyType: "RANGE"
+            Projection:
+              ProjectionType: "INCLUDE"
+              NonKeyAttributes:
+                - "type"
+                - "coach"
 
   #-----------------------------------------------------
   # The outputs defined below will be printed

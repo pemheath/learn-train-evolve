@@ -30,9 +30,11 @@ public class GetUserTrainingSessionsActivity {
             listOfSessions = new ModelConverter()
                     .toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail()));
 
-        return GetUserTrainingSessionsResponse.builder()
+        GetUserTrainingSessionsResponse response = GetUserTrainingSessionsResponse.builder()
                 .withUserTrainingSessionModelList(listOfSessions)
                 .build();
+        log.info("GetUserTrainingSessionsResponse = {}", response);
+        return response;
 
     }
 

@@ -10,6 +10,7 @@ function TrainComponent() {
 
     // allow component to read data passed from the state of the previous component
     const location = useLocation();
+    console.log("in the train component");
 
     return(
         <div>

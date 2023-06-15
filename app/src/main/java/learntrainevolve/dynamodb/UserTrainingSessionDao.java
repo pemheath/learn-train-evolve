@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class UserTrainingSessionDao {
 
 
     public List<UserTrainingSession> getNextWeekOfUserTrainingSessions(String email) {
-        log.info("In DAO callign getNextWeekOfUSerTrainingSessions");
+        log.info("In DAO calling getNextWeekOfUSerTrainingSessions");
         long timeMin = System.currentTimeMillis()/1000;
         long timeMax = timeMin + 604800;
         Map<String, AttributeValue> valueMap = new HashMap<>();
@@ -46,13 +47,13 @@ public class UserTrainingSessionDao {
         valueMap.put(":startDate" , new AttributeValue().withN(Long.toString(timeMin)));
         valueMap.put(":endDate" , new AttributeValue().withN(Long.toString(timeMax)));
         DynamoDBQueryExpression<UserTrainingSession> queryExpression = new DynamoDBQueryExpression<UserTrainingSession>()
+                .withIndexName("UserTrainingSessionTimeDateIndex")
+                .withConsistentRead(false)
                 .withKeyConditionExpression("email= :email and timeAndDate between :startDate and :endDate")
                 .withExpressionAttributeValues(valueMap);
         PaginatedQueryList<UserTrainingSession> sessions= this.mapper.query(UserTrainingSession.class, queryExpression);
         log.info("Retrieved dynamodb response {}", sessions);
-        return sessions.stream()
-                .filter(userTrainingSession -> !userTrainingSession.getAttended())
-                .collect(Collectors.toList());
+        return new ArrayList<>(sessions);
     }
 
 

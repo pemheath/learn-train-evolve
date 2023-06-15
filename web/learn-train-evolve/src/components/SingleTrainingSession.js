@@ -33,8 +33,9 @@ const SingleTrainingSession = ({ trainingSession }) => {
     }, [trainingSession.timeAndDate]);
 
     const getUserInfo = async ()=> {
-        const congnitoUser = await Auth.currentAuthenticatedUser();
-        const { email, name } = congnitoUser.signInUserSession.idToken.payload;
+        const cognitoUser = await Auth.currentAuthenticatedUser();
+        const { email, name } = cognitoUser.signInUserSession.idToken.payload;
+        console.log(email);
         return { email, name };
     }
     const [userTrainingSession, setUserTrainingSession] = useState([]);

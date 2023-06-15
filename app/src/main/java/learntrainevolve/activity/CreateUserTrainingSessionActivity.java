@@ -1,5 +1,6 @@
 package learntrainevolve.activity;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMappingException;
 import learntrainevolve.activity.requests.CreateUserTrainingSessionRequest;
 import learntrainevolve.activity.responses.CreateUserTrainingSessionResponse;
 
@@ -66,8 +67,11 @@ public class CreateUserTrainingSessionActivity {
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
 
 
-        userTrainingSessionDao.save(userTrainingSession);
-        log.info("Saved UserTrainingSession {}", userTrainingSession);
+        try{userTrainingSessionDao.save(userTrainingSession);
+        log.info("Saved UserTrainingSession {}", userTrainingSession);} catch (DynamoDBMappingException e) {
+            log.error(e.getMessage());
+            throw new RuntimeException(e.getMessage(), e.getCause());
+        }
 
 
         UserTrainingSessionModel userTrainingSessionModel = new ModelConverter().toUserTrainingSessionModel(userTrainingSession);

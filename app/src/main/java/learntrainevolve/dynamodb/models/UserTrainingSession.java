@@ -1,9 +1,6 @@
 package learntrainevolve.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +22,7 @@ public class UserTrainingSession {
     private Boolean attended;
 
     @DynamoDBHashKey(attributeName = "email")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = "UserTrainingSessionTimeDateIndex", attributeName = "email")
     public String getEmail() {
         return email;
     }
@@ -41,8 +39,8 @@ public class UserTrainingSession {
         this.eventId = eventId;
     }
 
-    @DynamoDBAttribute(attributeName = "timeAndDate")
-    public Long getTimeandDate() {
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "UserTrainingSessionTimeDateIndex", attributeName = "timeAndDate")
+    public Long getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -74,7 +72,7 @@ public class UserTrainingSession {
         this.intensityRating = intensityRating;
     }
 
-   @DynamoDBAttribute(attributeName = "techniqueEenjoyment")
+   @DynamoDBAttribute(attributeName = "techniqueEnjoyment")
     public int getTechniqueEnjoyment() {
         return techniqueEnjoyment;
     }
@@ -92,7 +90,7 @@ public class UserTrainingSession {
         this.performanceRating = performanceRating;
     }
 
-    @DynamoDBAttribute(attributeName = "noteNumber")
+    @DynamoDBAttribute(attributeName = "note")
     public String getNote() {
         return note;
     }
@@ -101,7 +99,7 @@ public class UserTrainingSession {
         this.note = note;
     }
 
-    @DynamoDBAttribute(attributeName = "goalNumber")
+    @DynamoDBAttribute(attributeName = "goal")
     public String getGoal() {
         return goal;
     }
@@ -118,6 +116,9 @@ public class UserTrainingSession {
     public void setTags(Set<String> tags) {
         this.tags = tags;
     }
+
+
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
 
     @DynamoDBAttribute(attributeName = "attended")
     public Boolean getAttended() {
