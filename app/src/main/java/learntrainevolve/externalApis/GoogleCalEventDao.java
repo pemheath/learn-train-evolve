@@ -35,12 +35,12 @@ public class GoogleCalEventDao {
 
     @Inject
     public GoogleCalEventDao(Credentials credentials) {
-
         this.credentials = credentials;
-        System.out.println("in event dao");
+
     }
 
     public List<Event> getAllEvents(String calendarId) throws GeneralSecurityException, IOException {
+        String temporaryCalId = "f4a9fc6df1b2e56e9b05eaa2b2dc2cfe883d95bf6801eb2ec0b8802936ba8241@group.calendar.google.com";
 
         // Set up the HTTP transport and credentials
         HttpTransport httpTransport = null;
@@ -49,19 +49,25 @@ public class GoogleCalEventDao {
         } catch (GeneralSecurityException | IOException e) {
             throw new FailedExternalAPICallException(e.getMessage(), e.getCause());
         }
+        log.info("http transport created");
         HttpRequestInitializer requestInitializer = request -> {
         };
+        log.info("request intializer initiated");
         // Set up the Calendar service
         Calendar calendarService = new Calendar.Builder(httpTransport, GSON_FACTORY, requestInitializer)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+        log.info("calendar service created");
+
+        log.info("Making call with API key{}", credentials.getApiKey());
 
 
         // Make the API request to get events
-        Events events = calendarService.events().list(calendarId)
+        Events events = calendarService.events().list(temporaryCalId)
                 .setKey(credentials.getApiKey())
                 .setSingleEvents(true)
                 .execute();
+        log.info("{}events received", events.size());
 
 
         return events.getItems();

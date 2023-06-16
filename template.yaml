@@ -203,6 +203,7 @@ Resources:
                 - lambda.amazonaws.com
             Action:
               - 'sts:AssumeRole'
+
       Policies:
         - PolicyName: 'WriteToCloudWatch'
           PolicyDocument:
@@ -231,6 +232,16 @@ Resources:
                 Action: dynamodb:*
                 Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/user_training_sessions"
 
+        - PolicyName: 'AccessToSecretsManager'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - secretsManager:GetSecretValue
+                Resource: !Sub "arn:aws:secretsManager:${AWS::Region}:${AWS::AccountId}:secret:lte/gcal/key"
+
+
   AuthorizerRole:
     Type: AWS::IAM::Role
     Properties:
@@ -255,6 +266,8 @@ Resources:
                 Action:
                   - cognito-idp:AdminGetUser
                 Resource: 'arn:aws:cognito-idp:us-east-2:*'
+
+
 
   #-----------------------------------------------------
   # Authorizing Lambda Functions Configuration
