@@ -36,6 +36,7 @@ const ListOfUserTrainingSessions = () => {
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const response = await api.get(`/user-training-sessions/${authenticatedEmail}`);
+            console.log(response);
             console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
             setUserTrainingSessionList(response.data.userTrainingSessionModelList);
             console.log("model list in state is", userTrainingSessionList);

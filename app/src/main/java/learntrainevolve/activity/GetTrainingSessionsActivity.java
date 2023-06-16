@@ -2,6 +2,7 @@ package learntrainevolve.activity;
 
 
 import learntrainevolve.converters.ModelConverter;
+import learntrainevolve.dynamodb.models.TrainingSession;
 import learntrainevolve.models.TrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,10 +31,12 @@ public class GetTrainingSessionsActivity {
         List<TrainingSessionModel> listOfSessions;
         log.info("Received GetTrainingSessionsRequest {}", request);
         if(request.getType()==null) {
+            List<TrainingSession> listFromDynamoDB=trainingSessionDao.getUpcomingTrainingSessions();
+            log.info("list from dynamoDB{}", listFromDynamoDB);
             listOfSessions = new ModelConverter()
-                    .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessions());
+                    .toListOfTrainingSessionModels(listFromDynamoDB);
+            log.info("list of models {}", listOfSessions);
         }
-
         else {
             listOfSessions = new ModelConverter()
                     .toListOfTrainingSessionModels(trainingSessionDao.getUpcomingTrainingSessionsByType(request.getType()));
@@ -42,7 +45,6 @@ public class GetTrainingSessionsActivity {
         return GetTrainingSessionsResponse.builder()
                 .withTrainingSessionModelList(listOfSessions)
                 .build();
-
     }
 
 }

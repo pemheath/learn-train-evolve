@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Singleton
 public class UserTrainingSessionDao {
@@ -61,10 +62,13 @@ public class UserTrainingSessionDao {
         try {
             sessions = this.mapper.query(UserTrainingSession.class, queryExpression);
             log.info("Retrieved dynamodb response {}", sessions);
+            long currentTime = System.currentTimeMillis()/1000;
+            return sessions.stream()
+                    .filter(s -> s.getTimeAndDate()>=currentTime)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage(), e.getCause());
         }
-        return sessions;
     }
 
 

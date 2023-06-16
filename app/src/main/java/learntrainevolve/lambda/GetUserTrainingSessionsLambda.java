@@ -10,6 +10,9 @@ import learntrainevolve.lambda.infrastructure.LambdaResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 
 public class GetUserTrainingSessionsLambda
         extends LambdaActivityRunner<GetUserTrainingSessionsRequest, GetUserTrainingSessionsResponse>
@@ -24,13 +27,12 @@ public class GetUserTrainingSessionsLambda
         return super.runActivity(
                 ()-> input.fromPath(p ->
                                 GetUserTrainingSessionsRequest.builder()
-                                        .withEmail(p.get("email"))
+                                        .withEmail(URLDecoder.decode(p.get("email"), StandardCharsets.UTF_8))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetUserTrainingSessionsActivity().handleRequest(request)
 
         );
-
 
     }
 }
