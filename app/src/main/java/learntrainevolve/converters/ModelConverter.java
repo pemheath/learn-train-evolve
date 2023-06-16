@@ -5,14 +5,21 @@ import learntrainevolve.dynamodb.models.UserTrainingSession;
 import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import learntrainevolve.utils.NullUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ModelConverter {
+    private final Logger log = LogManager.getLogger();
+
 
 
     public UserTrainingSessionModel toUserTrainingSessionModel(UserTrainingSession userTrainingSession) {
-        return UserTrainingSessionModel.builder()
+        UserTrainingSessionModel model = UserTrainingSessionModel.builder()
                 .withEmail(userTrainingSession.getEmail())
                 .withEventId(userTrainingSession.getEventId())
                 .withTimeAndDate(userTrainingSession.getTimeAndDate())
@@ -26,6 +33,9 @@ public class ModelConverter {
                 .withTags(userTrainingSession.getTags())
                 .withAttended(userTrainingSession.getAttended())
                 .build();
+        log.info("Model has data coach{}", model.getCoach());
+        log.info("Model has email {}", model.getEmail());
+        return model;
     }
 
     public TrainingSessionModel toTrainingSessionModel(TrainingSession trainingSession) {
@@ -46,9 +56,13 @@ public class ModelConverter {
 
     public List<UserTrainingSessionModel> toListOfUserTrainingSessionModels(List<UserTrainingSession> userTrainingSessions) {
 
-        return userTrainingSessions.stream()
-                .map(this::toUserTrainingSessionModel)
-                .collect(Collectors.toList());
+        List<UserTrainingSessionModel> listToReturn = new ArrayList<>();
+        for(UserTrainingSession session : userTrainingSessions) {
+            UserTrainingSessionModel model = toUserTrainingSessionModel(session);
+            log.info("session{} converted to model{}", session.toString(), model.toString());
+            listToReturn.add(model);
+        }
+        return listToReturn;
     }
 
 }

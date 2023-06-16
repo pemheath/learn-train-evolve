@@ -12,20 +12,23 @@ public class GetUserTrainingSessionsResponse {
     private final List<UserTrainingSessionModel> userTrainingSessionModelList;
     private final Logger log = LogManager.getLogger();
 
+
+
     private GetUserTrainingSessionsResponse(List<UserTrainingSessionModel> userTrainingSessionModelList) {
         this.userTrainingSessionModelList = userTrainingSessionModelList;
     }
 
-    public List<UserTrainingSessionModel> GetUserTrainingSessionModelList(){
+    public List<UserTrainingSessionModel> getUserTrainingSessionModelList(){
         return userTrainingSessionModelList;
     }
 
     @Override
     public String toString() {
         return "GetUserTrainingSessionsResponse{" +
-                "trainingSessionModelList=" + userTrainingSessionModelList +
+                "userTrainingSessionModelList=" + userTrainingSessionModelList +
                 '}';
     }
+
 
     public static Builder builder() {return new Builder();}
 

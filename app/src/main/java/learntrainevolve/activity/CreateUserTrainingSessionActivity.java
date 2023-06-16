@@ -8,6 +8,7 @@ import learntrainevolve.converters.ModelConverter;
 
 import learntrainevolve.dynamodb.UserTrainingSessionDao;
 import learntrainevolve.dynamodb.models.UserTrainingSession;
+import learntrainevolve.exceptions.InvalidRequestException;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -58,6 +59,9 @@ public class CreateUserTrainingSessionActivity {
 
     public CreateUserTrainingSessionResponse handleRequest(final CreateUserTrainingSessionRequest request) {
         log.info("Received CreateUserTrainingSessionRequest{}", request);
+        if (request.getEventId()==null || request.getEmail()==null) {
+            throw new InvalidRequestException("Key values must be provided");
+        }
 
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setEventId(request.getEventId());
@@ -70,7 +74,7 @@ public class CreateUserTrainingSessionActivity {
         try{userTrainingSessionDao.save(userTrainingSession);
         log.info("Saved UserTrainingSession {}", userTrainingSession);} catch (DynamoDBMappingException e) {
             log.error(e.getMessage());
-            throw new RuntimeException(e.getMessage(), e.getCause());
+            throw new InvalidRequestException(e.getMessage(), e.getCause());
         }
 
 

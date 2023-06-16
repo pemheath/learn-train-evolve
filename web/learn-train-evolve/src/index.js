@@ -31,16 +31,11 @@ const router = createBrowserRouter([
 
     },
     {
-        path: "/train",
+        path: "/train/:email",
         element:<TrainComponent/>,
         errorElement: <ErrorPage/>,
-        children: [
-            {
-                path: "/train/:email",
-                element: <ListOfUserTrainingSessions/>,
-            },
-        ],
     },
+
 
 ]);
 

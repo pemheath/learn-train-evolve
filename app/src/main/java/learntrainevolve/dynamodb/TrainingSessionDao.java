@@ -3,6 +3,7 @@ package learntrainevolve.dynamodb;
 import learntrainevolve.dynamodb.models.TrainingSession;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import learntrainevolve.exceptions.TrainingSessionNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,8 +43,16 @@ public class TrainingSessionDao {
     }
 
     public TrainingSession getTrainingSessionById(String eventId) {
-        return this.mapper.load(TrainingSession.class, eventId);
+        TrainingSession trainingSession = this.mapper.load(TrainingSession.class, eventId);
+        if(trainingSession!=null) {
+            return trainingSession;
+        }
+        else{
+            throw new TrainingSessionNotFoundException(String.format("Training session with eventID %s does not exist", eventId));
+        }
     }
+
+
 
 
     public List<TrainingSession> getUpcomingTrainingSessions() {

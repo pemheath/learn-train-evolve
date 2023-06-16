@@ -10,7 +10,7 @@ public class UserTrainingSession {
 
     private String email;
     private String eventId;
-    private Long timeAndDate;
+    private long timeAndDate;
     private String type;
     private String coach;
     private int intensityRating;
@@ -21,8 +21,8 @@ public class UserTrainingSession {
     private Set<String> tags;
     private Boolean attended;
 
+
     @DynamoDBHashKey(attributeName = "email")
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = "UserTrainingSessionTimeDateIndex", attributeName = "email")
     public String getEmail() {
         return email;
     }
@@ -39,12 +39,12 @@ public class UserTrainingSession {
         this.eventId = eventId;
     }
 
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = "UserTrainingSessionTimeDateIndex", attributeName = "timeAndDate")
-    public Long getTimeAndDate() {
+    @DynamoDBAttribute(attributeName = "timeAndDate")
+    public long getTimeAndDate() {
         return timeAndDate;
     }
 
-    public void setTimeAndDate(Long timeAndDate) {
+    public void setTimeAndDate(long timeAndDate) {
         this.timeAndDate = timeAndDate;
     }
 
@@ -119,7 +119,6 @@ public class UserTrainingSession {
 
 
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
-
     @DynamoDBAttribute(attributeName = "attended")
     public Boolean getAttended() {
         return attended;
@@ -141,8 +140,8 @@ public class UserTrainingSession {
                 ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment +
                 ", performanceRating=" + performanceRating +
-                ", noteNumber=" + note +
-                ", goalNumber=" + goal +
+                ", note=" + note +
+                ", goal=" + goal +
                 ", tags=" + tags +
                 ", attended=" + attended +
                 '}';

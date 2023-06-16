@@ -5,6 +5,7 @@ import learntrainevolve.activity.requests.GetUserTrainingSessionsRequest;
 import learntrainevolve.activity.responses.GetUserTrainingSessionsResponse;
 import learntrainevolve.converters.ModelConverter;
 import learntrainevolve.dynamodb.UserTrainingSessionDao;
+import learntrainevolve.dynamodb.models.UserTrainingSession;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,14 +26,17 @@ public class GetUserTrainingSessionsActivity {
     }
 
     public GetUserTrainingSessionsResponse handleRequest(final GetUserTrainingSessionsRequest request) {
+        List<UserTrainingSession> listOfPreModelSessions;
         List<UserTrainingSessionModel> listOfSessions;
         log.info("Received GetUserTrainingSessionsRequest {}}", request);
-            listOfSessions = new ModelConverter()
-                    .toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail()));
+        listOfPreModelSessions = userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail());
 
+        log.info("List returned from dynamo{}", listOfPreModelSessions);
+        listOfSessions = new ModelConverter().toListOfUserTrainingSessionModels(listOfPreModelSessions);
+        log.info("List converted into model list {}", listOfSessions.toString());
         GetUserTrainingSessionsResponse response = GetUserTrainingSessionsResponse.builder()
-                .withUserTrainingSessionModelList(listOfSessions)
-                .build();
+            .withUserTrainingSessionModelList(listOfSessions)
+            .build();
         log.info("GetUserTrainingSessionsResponse = {}", response);
         return response;
 

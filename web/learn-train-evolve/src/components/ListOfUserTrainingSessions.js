@@ -12,6 +12,7 @@ import {
 import {Auth} from "aws-amplify";
 
 import UserTrainingSession from "./UserTrainingSession";
+import SingleTrainingSession from "./SingleTrainingSession";
 
 
 const ListOfUserTrainingSessions = () => {
@@ -35,9 +36,9 @@ const ListOfUserTrainingSessions = () => {
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const response = await api.get(`/user-training-sessions/${authenticatedEmail}`);
-            console.log(response.status, response.data);
-
+            console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
             setUserTrainingSessionList(response.data.userTrainingSessionModelList);
+            console.log("model list in state is", userTrainingSessionList);
         } catch (error) {
             console.log("error fetching user training sessions", error);
         }
@@ -55,12 +56,7 @@ const ListOfUserTrainingSessions = () => {
                 >
                     View My Sessions For The Week
                 </Button>
-                ({userTrainingSessionList} &&
-                <ScrollView
-                    height = "300px"
-                    width = "400px"
-                    padding = "1rem"
-                    backgroundColor={tokens.colors.brand.primary[60]}>
+
                     <Collection
                         type = "list"
                         backgroundColor={tokens.colors.white}
@@ -74,8 +70,6 @@ const ListOfUserTrainingSessions = () => {
                             />
                         )}
                     </Collection>
-
-                </ScrollView>)
             </Flex>
         </div>);
 

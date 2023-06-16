@@ -1,5 +1,7 @@
 package learntrainevolve.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -8,7 +10,8 @@ public class UserTrainingSessionModel {
 
     private String email;
     private String eventId;
-    private Long timeAndDate;
+    @JsonProperty("timeAndDate")
+    private long timeAndDate;
     private String type;
     private String coach;
     private int intensityRating;
@@ -19,25 +22,25 @@ public class UserTrainingSessionModel {
     private Set<String> tags;
     private Boolean attended;
 
-    public UserTrainingSessionModel(String email, String eventId, Long timeAndDate, String type, String coach) {
+//    public UserTrainingSessionModel(String email, String eventId, long timeAndDate, String type, String coach) {
+
+//        tags = new HashSet<>();
+//    }
+
+    public UserTrainingSessionModel(String email, String eventId, long timeAndDate, String type, String coach,
+                                    int intensityRating, int techniqueEnjoyment, int performanceRating,
+                                    String note, String goal,
+                                    Set<String> tags, Boolean attended) {
         this.email = email;
         this.eventId = eventId;
         this.timeAndDate = timeAndDate;
         this.type = type;
         this.coach = coach;
-        tags = new HashSet<>();
-    }
-
-    public UserTrainingSessionModel(String email, String eventId, Long timeAndDate, String type, String coach,
-                                    int intensityRating, int techniqueEnjoyment, int performanceRating,
-                                    String noteNumber, String goalNumber,
-                                    Set<String> tags, Boolean attended) {
-        this(email, eventId, timeAndDate, type, coach);
         this.intensityRating = intensityRating;
         this.techniqueEnjoyment = techniqueEnjoyment;
         this.performanceRating = performanceRating;
-        this.note = noteNumber;
-        this.goal = goalNumber;
+        this.note = note;
+        this.goal = goal;
         this.tags = new HashSet<>(tags);
         this.attended = attended;
     }
@@ -52,7 +55,7 @@ public class UserTrainingSessionModel {
         return eventId;
     }
 
-    public Long getTimeAndDate() {
+    public long getTimeAndDate() {
         return timeAndDate;
     }
 
@@ -109,7 +112,7 @@ public class UserTrainingSessionModel {
     public static class Builder{
         private String email;
         private String eventId;
-        private Long timeAndDate;
+        private long timeAndDate;
         private String type;
         private String coach;
         private int intensityRating;
@@ -119,6 +122,26 @@ public class UserTrainingSessionModel {
         private String goal;
         private Set<String> tags;
         private Boolean attended;
+
+        @Override
+        public String toString() {
+
+            return "UserTrainingSession{" +
+                    "email='" + email + '\'' +
+                    ", eventId='" + eventId + '\'' +
+                    ", timeAndDate=" + timeAndDate +
+                    ", type='" + type + '\'' +
+                    ", coach='" + coach + '\'' +
+                    ", intensityRating=" + intensityRating +
+                    ", techniqueEnjoyment=" + techniqueEnjoyment +
+                    ", performanceRating=" + performanceRating +
+                    ", note=" + note +
+                    ", goal=" + goal +
+                    ", tags=" + tags +
+                    ", attended=" + attended +
+                    '}';
+        }
+
 
         public Builder withEmail(String email) {
             this.email = email;
@@ -130,22 +153,20 @@ public class UserTrainingSessionModel {
             return this;
         }
 
-        public Builder withTimeAndDate(Long timeAndDate) {
+        public Builder withTimeAndDate(long timeAndDate) {
             this.timeAndDate = timeAndDate;
             return this;
         }
 
         public Builder withType(String type) {
             if (type!=null) {this.type = type;
-                return this;}
+                } else{this.type="";}
             return this;
-
         }
 
         public Builder withCoach(String coach) {
-            if (coach!=null) {
-            this.coach = coach;
-            return this;}
+            if (coach!=null) {this.coach = coach;
+            } else{this.coach="";}
             return this;
         }
 
@@ -166,17 +187,14 @@ public class UserTrainingSessionModel {
         }
 
         public Builder withNote(String note) {
-            if(note!= null) {
-            this.note = note;
-            return this; }
+            if (note!=null) {this.note = note;
+            } else{this.note="";}
             return this;
-
         }
 
-        public Builder withGoal(String goal) {
-            if(goal!=null) {
-            this.goal = goal;
-            return this;}
+        public Builder withGoal(String goal){
+            if (goal!=null) {this.goal = goal;
+            } else{this.goal="";}
             return this;
         }
 
@@ -191,9 +209,8 @@ public class UserTrainingSessionModel {
         }
 
         public Builder withAttended(Boolean attended) {
-            if (attended != null) {
-            this.attended = attended;
-            return this;}
+            if (attended!=null) {this.attended = attended;
+            } else{this.attended=Boolean.FALSE;}
             return this;
         }
 

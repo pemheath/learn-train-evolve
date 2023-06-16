@@ -1,12 +1,17 @@
 package learntrainevolve.activity.responses;
 
 import learntrainevolve.models.UserTrainingSessionModel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CreateUserTrainingSessionResponse {
+    private final Logger log = LogManager.getLogger();
+
 
     private final UserTrainingSessionModel userTrainingSessionModel;
 
     private CreateUserTrainingSessionResponse(UserTrainingSessionModel userTrainingSessionModel) {
+        log.info("userTrainingSessionModel is {}", userTrainingSessionModel);
         this.userTrainingSessionModel = userTrainingSessionModel;
     }
 
