@@ -4,7 +4,9 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
 import learntrainevolve.dynamodb.models.TrainingSession;
+import learntrainevolve.exceptions.TrainingSessionNotFoundException;
 import net.bytebuddy.matcher.FilterableList;
+import org.apache.logging.log4j.util.TriConsumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -45,15 +47,31 @@ class TrainingSessionDaoTest {
     }
 
     @Test
-    public void getUpcomingTrainingSessions_whenInvoked_callsMapperWithScan() {
-        //WHEN
-        List<TrainingSession> resultList = trainingSessionDao.getUpcomingTrainingSessions();
-        verify(dynamoDBMapper).scan(eq(TrainingSession.class), any(DynamoDBScanExpression.class));
+    public void getTrainingSessionById_givenId_returnsSession(){
 
+        TrainingSession session = new TrainingSession();
+        session.setEventId("1234");
+        session.setCoach("Joel");
+        when(dynamoDBMapper.load(TrainingSession.class, "1234")).thenReturn(session);
+        TrainingSession result = trainingSessionDao.getTrainingSessionById("1234");
+        assertEquals(result.getCoach(), session.getCoach());
     }
 
     @Test
-    public void getUpcoiningTrainingSessionsByType_givenType_returnsFilteredList() {
+    public void getTrainingSessionById_givenNonExistantId_throwsSessionNotFoundException(){
+
+        TrainingSession session = new TrainingSession();
+        session.setEventId("1234");
+        session.setCoach("Joel");
+        when(dynamoDBMapper.load(TrainingSession.class, "124")).thenReturn(null);
+        assertThrows(TrainingSessionNotFoundException.class, () -> trainingSessionDao.getTrainingSessionById("124"));
+    }
+
+
+
+
+    @Test
+    public void getUpcomingTrainingSessionsByType_givenType_returnsFilteredList() {
         //GIVEN
         List<TrainingSession > resultList = new ArrayList<>();
         TrainingSession fundamentals = new TrainingSession();

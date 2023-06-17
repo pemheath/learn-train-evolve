@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import {useEffect} from "react";
 import SingleTrainingSession from "./SingleTrainingSession";
 
 import {
@@ -8,37 +7,46 @@ import {
     ScrollView,
     Flex,
     Heading,
-    useTheme
+    useTheme, Button,
 } from '@aws-amplify/ui-react';
+import App from "../App";
 
 
  const TrainingSessions = () => {
 
      const [trainingSessionList, setTrainingSessionList] = React.useState([]);
 
-     useEffect(() => {fetchSessions();}, []);
+     async function fetchSessions (){
+         console.log("fetchSessions called");
+             try {
+                 const api = axios.create({
+                     baseURL: process.env.REACT_APP_API_BASE_URL
+                 })
+                 const response = await api.get(`/training-sessions`);
+                 const trainingSessionList = response.data.trainingSessionModelList;
+                 setTrainingSessionList(trainingSessionList);
+                 console.log("response is", response);
+                 console.log("training session model list is: +", trainingSessionList);
+
+             } catch (error) {
+                 console.log("error fetching training sessions", error);
+             }
+         };
+
+
 
      const { tokens } = useTheme();
 
-     const fetchSessions = async () => {
-         try {
-             const api = axios.create({
-                 baseURL: 'http://localhost:3000'
-             })
-             const trainingSessionData = await api.get('/training-sessions');
-             const trainingSessionList = trainingSessionData.data.trainingSessionModelList;
-             setTrainingSessionList(trainingSessionList);
-             console.log(trainingSessionList);
-         } catch (error) {
-             console.log("error fetching training sessions", error);
-         }
-     }
+
 
          return (
              <div>
                      <Flex
                          direction="column"
                      >
+                         <Button
+                         onClick={fetchSessions}
+                         >Load Sessions</Button>
                      <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
                      <ScrollView
                          height = "300px"
@@ -64,5 +72,7 @@ import {
              </div>
          );
  };
+
+TrainingSessions.displayName="TrainingSessions";
 
  export default TrainingSessions;

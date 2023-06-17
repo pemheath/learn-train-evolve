@@ -14,6 +14,7 @@ import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
+import App from "../App";
 
 
 const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
@@ -57,7 +58,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
         console.log("performance rating is:" + performanceRating)
         try {
             const api = axios.create({
-                baseURL: 'http://localhost:3000'
+                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props
@@ -189,5 +190,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     );
 }
+
+LogTrainingSessionForm.displayName="LogTrainingSessionForm";
 
 export default LogTrainingSessionForm;

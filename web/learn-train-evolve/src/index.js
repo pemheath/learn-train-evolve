@@ -14,8 +14,10 @@ import "./styles.css";
 
 import App from "./App";
 import ErrorPage from "./error-page";
-import UserTrainingSession from "./components/UserTrainingSession";
+import ListOfUserTrainingSessions from "./components/ListOfUserTrainingSessions"
+import TrainComponent from "./components/TrainComponent";
 import {ThemeProvider} from "@aws-amplify/ui-react";
+
 
 Amplify.configure(awsExports);
 
@@ -29,17 +31,18 @@ const router = createBrowserRouter([
 
     },
     {
-        path: "/train",
-        element:<UserTrainingSession/>,
+        path: "/train/:email",
+        element:<TrainComponent/>,
         errorElement: <ErrorPage/>,
-    }
+    },
+
 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <ThemeProvider>
-        <React.StrictMode>
+    <React.StrictMode>
+        <ThemeProvider>
             <RouterProvider router={router} />
-        </React.StrictMode>
-    </ThemeProvider>
+        </ThemeProvider>
+    </React.StrictMode>
 );

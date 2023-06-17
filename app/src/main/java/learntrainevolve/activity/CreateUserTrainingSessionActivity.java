@@ -1,5 +1,6 @@
 package learntrainevolve.activity;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMappingException;
 import learntrainevolve.activity.requests.CreateUserTrainingSessionRequest;
 import learntrainevolve.activity.responses.CreateUserTrainingSessionResponse;
 
@@ -7,6 +8,7 @@ import learntrainevolve.converters.ModelConverter;
 
 import learntrainevolve.dynamodb.UserTrainingSessionDao;
 import learntrainevolve.dynamodb.models.UserTrainingSession;
+import learntrainevolve.exceptions.InvalidRequestException;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,6 +59,9 @@ public class CreateUserTrainingSessionActivity {
 
     public CreateUserTrainingSessionResponse handleRequest(final CreateUserTrainingSessionRequest request) {
         log.info("Received CreateUserTrainingSessionRequest{}", request);
+        if (request.getEventId()==null || request.getEmail()==null) {
+            throw new InvalidRequestException("Key values must be provided");
+        }
 
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setEventId(request.getEventId());
@@ -66,8 +71,11 @@ public class CreateUserTrainingSessionActivity {
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
 
 
-        userTrainingSessionDao.save(userTrainingSession);
-        log.info("Saved UserTrainingSession {}", userTrainingSession);
+        try{userTrainingSessionDao.save(userTrainingSession);
+        log.info("Saved UserTrainingSession {}", userTrainingSession);} catch (DynamoDBMappingException e) {
+            log.error(e.getMessage());
+            throw new InvalidRequestException(e.getMessage(), e.getCause());
+        }
 
 
         UserTrainingSessionModel userTrainingSessionModel = new ModelConverter().toUserTrainingSessionModel(userTrainingSession);

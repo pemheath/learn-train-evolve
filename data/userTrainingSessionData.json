@@ -1,0 +1,47 @@
+{
+"UserTrainingSession": [
+{"PutRequest": {
+    "Item": {
+      "email": {
+        "S": "peter.jones@gmail.com"
+      },
+      "eventId": {
+        "S": "245679"
+      },
+      "timeAndDate": {
+        "N": "1686232800"
+      },
+      "type": {
+        "S": "Fundamentals"
+      },
+      "coach": {
+        "S": "Felix"
+      },
+      "intensityRating": {
+        "N": "50"
+      },
+      "techniqueEnjoyment": {
+        "N": "6"
+      },
+      "performanceRating": {
+        "N": "4"
+      },
+      "note": {
+        "S": "I need to remember to invert all the way when attacking the far side omoplata"
+      },
+      "goal": {
+        "S": ""
+      },
+      "tags": {
+        "SS": [
+          "omoplata",
+          "far side collar sleve"
+        ]
+      },
+      "attended": {
+        "BOOL": true
+      }
+    }
+  }
+}]}
+

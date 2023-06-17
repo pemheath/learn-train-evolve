@@ -1,9 +1,6 @@
 package learntrainevolve.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
 import java.util.Objects;
 import java.util.Set;
@@ -13,7 +10,7 @@ public class UserTrainingSession {
 
     private String email;
     private String eventId;
-    private Long timeAndDate;
+    private long timeAndDate;
     private String type;
     private String coach;
     private int intensityRating;
@@ -23,6 +20,7 @@ public class UserTrainingSession {
     private String goal;
     private Set<String> tags;
     private Boolean attended;
+
 
     @DynamoDBHashKey(attributeName = "email")
     public String getEmail() {
@@ -42,11 +40,11 @@ public class UserTrainingSession {
     }
 
     @DynamoDBAttribute(attributeName = "timeAndDate")
-    public Long getTimeandDate() {
+    public long getTimeAndDate() {
         return timeAndDate;
     }
 
-    public void setTimeAndDate(Long timeAndDate) {
+    public void setTimeAndDate(long timeAndDate) {
         this.timeAndDate = timeAndDate;
     }
 
@@ -74,7 +72,7 @@ public class UserTrainingSession {
         this.intensityRating = intensityRating;
     }
 
-   @DynamoDBAttribute(attributeName = "techniqueEenjoyment")
+   @DynamoDBAttribute(attributeName = "techniqueEnjoyment")
     public int getTechniqueEnjoyment() {
         return techniqueEnjoyment;
     }
@@ -92,7 +90,7 @@ public class UserTrainingSession {
         this.performanceRating = performanceRating;
     }
 
-    @DynamoDBAttribute(attributeName = "noteNumber")
+    @DynamoDBAttribute(attributeName = "note")
     public String getNote() {
         return note;
     }
@@ -101,7 +99,7 @@ public class UserTrainingSession {
         this.note = note;
     }
 
-    @DynamoDBAttribute(attributeName = "goalNumber")
+    @DynamoDBAttribute(attributeName = "goal")
     public String getGoal() {
         return goal;
     }
@@ -119,6 +117,8 @@ public class UserTrainingSession {
         this.tags = tags;
     }
 
+
+    @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     @DynamoDBAttribute(attributeName = "attended")
     public Boolean getAttended() {
         return attended;
@@ -140,8 +140,8 @@ public class UserTrainingSession {
                 ", intensityRating=" + intensityRating +
                 ", techniqueEnjoyment=" + techniqueEnjoyment +
                 ", performanceRating=" + performanceRating +
-                ", noteNumber=" + note +
-                ", goalNumber=" + goal +
+                ", note=" + note +
+                ", goal=" + goal +
                 ", tags=" + tags +
                 ", attended=" + attended +
                 '}';

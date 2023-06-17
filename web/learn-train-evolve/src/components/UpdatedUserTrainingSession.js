@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Button, Card, Text, Collection, Heading, useTheme} from "@aws-amplify/ui-react";
+import App from "../App";
 
 
 const UpdatedUserTrainingSession = ({userTrainingSession}) => {
@@ -23,9 +24,7 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
             default:
                 return null;
         }
-
     }
-
     const translateTechniqueEnjoyment = (techniqueEnjoyment) => {
         switch (techniqueEnjoyment) {
             case 1:
@@ -47,7 +46,6 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
                 return null;
         }
     }
-
 
     return (
         <div>
@@ -94,5 +92,7 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
     );
 
 }
+
+UpdatedUserTrainingSession.displayName="UpdatedUserTrainingSession";
 
 export default UpdatedUserTrainingSession;

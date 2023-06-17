@@ -3,6 +3,9 @@ package learntrainevolve.dynamodb;
 import learntrainevolve.dynamodb.models.TrainingSession;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import learntrainevolve.exceptions.TrainingSessionNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import javax.inject.Inject;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class TrainingSessionDao {
 
     private final DynamoDBMapper mapper;
+    private final Logger log = LogManager.getLogger();
 
     @Inject
     public TrainingSessionDao(DynamoDBMapper mapper) {
@@ -39,11 +43,20 @@ public class TrainingSessionDao {
     }
 
     public TrainingSession getTrainingSessionById(String eventId) {
-        return this.mapper.load(TrainingSession.class, eventId);
+        TrainingSession trainingSession = this.mapper.load(TrainingSession.class, eventId);
+        if(trainingSession!=null) {
+            return trainingSession;
+        }
+        else{
+            throw new TrainingSessionNotFoundException(String.format("Training session with eventID %s does not exist", eventId));
+        }
     }
 
 
+
+
     public List<TrainingSession> getUpcomingTrainingSessions() {
+            log.info("in dao");
             Map<String, AttributeValue> valueMap = new HashMap<>();
             Long epochStart = System.currentTimeMillis()/1000;
             System.out.println(epochStart);
@@ -55,6 +68,7 @@ public class TrainingSessionDao {
                     .withExpressionAttributeValues(valueMap);
 
             PaginatedScanList<TrainingSession> sessionList = mapper.scan(TrainingSession.class, scanExpression);
+            log.info("SessionList retrieved from mapper, size{}", sessionList.size());
             if (sessionList == null) {
                 return new ArrayList<>();
             }

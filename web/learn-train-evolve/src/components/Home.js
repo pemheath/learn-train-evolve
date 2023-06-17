@@ -8,6 +8,7 @@ import {Auth} from "aws-amplify";
 import {
     Collection, View
 } from '@aws-amplify/ui-react';
+import App from "../App";
 
 
 
@@ -31,6 +32,7 @@ export const Home = () => {
     ];
 
     return (
+        ({loggedIn}&&
 
         <Collection
             type="grid"
@@ -48,8 +50,8 @@ export const Home = () => {
                     </View>
                 );
             }}
-        </Collection>
+        </Collection>)
 );
 };
-
+Home.displayName="Home";
 export default Home;

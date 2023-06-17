@@ -2,6 +2,7 @@ import React from "react";
 import '../styles.css';
 import {Card, Heading, Flex, Button, Text, ThemeProvider, useTheme} from '@aws-amplify/ui-react';
 import theme from './Theme'
+import App from "../App";
 
 
 const Goals = () => {
@@ -25,5 +26,5 @@ const Goals = () => {
     </div>
     );
 }
-
+Goals.displayName="Goals";
 export default Goals;

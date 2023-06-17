@@ -1,6 +1,8 @@
 package learntrainevolve.utils;
 
  import dagger.Provides;
+ import org.apache.logging.log4j.LogManager;
+ import org.apache.logging.log4j.Logger;
  import software.amazon.awssdk.regions.Region;
  import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
  import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
@@ -10,6 +12,7 @@ package learntrainevolve.utils;
 
 public class GoogleCalAPIUtils {
 
+
     /**
      * @param secretName
      * @return Secret
@@ -17,6 +20,7 @@ public class GoogleCalAPIUtils {
      */
 
     public static String getSecret(String secretName) throws Exception{
+
 
 
         Region region = Region.of("us-east-2");
