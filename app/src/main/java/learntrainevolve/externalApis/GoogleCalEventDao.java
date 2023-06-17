@@ -20,6 +20,7 @@ import javax.inject.Singleton;
 import java.io.IOException;
 
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -61,14 +62,24 @@ public class GoogleCalEventDao {
 
 
         // Make the API request to get events
-        Events events = calendarService.events().list(calendarId)
-                .setKey(credentials.getApiKey())
-                .setSingleEvents(true)
-                .execute();
-        log.info("{}events received", events.size());
 
+        String pageToken = null;
+        ArrayList<Event> masterList = new ArrayList<>();
+        do {
+            Events events = calendarService.events().list(calendarId).setPageToken(pageToken).setKey(credentials.getApiKey()).setSingleEvents(true).execute();
+            List<Event> items = events.getItems();
+            masterList.addAll(items);
+            pageToken = events.getNextPageToken();
+        } while (pageToken != null);
+//        Events events = calendarService.events().list(calendarId)
+//                .setKey(credentials.getApiKey())
+//                .setSingleEvents(true)
+//                .execute();
+        log.info("{}events received", masterList.size());
 
-        return events.getItems();
+//
+//        return events.getItems();
+        return masterList;
 
     }
 
