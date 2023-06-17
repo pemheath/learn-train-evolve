@@ -41,7 +41,7 @@ public class UserTrainingSessionModel {
         this.performanceRating = performanceRating;
         this.note = note;
         this.goal = goal;
-        this.tags = new HashSet<>(tags);
+        this.tags = tags;
         this.attended = attended;
     }
 

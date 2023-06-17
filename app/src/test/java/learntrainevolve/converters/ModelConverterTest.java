@@ -6,7 +6,9 @@ import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,7 +17,7 @@ public class ModelConverterTest {
     private ModelConverter modelConverter = new ModelConverter();
 
     @Test
-    void toUserTrainingSessionModel_givenPartiallCompleteUserTrainingSession_convertsToModel() {
+    void toUserTrainingSessionModel_givenPartiallyCompleteUserTrainingSession_convertsToModel() {
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setAttended(false);
         userTrainingSession.setEmail("pepper@pups.org");
@@ -61,6 +63,54 @@ public class ModelConverterTest {
         assertEquals(model.getTags(), new HashSet<>());
 
 
+    }
+
+    @Test
+    public void toListOfUserTrainingSessionModels_givenListOfUserTrainingSessions_convertsSuccessfully() {
+        //GIVEN
+        UserTrainingSession userTrainingSession = new UserTrainingSession();
+        userTrainingSession.setAttended(false);
+        userTrainingSession.setEmail("pepper@pups.org");
+        userTrainingSession.setEventId("123");
+        userTrainingSession.setCoach("Kevin");
+        userTrainingSession.setType("Advanced");
+
+        UserTrainingSession userTrainingSession2 = new UserTrainingSession();
+        userTrainingSession2.setEmail("pepper@pups.net");
+        userTrainingSession2.setEventId("123");
+        userTrainingSession2.setCoach("Joel");
+        userTrainingSession2.setType("No-gi");
+        userTrainingSession2.setAttended(false);
+
+        List<UserTrainingSession> userTrainingSessions = new ArrayList<>();
+        userTrainingSessions.add(userTrainingSession);
+        userTrainingSessions.add(userTrainingSession2);
+
+        UserTrainingSessionModel userTrainingSessionModel = UserTrainingSessionModel.builder()
+                .withEmail("pepper@pups.org")
+                .withCoach("Kevin")
+                .withEventId("123")
+                .withType("Advanced")
+                .withAttended(false)
+                .build();
+
+        UserTrainingSessionModel userTrainingSessionModel2 = UserTrainingSessionModel.builder()
+                .withEmail("pepper@pups.net")
+                .withCoach("Joel")
+                .withEventId("123")
+                .withType("No-gi")
+                .withAttended(false)
+                .build();
+
+        List<UserTrainingSessionModel> expected = new ArrayList<>();
+        expected.add(userTrainingSessionModel);
+        expected.add(userTrainingSessionModel2);
+
+        //WHEN
+        List<UserTrainingSessionModel> userTrainingSessionModels = modelConverter.toListOfUserTrainingSessionModels(userTrainingSessions);
+        //THEN
+        assertEquals(userTrainingSessionModels.size(), 2);
+        assertEquals(expected, userTrainingSessionModels);
 
     }
 
