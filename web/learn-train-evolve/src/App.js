@@ -8,6 +8,7 @@ import Home from "./components/Home";
 
 
 function App () {
+
         return (
             <div>
                 <Header/>
@@ -16,7 +17,9 @@ function App () {
                 <Footer/>
             </div> );
 
-};
+}
+
+App.displayName="App";
 
 export default App;
 

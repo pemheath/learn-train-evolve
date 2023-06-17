@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import {Button, Card, Text, Collection, Heading, useTheme} from "@aws-amplify/ui-react";
+import App from "../App";
 
 
 const UpdatedUserTrainingSession = ({userTrainingSession}) => {
@@ -91,5 +92,7 @@ const UpdatedUserTrainingSession = ({userTrainingSession}) => {
     );
 
 }
+
+UpdatedUserTrainingSession.displayName="UpdatedUserTrainingSession";
 
 export default UpdatedUserTrainingSession;

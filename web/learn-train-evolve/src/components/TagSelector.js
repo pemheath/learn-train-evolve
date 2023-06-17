@@ -10,6 +10,7 @@ import {
     Flex, View,
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
+import App from "../App";
 
 const TagSelector = ({ tags, selectedTags, onSelect }) => {
     const[tagsToDisplay, setTagsToDisplay] = useState(tags);
@@ -96,6 +97,8 @@ const TagSelector = ({ tags, selectedTags, onSelect }) => {
         </View>
     );
 };
+
+TagSelector.displayName="TagSelector";
 
 export default TagSelector;
 

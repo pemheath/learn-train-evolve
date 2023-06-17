@@ -26,19 +26,11 @@ public class GetUserTrainingSessionsActivity {
     }
 
     public GetUserTrainingSessionsResponse handleRequest(final GetUserTrainingSessionsRequest request) {
-        List<UserTrainingSession> listOfPreModelSessions;
-        List<UserTrainingSessionModel> listOfSessions;
-        log.info("Received GetUserTrainingSessionsRequest {}}", request);
-        listOfPreModelSessions = userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail());
 
-        log.info("List returned from dynamo{}", listOfPreModelSessions);
-        listOfSessions = new ModelConverter().toListOfUserTrainingSessionModels(listOfPreModelSessions);
-        log.info("List converted into model list {}", listOfSessions.toString());
-        GetUserTrainingSessionsResponse response = GetUserTrainingSessionsResponse.builder()
-            .withUserTrainingSessionModelList(listOfSessions)
-            .build();
-        log.info("GetUserTrainingSessionsResponse = {}", response);
-        return response;
+        log.info("Received GetUserTrainingSessionsRequest {}}", request);
+
+        return GetUserTrainingSessionsResponse.builder()
+                .withUserTrainingSessionModelList(new ModelConverter().toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail()))).build();
 
     }
 

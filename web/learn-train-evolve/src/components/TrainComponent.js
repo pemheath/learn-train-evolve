@@ -6,6 +6,7 @@ import {Outlet, useLocation} from "react-router-dom";
 import UserTrainingSession from "./UserTrainingSession";
 import ListOfUserTrainingSessions from "./ListOfUserTrainingSessions";
 import {ScrollView, useTheme} from "@aws-amplify/ui-react";
+import App from "../App";
 
 
 function TrainComponent() {
@@ -34,5 +35,6 @@ function TrainComponent() {
     );
 
 }
+TrainComponent.displayName="TrainComponent";
 
 export default TrainComponent;

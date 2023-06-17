@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
 import LogTrainingSessionForm from "./LogTrainingSessionForm";
+import App from "../App";
 
 
 
@@ -59,5 +60,7 @@ const UserTrainingSession = ({userTrainingSession}) => {
     );
 
 }
+
+UserTrainingSession.displayName="UserTrainingSession";
 
 export default UserTrainingSession;

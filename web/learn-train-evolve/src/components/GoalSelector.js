@@ -1,5 +1,6 @@
 import React from "react";
 import {SelectField} from "@aws-amplify/ui-react";
+import App from "../App";
 
 const GoalSelector = ({ onChange, goals }) => {
 
@@ -16,5 +17,7 @@ const GoalSelector = ({ onChange, goals }) => {
 
     );
 }
+
+GoalSelector.displayName="GoalSelector";
 
 export default GoalSelector;

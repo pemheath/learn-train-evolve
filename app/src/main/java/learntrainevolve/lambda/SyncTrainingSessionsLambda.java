@@ -16,10 +16,10 @@ public class SyncTrainingSessionsLambda
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<SyncTrainingSessionsRequest> input, Context context) {
         return super.runActivity(
                 () ->
-                    input.fromQuery(query ->
-                                    SyncTrainingSessionsRequest.builder()
-                                            .withCalId(query.get("cal"))
-                                            .build()),
+                        input.fromQuery(query ->
+                                            SyncTrainingSessionsRequest.builder()
+                                                    .withCalId(query.get("cal"))
+                                                    .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideSyncTrainingSessionsActivity().handleRequest(request)
 

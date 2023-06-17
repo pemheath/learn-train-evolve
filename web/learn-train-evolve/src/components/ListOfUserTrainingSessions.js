@@ -13,6 +13,7 @@ import {Auth} from "aws-amplify";
 
 import UserTrainingSession from "./UserTrainingSession";
 import SingleTrainingSession from "./SingleTrainingSession";
+import App from "../App";
 
 
 const ListOfUserTrainingSessions = () => {
@@ -75,5 +76,7 @@ const ListOfUserTrainingSessions = () => {
         </div>);
 
 }
+
+ListOfUserTrainingSessions.displayName="ListOfUserTrainingSessions";
 
 export default ListOfUserTrainingSessions;

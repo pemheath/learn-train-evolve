@@ -48,17 +48,13 @@ public class UserTrainingSessionDao {
 
 
     public List<UserTrainingSession> getNextWeekOfUserTrainingSessions(String email) {
-        log.info("In DAO calling getNextWeekOfUSerTrainingSessions");
+        log.info("In UserTrainingSessionDao calling getNextWeekOfUSerTrainingSessions with email {}", email);
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setEmail(email);
-        userTrainingSession.setEventId("na");
-        log.info("userTrainingSession is {}", userTrainingSession);
 
         DynamoDBQueryExpression<UserTrainingSession> queryExpression = new DynamoDBQueryExpression<UserTrainingSession>()
                 .withHashKeyValues(userTrainingSession);
-        log.info("queryExpression{}", queryExpression.toString());
         List<UserTrainingSession> sessions;
-
         try {
             sessions = this.mapper.query(UserTrainingSession.class, queryExpression);
             log.info("Retrieved dynamodb response {}", sessions);

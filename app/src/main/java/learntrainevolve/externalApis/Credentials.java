@@ -13,7 +13,6 @@ public class Credentials {
     }
 
     public String getApiKey() {
-
         return API_KEY;
     }
 

@@ -14,6 +14,7 @@ import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
+import App from "../App";
 
 
 const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
@@ -189,5 +190,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     );
 }
+
+LogTrainingSessionForm.displayName="LogTrainingSessionForm";
 
 export default LogTrainingSessionForm;

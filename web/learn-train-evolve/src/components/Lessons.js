@@ -2,6 +2,7 @@ import React from "react";
 import '../styles.css';
 import {Button, Card, Flex, Heading, Text, ThemeProvider} from "@aws-amplify/ui-react";
 import theme from "./Theme"
+import App from "../App";
 
 const Lessons = () => {
 
@@ -19,4 +20,5 @@ const Lessons = () => {
     );
 }
 
+Lessons.displayName="Lessons";
 export default Lessons;

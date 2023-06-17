@@ -9,6 +9,7 @@ import {
     Heading,
     useTheme, Button,
 } from '@aws-amplify/ui-react';
+import App from "../App";
 
 
  const TrainingSessions = () => {
@@ -71,5 +72,7 @@ import {
              </div>
          );
  };
+
+TrainingSessions.displayName="TrainingSessions";
 
  export default TrainingSessions;

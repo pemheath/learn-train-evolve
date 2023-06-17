@@ -3,6 +3,7 @@ import {Card, Button, Heading, Text, useTheme} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
+import App from "../App";
 
 
 
@@ -83,5 +84,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
                 </Card>
     )
 }
+
+SingleTrainingSession.displayName="SingleTrainignSession";
 
 export default SingleTrainingSession;
