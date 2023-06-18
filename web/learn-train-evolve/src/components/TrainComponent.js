@@ -2,21 +2,20 @@ import React, {useEffect} from "react";
 import '../styles.css';
 
 
-import {Outlet, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import UserTrainingSession from "./UserTrainingSession";
 import ListOfUserTrainingSessions from "./ListOfUserTrainingSessions";
-import {ScrollView, SelectField, useTheme} from "@aws-amplify/ui-react";
-import App from "../App";
-import ProgressChart from "./ProgressChart";
-import {Auth} from "aws-amplify";
+import {Button, ScrollView, SelectField, useTheme} from "@aws-amplify/ui-react";
+
+
 import axios from "axios";
-import PieChartByType from "./PieChartByType";
 import Header from "./Header";
+import PieChartByType from "./PieChartByType";
+import ProgressChart from "./ProgressChart";
+import IntensityAndPerformanceGraph from "./IntensityAndPerformanceGraph";
 
 
 function TrainComponent() {
-
-
 
     // allow component to read data passed from the state of the previous component
     const location = useLocation();
@@ -24,7 +23,7 @@ function TrainComponent() {
     console.log("in the train component");
     const [data, setData] = React.useState([]);
     const [totalSessions, setTotalSessions] = React.useState(0);
-    const [dataChartType, setDataChartType] = React.useState('');
+    const [dataChartType, setDataChartType] = React.useState("IntensityAndPerformance");
 
     useEffect(() =>{
             const getData = async () => {
@@ -45,6 +44,11 @@ function TrainComponent() {
             }
             getData(); },
         []);
+
+    const handleClick = () => {
+        setDataChartType("IntensityAndPerformance");
+        console.log(dataChartType);
+    }
 
 
         return (
@@ -85,10 +89,14 @@ function TrainComponent() {
                         <PieChartByType
                             data={data}
                         />}
+                    {dataChartType==="IntensityAndPerformance" &&
+                        <IntensityAndPerformanceGraph
+                            data={data}
+                        />}
                 </div>
+            </div>
+            </div>
 
-            </div>
-            </div>
         );
 
     }
