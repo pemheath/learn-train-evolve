@@ -25,9 +25,10 @@ public class GetUserTrainingSessionsLambda
         log.info("handleRequest");
 
         return super.runActivity(
-                ()-> input.fromPath(p ->
+                ()-> input.fromPathAndQuery((p, q) ->
                                 GetUserTrainingSessionsRequest.builder()
                                         .withEmail(URLDecoder.decode(p.get("email"), StandardCharsets.UTF_8))
+                                        .withDataVis(q.get("dataVis"))
                                         .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetUserTrainingSessionsActivity().handleRequest(request)
