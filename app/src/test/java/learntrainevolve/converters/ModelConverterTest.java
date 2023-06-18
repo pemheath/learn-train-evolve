@@ -114,6 +114,22 @@ public class ModelConverterTest {
 
     }
 
+    @Test
+    void toUserTrainingSessionModel_givenUserTrainingSessionsWithNulls_convertsToModel() {
+        UserTrainingSession userTrainingSession = new UserTrainingSession();
+        userTrainingSession.setEmail(null);
+        userTrainingSession.setEventId("123");
+        userTrainingSession.setCoach("Kevin");
+        userTrainingSession.setType("Advanced");
+        userTrainingSession.setGoal(null);
+
+        UserTrainingSessionModel model = assertDoesNotThrow(()-> modelConverter.toUserTrainingSessionModel(userTrainingSession));
+        //THEN
+        assertEquals(model.getEmail(), userTrainingSession.getEmail());
+
+
+    }
+
 
 
 

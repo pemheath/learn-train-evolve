@@ -228,9 +228,9 @@
         "tags": [
           "user-training"
         ],
-        "summary": "View  user training sessions for given user.",
+        "summary": "View  user training sessions for given user. By default this shows future sessions for upcoming week",
         "description": "",
-        "operationId": "viewAllUserTraining",
+        "operationId": "getUserTrainingSessions",
         "parameters": [
           {
             "name": "email",
@@ -242,10 +242,10 @@
             }
           },
           {
-            "name": "type",
+            "name": "dataVis",
             "in" : "query",
             "required": false,
-            "description": "Optional query parameter if the user wants to view only Advanced classes or only Basics classes, for example",
+            "description": "Optional query parameter to specify if the endpoint should pull all attended classes for data vis.",
             "schema": {
               "type": "string"
             }
@@ -254,7 +254,7 @@
             "name": "year",
             "in": "query",
             "required": false,
-            "description": "Optional query parameters if the user wants to only see training sessions from a certain year",
+            "description": "Optional query parameters if the user wants to only see past sessions from a certain year, in a list form",
             "schema": {
               "type": "string"
             }

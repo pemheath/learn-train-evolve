@@ -34,9 +34,9 @@ In practice, they would purchase a software for owner-side management and this f
 
 - B: 
 	**Basic Admin Functionality will be handled by Cognito for now**
-	* UC. As an administrator, I want to add new students to my academy. (B)
-	* UC. As an administrator, I want to remove students from my academy. (B)
-	* UC. As an administrator, I want to update information about one of my students. (B)
+	* UC. As an administrator, I want to add new students to my academy. (B) [Handled in cognito]
+	* UC. As an administrator, I want to remove students from my academy. (B) [Handled in cognito]
+	* UC. As an administrator, I want to update information about one of my students. (B) [Handled in cognito]
     * UC. As an administrator, I want to view the training history for any of my students. (T) [Third party integration...not the responsibility of this app]
 	* UC. As an administrator, I want to see who has signed up for a class (present moment to one week out) or who has attended a class (past class). (T) [Third party integration...not the responsibility of this app]
 
@@ -44,13 +44,13 @@ In practice, they would purchase a software for owner-side management and this f
 - T: 
 	**Functionality associated with TRAIN component**
 	* UC. As an administrator, I want to use my google calendar to maintain the database of past and future training sessions (B).
-	* UC. As a user, I want to be able to sign up for a class. 
-    * UC. As a user, I want to update information about a class I have attended (T).
+	* UC. As a user, I want to be able to sign up for a class. _complete_
+    * UC. As a user, I want to update information about a class I have attended (T). _complete_
 	* UC. As a user, I want to be able to view my past training, and sort my training by different variables on a user friendly data analytics dashboard. (T)
-	* UC. As a user, I want to be able to interact with my academy community by posting messages in a social channel. (T) (stretch)
+	* UC. As a user, I want to be able to interact with my academy community by posting messages in a social channel. (T) (stretch) _ongoing_
 - E:
   **functionality associated with EVOLVE component** _Will move to these if the above "Train" UCs are satisfied, excluding the stretch_
-	* UC. As a user, I want to be able to select a goal from a list of suggestions. (E)
+	* UC. As a user, I want to be able to select a goal from a list of suggestions. (E) 
 	* UC. As a user, I want to be able to create a new goal. (E)
 	* UC. As a user, I want to be able to update a goal, including making notes or marking the goal as completed.  (E)
 	* UC. As a user, I want to be ablve to view my completed, ongoing, and future goals. (E)
@@ -103,12 +103,13 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 ```
 {
-	// UserModel
+	// UserModel -- managed in Cognito
 	
 	String email; --> unique identifier for each member
 	String name
 	String membership;
 	String rank;
+	String calId --> only for administrators who can sync training sessions with google
 	} 
 ```
 
@@ -117,9 +118,9 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 	// TrainingSessionModel
 
 	String eventId; (id for session/event resource)
-	Start start;
-	End end;
+	long timeAndDate
 	String type;
+	String coach
 	Boolean isCancelled;
 	}
 ```
@@ -130,13 +131,13 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 	String email; (id for user)
 	String eventId; (id for session/event resource)
-	Date date;
+	long timeAndDate;
 	String type;
-	Double intensityRating;
+	int intensityRating;
 	int techniqueEnjoyment;
 	int performanceRating;
-	int noteNumber;
-	int goalNumber;
+	String note;
+	String goal;
 	Set<String> tags;
 	Boolean attended;
 	}
@@ -149,12 +150,11 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 	String email;
 	int goalNumber;
-	String goalTitle;
-	LocalDate dateCreated;
 	String goalContent;
+	long dateCreated;
 	String goalStatus;
 	Set<String> taskList;
-	Set<String> tags;
+
 }
 ```
 
@@ -164,9 +164,8 @@ Each thread "LEARN, TRAIN, EVOLVE" will have representation on the application h
 
 	String email;
 	int noteNumber;
-	String noteTitle;
 	String noteContent;
-	LocalDate dateCreated;
+	long dateCreated;
 	Set<String> tags;
 	String eventId; (corresponding training session if applicable)
 	}
@@ -270,6 +269,27 @@ Within React I envision the following components to begin with:
 - TrainingSession 
 - Note 
 - Resource 
+
+
+# 10. Data Visualizations
+
+- I will use react-vis to render graphs to help users quickly see trends in their training
+
+Graph types: 
+
+- Pie chart to show the breakdown of types of training sessions (one list, all types, turned into map)
+- Line chart showing performance rating and intensity rating together over time (ordered pairs, sorted chronologically) (intensity rating, timeAndDate, performanceRating)
+- Frequency chart of tags, adjustable by time period, color coded by technique enjoyment? (timeAndDate, tags, enjoyment)
+- Coach v technique enjoyment : pairs of coach/avg technique enjoyment 
+
+
+Data I will pull: 
+
+- In total I need type, coach, timeAndDate, intensity, performance, technique, tags
+
+- I will split the analysis front and back. I will develop one endpoint to pull the data I need for building all of the graphs
+- I will manipulate that data on the front end. 
+- I will explore using a cache to improve performance 
 
 
 

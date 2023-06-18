@@ -6,6 +6,7 @@ import learntrainevolve.activity.responses.GetUserTrainingSessionsResponse;
 import learntrainevolve.converters.ModelConverter;
 import learntrainevolve.dynamodb.UserTrainingSessionDao;
 import learntrainevolve.dynamodb.models.UserTrainingSession;
+import learntrainevolve.exceptions.InvalidRequestException;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,8 +30,27 @@ public class GetUserTrainingSessionsActivity {
 
         log.info("Received GetUserTrainingSessionsRequest {}}", request);
 
-        return GetUserTrainingSessionsResponse.builder()
-                .withUserTrainingSessionModelList(new ModelConverter().toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail()))).build();
+        // if no optional parameters are specified, get the next week of user training sessions.
+        if (request.getDataVis()==null) {
+
+            return GetUserTrainingSessionsResponse.builder()
+                    .withUserTrainingSessionModelList(new ModelConverter()
+                            .toListOfUserTrainingSessionModels(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(request.getEmail())))
+                            .build();
+        }
+
+        else {
+            String dataVis = request.getDataVis();
+
+            if (dataVis.equalsIgnoreCase("true")) {
+                return GetUserTrainingSessionsResponse.builder()
+                        .withUserTrainingSessionModelList(new ModelConverter()
+                                .toListOfUserTrainingSessionModels(userTrainingSessionDao.getUserTrainingSessionsForDataVis(request.getEmail())))
+                        .build();
+            }
+            throw new InvalidRequestException("Invalid DataVis parameter: " + dataVis);
+        }
+
 
     }
 
