@@ -1,51 +1,56 @@
-import React, {useEffect} from "react";
-import {VictoryBoxPlot, VictoryChart} from "victory";
+import React, { useEffect, useState } from "react";
+import Chart from "react-apexcharts";
 
+const IntensityAndPerformanceGraph = ({ data }) => {
+    const [dataArray, setDataArray] = useState([]);
 
-
-const IntensityAndPerformanceGraph = ({data}) => {
-
-    const [dataArray, setDataArray] = React.useState([]);
-
-    // prepare the data for the chart
     useEffect(() => {
-        if (!data ) {
-            return <div>Loading...</div>;
-        }
+        prepareData();
+    }, [data]);
 
-        const map = new Map();
-        data.forEach(session => {
-            const performanceRating = session.performanceRating;
-            if (map.has(performanceRating)) {
-                const list = map.get(performanceRating);
-                console.log("list for performance rating" + performanceRating + "is" + list);
-                list.push(session.intensityRating);
-                map.set(performanceRating, list);
-            } else {
-            map.set(performanceRating, [session.intensityRating]);}
+    const prepareData = () => {
+        const newArray = [];
+        data.forEach((session) => {
+            const obj = { x: session.performanceRating, y: session.intensityRating };
+            newArray.push(obj);
         });
-        const dataArray = Array.from(map, ([x, y]) => ({x, y}));
-        setDataArray(dataArray);
-        console.log(dataArray);
-    }, []);
+        setDataArray(newArray);
+    };
 
-    if(dataArray.length===0) {
-        return <div>Loading...</div>;
-    }
-        return (
-            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ width: '80%', maxWidth: '400px', position: 'relative',}}>
-                    <VictoryBoxPlot
-                        boxWidth={20}
-                        data={dataArray}
-                />
+    const graphParams = {
+        series: [{
+            data: dataArray,
+        }],
+        options: {
+            chart: {
+                height: 350,
+                type: 'scatter',
+            },
+            xaxis: {
+                tickAmount: 1,
+            },
+            yaxis: {
+                tickAmount: 10,
+            },
+        },
+    };
 
-                </div>
-            </div>
-        );
+    console.log(dataArray);
 
-}
+    return (
+        <div>
+            <Chart
+                options={graphParams.options}
+                series={graphParams.series}
+                type="scatter"
+                width={400}
+                height={350}
+            />
+        </div>
+    );
+};
 
-IntensityAndPerformanceGraph.displayName="IntensityAndPerformanceGraph";
+IntensityAndPerformanceGraph.displayName = "IntensityAndPerformanceGraph";
 
 export default IntensityAndPerformanceGraph;
+

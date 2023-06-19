@@ -45,18 +45,13 @@ function TrainComponent() {
             getData(); },
         []);
 
-    const handleClick = () => {
-        setDataChartType("IntensityAndPerformance");
-        console.log(dataChartType);
-    }
-
 
         return (
             <div>
             <Header/>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', height: '100vh' }}>
-                <div style={{ gridColumn: '1', gridRow: '1 / span 2' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', height: '100vh' }}>
+                <div style={{ gridColumn: '1', gridRow: '1 / span 3' }}>
                     <ScrollView
                         height="900px"
                         width="600px"
@@ -77,22 +72,12 @@ function TrainComponent() {
                         totalSessions={totalSessions}></ProgressChart>
                 </div>
                 <div style={{ gridColumn: '2', gridRow: '2' }}>
-                    <SelectField
-                        label="Analyze My Training"
-                        options={["View By Class Type", "Training Frequency", "Performance And Intensity"]}
-                        placeHolder="None"
-                        size="large"
-                        descriptiveText="Choose your display"
-                        onClick={event => setDataChartType(event.target.value)}
-                    ></SelectField>
-                    {dataChartType==="View By Class Type" &&
                         <PieChartByType
-                            data={data}
-                        />}
-                    {dataChartType==="IntensityAndPerformance" &&
-                        <IntensityAndPerformanceGraph
-                            data={data}
-                        />}
+                            data={data}/>
+                </div>
+                <div style={{ gridColumn: '2', gridRow: '3' }} >
+                    <IntensityAndPerformanceGraph
+                        data={data}/>
                 </div>
             </div>
             </div>

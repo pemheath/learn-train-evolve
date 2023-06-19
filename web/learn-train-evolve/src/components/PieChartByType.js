@@ -4,6 +4,7 @@ import {VictoryPie} from "victory";
 
 
 const PieChartByType = ({data}) => {
+    console.log(data);
 
     const [dataArray, setDataArray] = React.useState([]);
 
@@ -24,7 +25,7 @@ const PieChartByType = ({data}) => {
         const dataArray = Array.from(typeFrequencyMap, ([x, y]) => ({x, y}));
         setDataArray(dataArray);
         console.log("data array is: " + dataArray.toString());
-    }, []);
+    }, [data]);
 
     if(dataArray.length===0) {
         return <div>Loading...</div>;

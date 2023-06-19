@@ -29,14 +29,6 @@ const ProgressChart = ({totalSessions}) => {
                             colorScale={["green", "red"]}
                             labelRadius={({ innerRadius }) => innerRadius + labelRadius}
                         />
-                        <VictoryLabel
-                            textAnchor="middle"
-                            verticalAnchor="middle"
-                            x={100}
-                            y={100}
-                            text={`${totalSessions}% of the way to 100 sessions!`}
-                            style={{ fontSize: '5vw', fontWeight: 'bold' }}
-                        />
 
                 </div>
             </div>
