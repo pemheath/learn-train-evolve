@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Chart from "react-apexcharts";
+
+import {VictoryChart, VictoryScatter} from "victory";
 
 const IntensityAndPerformanceGraph = ({ data }) => {
     const [dataArray, setDataArray] = useState([]);
@@ -17,35 +18,15 @@ const IntensityAndPerformanceGraph = ({ data }) => {
         setDataArray(newArray);
     };
 
-    const graphParams = {
-        series: [{
-            data: dataArray,
-        }],
-        options: {
-            chart: {
-                height: 350,
-                type: 'scatter',
-            },
-            xaxis: {
-                tickAmount: 1,
-            },
-            yaxis: {
-                tickAmount: 10,
-            },
-        },
-    };
 
     console.log(dataArray);
 
     return (
         <div>
-            <Chart
-                options={graphParams.options}
-                series={graphParams.series}
-                type="scatter"
-                width={400}
-                height={350}
-            />
+            <VictoryChart>
+                <VictoryScatter
+                    data={dataArray}/>
+            </VictoryChart>
         </div>
     );
 };

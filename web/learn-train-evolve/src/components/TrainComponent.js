@@ -12,7 +12,7 @@ import axios from "axios";
 import Header from "./Header";
 import PieChartByType from "./PieChartByType";
 import ProgressChart from "./ProgressChart";
-import IntensityAndPerformanceGraph from "./IntensityAndPerformanceGraph";
+import TrainingFrequencyByWeek from "./TrainingFrequencyByWeek";
 
 
 function TrainComponent() {
@@ -44,12 +44,12 @@ function TrainComponent() {
             }
             getData(); },
         []);
+    console.log(data);
 
 
         return (
             <div>
             <Header/>
-
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', height: '100vh' }}>
                 <div style={{ gridColumn: '1', gridRow: '1 / span 3' }}>
                     <ScrollView
@@ -76,12 +76,11 @@ function TrainComponent() {
                             data={data}/>
                 </div>
                 <div style={{ gridColumn: '2', gridRow: '3' }} >
-                    <IntensityAndPerformanceGraph
-                        data={data}/>
+                    <TrainingFrequencyByWeek
+                        data={data} />
                 </div>
             </div>
             </div>
-
         );
 
     }
