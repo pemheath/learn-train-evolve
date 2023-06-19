@@ -1,11 +1,14 @@
 import React, {useEffect} from "react";
 import {useState} from 'react';
-import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title, Legend} from "chart.js";
+import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title} from "chart.js";
 import {Bar} from "react-chartjs-2";
+import {useTheme} from "@aws-amplify/ui-react";
 
 const TrainingFrequencyByWeek = ({data}) => {
 const [keysArray, setKeysArray] = useState([]);
 const [valuesArray, setValuesArray] = useState([]);
+
+const{tokens} = useTheme();
 
     useEffect(() =>{
         prepareData(data);
@@ -33,34 +36,32 @@ const [valuesArray, setValuesArray] = useState([]);
         setKeysArray(newArray);
         setValuesArray(otherArray);
 
-
-
     };
 
-    ChartJS.register(BarElement, CategoryScale, LinearScale, Title, Legend);
+    ChartJS.register(BarElement, CategoryScale, LinearScale, Title);
     const dataForGraph = {
         labels: keysArray,
-        datasets: [{data: valuesArray
-        , label: "Training Frequency", backgroundColor: "rgb(255, 99, 132)", borderWidth: 1, borderColor: "rgb(255, 99, 132)",}]
+        datasets: [{
+            data: valuesArray,
+            label: "",
+            backgroundColor: "hsl(190, 70%, 70%)",
+            hoverBackgroundColor: "hsl(190, 100%, 20%)",}]
     }
 
     const options = {
 
     }
 
-
-
-    return(<div>
-        <h2>Training Frequency By Week</h2>
-        <div style={{ maxWidth: "650px" }}>
-            <Bar
-            data={dataForGraph}
-            options={options}
-            >
-            </Bar>
-
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', maxWidth: '650px', margin: '0 auto' }}>
+            <h2 style={{ color: 'hsl(190, 100%, 20%)' }}>Training Frequency By Week</h2>
+            <div style={{ width: '100%' }}>
+                <Bar data={dataForGraph} options={options} />
+            </div>
         </div>
-    </div>);
+    );
+
+
 }
 export default TrainingFrequencyByWeek;
 

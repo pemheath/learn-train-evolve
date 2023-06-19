@@ -41,6 +41,11 @@ const PieChartByType = ({data}) => {
                     data={dataArray}
                     width={400}
                     height={400}
+                    labelRadius={({ innerRadius }) => innerRadius + 5 }
+                    radius={({ datum }) => 50 + datum.y * 20}
+                    innerRadius={50}
+                    style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+                    colorScale={["var(--amplify-colors-teal-20)", "var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-60)", "var(--amplify-colors-teal-80)"]}
                 />
                 </div>
             </div>

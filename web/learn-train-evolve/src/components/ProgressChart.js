@@ -26,7 +26,7 @@ const ProgressChart = ({totalSessions}) => {
                             innerRadius={100}
                             cornerRadius={13}
                             labels={() => null}
-                            colorScale={["green", "red"]}
+                            colorScale={["var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-90)"]}
                             labelRadius={({ innerRadius }) => innerRadius + labelRadius}
                         />
 

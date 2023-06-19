@@ -3,6 +3,7 @@ package learntrainevolve.dynamodb;
 import learntrainevolve.dynamodb.models.TrainingSession;
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
+import learntrainevolve.dynamodb.models.UserTrainingSession;
 import learntrainevolve.exceptions.TrainingSessionNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,10 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -74,6 +72,7 @@ public class TrainingSessionDao {
             }
             return sessionList.stream()
                     .filter(s-> !s.getIsCancelled())
+                    .sorted(Comparator.comparing(TrainingSession::getTimeAndDate))
                     .collect(Collectors.toList());
     }
 
@@ -83,6 +82,7 @@ public class TrainingSessionDao {
                 .stream()
                 .filter(s -> s.getType().equals(category))
                 .filter(s-> !s.getIsCancelled())
+                .sorted(Comparator.comparing(TrainingSession::getTimeAndDate))
                 .collect(Collectors.toList());
 
     }
