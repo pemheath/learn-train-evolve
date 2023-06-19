@@ -12,10 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -64,6 +61,7 @@ public class UserTrainingSessionDao {
             long currentTime = System.currentTimeMillis()/1000;
             return sessions.stream()
                     .filter(s -> s.getTimeAndDate()>=currentTime)
+                    .sorted(Comparator.comparing(UserTrainingSession::getTimeAndDate))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new UserTrainingSessionsNotFoundException(e.getMessage(), e.getCause());
@@ -91,6 +89,7 @@ public class UserTrainingSessionDao {
                         s.setGoal(null);
                         return s;
                     })
+                    .sorted(Comparator.comparing(UserTrainingSession::getTimeAndDate))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new UserTrainingSessionsNotFoundException(e.getMessage(), e.getCause());

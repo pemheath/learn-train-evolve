@@ -16,27 +16,22 @@ import SingleTrainingSession from "./SingleTrainingSession";
 import App from "../App";
 
 
-const ListOfUserTrainingSessions = () => {
+const ListOfUserTrainingSessions = ({email}) => {
 
     const [userTrainingSessionList, setUserTrainingSessionList] = React.useState([]);
     const {tokens} = useTheme();
 
 
-    const getUserInfo = async ()=> {
-        const cognitoUser = await Auth.currentAuthenticatedUser();
-        const { email, name } = cognitoUser.signInUserSession.idToken.payload;
-        return {email, name};
-    }
+
 
     const fetchSessions = async () => {
-        const authenticatedEmail = (await getUserInfo()).email;
 
-        console.log("email for fetching all user training sessions is" + authenticatedEmail);
+        console.log("email for fetching all user training sessions is" + email);
         try {
             const api = axios.create({
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
-            const response = await api.get(`/user-training-sessions/${authenticatedEmail}`);
+            const response = await api.get(`/user-training-sessions/${email}`);
             console.log(response);
             console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
             setUserTrainingSessionList(response.data.userTrainingSessionModelList);
