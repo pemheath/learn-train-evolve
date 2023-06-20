@@ -7,7 +7,7 @@ import {
     Button,
     Card,
     useTheme,
-    View, Heading, Collection,
+    View, Heading, Collection, Flex,
 } from "@aws-amplify/ui-react";
 import axios from "axios";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
@@ -34,6 +34,20 @@ const LogTrainingSessionForm= ()=> {
     const[selectedTags, setSelectedTags] = useState([]);
     const[goal, setGoal] = useState("none");
     const[userTrainingSession, setUserTrainingSession] = useState(location.state.userTrainingSession);
+
+    const linkStyle = {
+        margin: "1rem",
+        textDecoration: "none",
+        border:  "1px solid hsl(190, 50%, 50%)",
+        display: "inline-block",
+        padding: "0.5rem",
+        backgroundColor: "white",
+        fontWeight: "bold",
+        color: "hsl(190, 50%, 50%)",
+        borderRadius: "0.5rem",
+        hoverBackgroundColor: "hsl(190, 75%, 95%)",
+        hoverColor: "white",
+    };
 
 
 
@@ -89,8 +103,10 @@ const LogTrainingSessionForm= ()=> {
     return (
         <div>
             <Header/>
-            <Link to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
-            <Link to={".."}>Return Home</Link>
+            <Flex>
+                <Link style={linkStyle} to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
+                <Link to={".."} style={linkStyle}>Return Home</Link>
+            </Flex>
         <form>
             {showForm &&
             <View

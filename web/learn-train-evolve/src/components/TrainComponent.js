@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import '../styles.css';
 
 
-import {useLocation} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import ListOfUserTrainingSessions from "./ListOfUserTrainingSessions";
 import {Authenticator, Button, Heading, ScrollView, SelectField, useTheme} from "@aws-amplify/ui-react";
 
@@ -87,7 +87,21 @@ function TrainComponent() {
     //         }
     //         getData(); }
 
-        return (
+    const linkStyle = {
+        margin: "1rem",
+        textDecoration: "none",
+        border:  "1px solid hsl(190, 50%, 50%)",
+        display: "inline-block",
+        padding: "0.5rem",
+        backgroundColor: "white",
+        fontWeight: "bold",
+        color: "hsl(190, 50%, 50%)",
+        borderRadius: "0.5rem",
+        hoverBackgroundColor: "hsl(190, 75%, 95%)",
+        hoverColor: "white",
+    };
+
+    return (
             <Authenticator>
                 {({ signOut, user }) => (
                     <main>
@@ -99,6 +113,7 @@ function TrainComponent() {
                             borderRadius={tokens.radii.large}
                             onClick={signOut}
                         >Sign Out</Button>
+                        <Link to={".."} style={linkStyle}>Return Home</Link>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', height: '100vh' }}>
                             <div style={{ gridColumn: '1', gridRow: '1 / span 3' }}>
                                 <ScrollView
