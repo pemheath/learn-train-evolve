@@ -14,6 +14,7 @@ import {Auth} from "aws-amplify";
 import UserTrainingSession from "./UserTrainingSession";
 import SingleTrainingSession from "./SingleTrainingSession";
 import App from "../App";
+import {Outlet} from "react-router-dom";
 
 
 const ListOfUserTrainingSessions = ({userTrainingSessionList}) => {
@@ -55,7 +56,9 @@ const ListOfUserTrainingSessions = ({userTrainingSessionList}) => {
                         )}
                     </Collection>}
             </Flex>
-        </div>);
+            <Outlet/>
+        </div>
+    );
 
 }
 

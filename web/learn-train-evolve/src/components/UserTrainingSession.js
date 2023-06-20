@@ -43,8 +43,10 @@ const UserTrainingSession = ({userTrainingSession}) => {
 
     const handleCheckIn = () => {
         let email = userTrainingSession.email;
+        console.log( "email getting passed is", email);
         let eventId = userTrainingSession.eventId;
-        navigate(`/train/${email}/signup/${eventId}`, {state: {userTrainingSession: userTrainingSession}});
+        console.log("eventId getting passed is", eventId);
+        navigate(`/train/${email}/signup/${eventId}`, {state: {userTrainingSession: userTrainingSession, email: email, eventId: eventId}});
         console.log("clicked");
     }
 
@@ -58,10 +60,16 @@ const UserTrainingSession = ({userTrainingSession}) => {
                     <h3>Coach: {userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
                     <div>
-                        <Button //on when form has not been filled out
-                            variation="link"
-                            onClick={handleCheckIn}
-                        >Record My Training</Button>
+                        {userTrainingSession.timeAndDate*1000 < Date.now() &&
+                            <Button //on when form has not been filled out
+                                variation="link"
+                                onClick={handleCheckIn}
+                            >Record My Training</Button>}
+                        { userTrainingSession.timeAndDate*1000 > Date.now() &&
+                            <Button //on when form has not been filled out
+                                variation="disabled"
+                            >Training Cannot Yet Be Recorded</Button>}
+
                     </div>
                 </Card>
         </div>

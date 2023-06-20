@@ -14,13 +14,18 @@ import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
+import Footer from "./Footer";
+import Header from "./Header";
+import {useLocation, Link} from "react-router-dom";
 
 
 
 const LogTrainingSessionForm= ()=> {
 
+    const location = useLocation();
+
     const {tokens} = useTheme();
-    const [showCheckInButton, setShowCheckInButton] = useState(true);
+    const [showForm, setShowForm] = useState(true);
     const[showData, setShowData] = useState(false);
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
@@ -28,7 +33,9 @@ const LogTrainingSessionForm= ()=> {
     const[note, setNote] = useState("");
     const[selectedTags, setSelectedTags] = useState([]);
     const[goal, setGoal] = useState("none");
-    const[userTrainingSession, setUserTrainingSession] = useState({});
+    const[userTrainingSession, setUserTrainingSession] = useState(location.state.userTrainingSession);
+
+
 
 
 
@@ -55,11 +62,14 @@ const LogTrainingSessionForm= ()=> {
             const api = axios.create({
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
+
+            let email = userTrainingSession.email;
+            let eventId = userTrainingSession.eventId;
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props
-                    timeAndDate: timeAndDate, //from props
-                    type: type, //from props
-                    coach: coach, //from props
+                    timeAndDate: userTrainingSession.timeAndDate, //from props
+                    type: userTrainingSession.type, //from props
+                    coach: userTrainingSession.coach, //from props
                     intensityRating: intensityRating, //user input
                     techniqueEnjoyment: techniqueEnjoyment, //user input
                     performanceRating: performanceRating, //user input
@@ -77,18 +87,12 @@ const LogTrainingSessionForm= ()=> {
     }
 
     return (
+        <div>
+            <Header/>
+            <Link to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
+            <Link to={".."}>Return Home</Link>
         <form>
-            {showCheckInButton && timeAndDate*1000 < Date.now() &&
-            <Button //on when form has not been filled out
-                variation="link"
-                onClick={handleCheckIn}
-            >Record My Training</Button>}
-            { timeAndDate*1000 > Date.now() &&
-                <Button //on when form has not been filled out
-                    variation="disabled"
-                >Training Cannot Yet Be Recorded</Button>}
-
-            {showForm&&
+            {showForm &&
             <View
                 position="relative"
             >
@@ -177,6 +181,7 @@ const LogTrainingSessionForm= ()=> {
             <Button onClick={handleSubmit} size="large"> Submit</Button>
             </Card>
             </View>}
+
             {showData &&
             <Card>
                 <UpdatedUserTrainingSession
@@ -185,6 +190,9 @@ const LogTrainingSessionForm= ()=> {
             </Card>
             }
         </form>
+            <Footer/>
+
+        </div>
 
 
     );
