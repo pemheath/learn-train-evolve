@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Heading, Text, useTheme, View} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme, View, Alert} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
+import {useNavigate} from "react-router-dom";
+
 
 
 
@@ -10,22 +12,12 @@ import {Auth} from "aws-amplify";
 const SingleTrainingSession = ({ trainingSession }) => {
 
     const [formattedDateTime, setFormattedDateTime] = useState("");
-    const [showMessage, setShowMessage] = useState(false);
     const {tokens} = useTheme();
     const [available, setAvailable] = useState(true);
+    const [email, setEmail] = useState("");
+    const [displayMessage, setDisplayMessage] = useState(false);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        let timeoutId;
-        if (showMessage) {
-            timeoutId = setTimeout(() => {
-                setShowMessage(false);
-                // Reset the form here
-            }, 2000);
-        }
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [showMessage]);
 
     useEffect(() => {
 
@@ -51,6 +43,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
         const cognitoUser = await Auth.currentAuthenticatedUser();
         const { email, name } = cognitoUser.signInUserSession.idToken.payload;
         console.log(email);
+        setEmail(email);
         return { email, name };
     }
 
@@ -70,17 +63,20 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     coach: coach
                 }
             );
-            setShowMessage(true);
             setAvailable(false);
+
 
         } catch (error) {
             console.log("error create user-training-session", error);
 
         }
     }
-
-    const displayMessage = () => {
-        alert("Please see admin to cancel class!");
+    const displayAlert = () => {
+        setDisplayMessage(true);
+    }
+    const goToTrain = () => {
+        navigate(`/train/${email}`, {state: {email: email}});
+        console.log("clicked");
     }
 
 
@@ -91,19 +87,34 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     <Heading
                     >Coach: {trainingSession.coach}</Heading>
                     <Text>{formattedDateTime}</Text>
+
+                    {!available && (
+                        <Alert variation="success"  heading="Success!" >
+                            You have successfully signed up for this class!
+                        </Alert>
+                    )}
+
                     {available&& <Button
                         variation="primary"
                         onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
                     >Sign Up</Button>}
                     {!available&& <Button
                         variation="destructive"
-                        onClick={displayMessage}
+                        onClick={displayAlert}
                     >Cancel Class</Button>}
-                    {showMessage && <div>
-                        <View
-                            backgroundColor={tokens.colors.green[20]}
-                        > Successfully signed up for this session!
-                        </View> </div>}
+                    {displayMessage &&<Alert
+                        variation="error"
+                        isDismissible={true}
+                        hasIcon={true}
+                        heading="Operation not supported"
+                    >
+                        Please see admin to cancel class.
+                    </Alert>}
+                    {!available&& <Button
+                        variation="primary"
+                        onClick={goToTrain}
+                    >View My Schedule</Button>}
+
                 </Card>
 
     )

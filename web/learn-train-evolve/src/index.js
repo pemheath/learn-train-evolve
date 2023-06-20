@@ -17,6 +17,7 @@ import ErrorPage from "./error-page";
 import ListOfUserTrainingSessions from "./components/ListOfUserTrainingSessions"
 import TrainComponent from "./components/TrainComponent";
 import {ThemeProvider} from "@aws-amplify/ui-react";
+import LogTrainingSessionForm from "./components/LogTrainingSessionForm";
 
 
 Amplify.configure(awsExports);
@@ -33,6 +34,11 @@ const router = createBrowserRouter([
     {
         path: "/train/:email",
         element:<TrainComponent/>,
+        errorElement: <ErrorPage/>,
+    },
+    {
+        path: "/train/:email/signup/:eventId",
+        element:<LogTrainingSessionForm/>,
         errorElement: <ErrorPage/>,
     },
 

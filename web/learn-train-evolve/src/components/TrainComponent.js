@@ -21,7 +21,10 @@ function TrainComponent() {
     const location = useLocation();
     const{tokens} = useTheme();
     const [data, setData] = React.useState([]);
+    const [userTrainingSessionList, setUserTrainingSessionList] = React.useState([]);
     const [totalSessions, setTotalSessions] = React.useState(0);
+
+    console.log("email in train component is: ", location.state.email);
 
     useEffect(() =>{
             const getData = async () => {
@@ -30,16 +33,59 @@ function TrainComponent() {
                     const api = axios.create({
                         baseURL: `${process.env.REACT_APP_API_BASE_URL}`
                     })
+
                     const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
+                    const secondResponse = await api.get(`/user-training-sessions/${email}`);
                     setData(response.data.userTrainingSessionModelList);
-                    setTotalSessions(response.data.userTrainingSessionModelList.length);
+                    setUserTrainingSessionList(secondResponse.data.userTrainingSessionModelList);
+                    setTotalSessions(secondResponse.data.userTrainingSessionModelList.length);
 
                 } catch (error) {
                     console.log("error fetching data", error);
-                }
-            }
-            getData(); },
-        []);
+                } }
+        getData();}, []);
+
+
+            // const fetchSessions = async () => {
+            //     let email = location.state.email;
+            //
+            //
+            //         const response = await api.get(`/user-training-sessions/${email}`);
+            //         console.log("response from calling fetch user sessions", response);
+            //         console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
+            //         setUserTrainingSessionList(response.data.userTrainingSessionModelList);
+            //         console.log("model list in state is", userTrainingSessionList);
+            //     } catch (error) {
+            //         console.log("error fetching user training sessions", error);
+            //     }
+            // }
+
+
+            // fetchSessions()},
+
+
+
+
+
+    // const [data, setData] = React.useState([]);
+    // const [totalSessions, setTotalSessions] = React.useState(0);
+
+    // useEffect(() =>{
+    //         const getData = async () => {
+    //             let email = location.state.email;
+    //             try {
+    //                 const api = axios.create({
+    //                     baseURL: `${process.env.REACT_APP_API_BASE_URL}`
+    //                 })
+    //                 const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
+    //                 setData(response.data.userTrainingSessionModelList);
+    //                 setTotalSessions(response.data.userTrainingSessionModelList.length);
+
+    //             } catch (error) {
+    //                 console.log("error fetching data", error);
+    //             }
+    //         }
+    //         getData(); }
 
         return (
             <Authenticator>
@@ -61,7 +107,7 @@ function TrainComponent() {
                                     padding="1rem"
                                     backgroundColor={tokens.colors.brand.primary[60]}>
                                     <ListOfUserTrainingSessions
-                                        email={location.state.email}
+                                        userTrainingSessionList={userTrainingSessionList}
                                     />
                                 </ScrollView>
                             </div>

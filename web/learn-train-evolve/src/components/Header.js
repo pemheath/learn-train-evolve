@@ -1,7 +1,9 @@
 import React from "react";
 import '../styles.css';
+
 import brownBelt from '../project images/brownBelt.png'
-import {useTheme, View} from "@aws-amplify/ui-react";
+
+import {useTheme, View} from "@aws-amplify/ui-react"
 
 
 function Header() {

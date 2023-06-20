@@ -14,14 +14,13 @@ import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
-import App from "../App";
 
 
-const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
+
+const LogTrainingSessionForm= ()=> {
 
     const {tokens} = useTheme();
     const [showCheckInButton, setShowCheckInButton] = useState(true);
-    const[showForm, setShowForm] = useState(false);
     const[showData, setShowData] = useState(false);
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
@@ -31,11 +30,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     const[goal, setGoal] = useState("none");
     const[userTrainingSession, setUserTrainingSession] = useState({});
 
-    function handleCheckIn(e){
-        e.preventDefault();
-        setShowForm(true);
-        setShowCheckInButton(false);
-    }
+
 
     const handleTagToggle = (tag) => {
         console.log("in handleTagToggle");
