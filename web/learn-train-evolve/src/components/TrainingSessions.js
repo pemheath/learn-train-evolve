@@ -61,7 +61,7 @@ import {useNavigate} from 'react-router-dom';
                          direction="column"
                      >
                      <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
-                         <Button onClick={goToTrain}>Manage My Training</Button>
+                         <Button  margin={tokens.space.medium} variation="primary"  onClick={goToTrain}>Manage My Training</Button>
                          <Button onClick={handleClick}>{display ? "Hide Schedule" : "Show Schedule"}</Button>
                          {display&& <Heading  level={5} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Upcoming Training Sessions</Heading>}
                          {display&&

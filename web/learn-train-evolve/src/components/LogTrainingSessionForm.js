@@ -61,8 +61,8 @@ const LogTrainingSessionForm= ()=> {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((t) => t !== tag));
         } else {
-            selectedTags.push(tag)
-            setSelectedTags(selectedTags);
+            const newTags = [...selectedTags, tag];
+            setSelectedTags(newTags);
             console.log("now, selected Tags are" + selectedTags);
         }
     };
@@ -70,7 +70,10 @@ const LogTrainingSessionForm= ()=> {
     async function handleSubmit(e) {
         e.preventDefault();
         setShowForm(false);
-        const tagsToSubmit = selectedTags.size === 0 ? new Set(['none']) : selectedTags;
+        const tagsToSubmit = selectedTags;
+        if (tagsToSubmit.length === 0) {
+            tagsToSubmit.push("none");
+        }
         console.log("performance rating is:" + performanceRating)
         try {
             const api = axios.create({
@@ -79,6 +82,7 @@ const LogTrainingSessionForm= ()=> {
 
             let email = userTrainingSession.email;
             let eventId = userTrainingSession.eventId;
+            console.log("calling put with tags" + tagsToSubmit);
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props
                     timeAndDate: userTrainingSession.timeAndDate, //from props
@@ -103,6 +107,7 @@ const LogTrainingSessionForm= ()=> {
     return (
         <div>
             <Header/>
+            <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Log your Training </Heading>
             <Flex>
                 <Link style={linkStyle} to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
                 <Link to={".."} style={linkStyle}>Return Home</Link>
@@ -158,7 +163,7 @@ const LogTrainingSessionForm= ()=> {
                 value={intensityRating}
                 onChange={setIntensityRating}
             />
-            <Card>
+            <View>
                 <TagSelector
                     tags={["come up sweep", "guard retention", "single leg takedown", "pressure passing", "submission defense", "back control", "conditioning", "mindset"]}
                     selectedTags={selectedTags}
@@ -166,25 +171,19 @@ const LogTrainingSessionForm= ()=> {
                     onSelect={(word)=> handleTagToggle(word)}
                 />
 
-                {selectedTags &&
-                    <div>
-                        <Heading level={6}>Tags you are adding</Heading>
-                        <Collection
-                            type = "list"
-                            backgroundColor={tokens.colors.white}
-                            items={selectedTags}
-                            gap = "1.rem"
-                        >
-                            {(item, index) => (
-                                <Card
-                                    key={index}
-                                    backgroundColor={tokens.colors.brand.primary[20]}
-                                    padding={tokens.space.medium}
-                                >{item}
-                                </Card>
-                            )}
-                        </Collection> </div>}
-            </Card>
+                <Flex selectedTags={selectedTags}
+                >
+                    {selectedTags.map((tag) => (
+                        <Card
+                            backgroundColor={tokens.colors.teal["20"]}
+                            key={tag}
+                            tag={tag}
+                            value={tag}
+                        >{tag}
+                        </Card>
+                    ))}
+                </Flex>
+            </View>
             <TextAreaField
                 label="Notes from today"
                 value={note}

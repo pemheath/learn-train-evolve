@@ -7,46 +7,34 @@ import {
     ToggleButton,
     Text,
     useTheme,
-    Flex, View,
+    Flex, View, Alert,
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
 import App from "../App";
 
 const TagSelector = ({ tags, selectedTags, onSelect }) => {
+
+
     const[tagsToDisplay, setTagsToDisplay] = useState(tags);
     const[newTag, setNewTag] = useState('');
     const {tokens} = useTheme();
-    const [showMessage ,setShowMessage] = useState(false)
-
-    useEffect(() => {
-        let timeoutId;
-        if (showMessage) {
-            timeoutId = setTimeout(() => {
-                setShowMessage(false);
-                // Reset the form here
-            }, 2000);
-        }
-        return () => {
-            clearTimeout(timeoutId);
-        };
-    }, [showMessage]);
+    const [showMessage ,setShowMessage] = useState(false);
 
 
-    const handleClick= (word) => {
-        if (tagsToDisplay.includes(word)) {
-            setNewTag('');
-            alert("Tag already exists.")
-        }
-        else{
+
+
+    const handleClick = () => {
+        const word = newTag;
+        if (!tagsToDisplay.includes(word)) {
             setShowMessage(true);
-            selectedTags.push(word);
-            tagsToDisplay.push(word);
-            onSelect(word);
-            setTagsToDisplay(tagsToDisplay);}
-    }
+            const newTags = [...tagsToDisplay, word];
+            setTagsToDisplay(newTags);
+        }
+        onSelect(word);
+    };
 
 
-    return (
+return (
         <View>
             <Heading
             textAlign="center"
@@ -54,19 +42,18 @@ const TagSelector = ({ tags, selectedTags, onSelect }) => {
             />What did you work on?
                 <ImPriceTags
             /></Heading>
-            <Flex
-            >
-            {tagsToDisplay.map((tag) => (
-                <ToggleButton
-                    key={tag}
-                    tag={tag}
-                    value={tag}
-                    isPressed={selectedTags.includes(tag)}
-                    onChange={onSelect}
-                    isExclusive={false}
-                >{tag}
-                </ToggleButton>
-            ))}
+            <Flex tagsToDisplay={tagsToDisplay}>
+                {tagsToDisplay.map((tag) => (
+                    <ToggleButton
+                        key={tag}
+                        tag={tag}
+                        value={tag}
+                        isPressed={selectedTags.includes(tag)}
+                        onChange={onSelect}
+                        isExclusive={false}
+                    >{tag}
+                    </ToggleButton>
+                ))}
             </Flex>
             <Card
                 variation="elevated"
@@ -80,17 +67,17 @@ const TagSelector = ({ tags, selectedTags, onSelect }) => {
                 </Text>
                 <TextField
                     label="Tag"
-                    value={newTag} onChange={e => setNewTag(e.target.value)} placeholder="Optinal tag 1"/>
+                    value={newTag}
+                    onChange={e => setNewTag(e.target.value)} placeholder="Optinal additional tag"/>
                 <Button
                     variation="primary"
-                    onClick={() => handleClick(newTag)}
+                    onClick={handleClick}
                 ><ImPlus/> Add Tags
                 </Button>
                     {showMessage && <div>
-                        <View
-                            backgroundColor={tokens.colors.green[20]}
-                        > New tag Successfully added!
-                        </View>
+                        <Alert isDismissible={true} variation="success" heading="Success!">
+                            New Tag Successfully Added!
+                        </Alert>
                     </div>}
             </form>
             </Card>

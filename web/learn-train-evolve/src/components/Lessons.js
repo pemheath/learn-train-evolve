@@ -15,7 +15,8 @@ const Lessons = () => {
         <Flex direction = "column" align = "center">
             <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Learn</Heading>
                 <Button
-                    onClick={handleClick}>See My Resources</Button>
+                    margin={tokens.space.medium}
+                    variation="primary" onClick={handleClick}>See My Resources</Button>
                 <Card
                 padding={tokens.space.large}
                 backgroundColor={tokens.colors.background.primary}

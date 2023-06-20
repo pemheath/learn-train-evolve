@@ -46,46 +46,8 @@ function TrainComponent() {
         getData();}, []);
 
 
-            // const fetchSessions = async () => {
-            //     let email = location.state.email;
-            //
-            //
-            //         const response = await api.get(`/user-training-sessions/${email}`);
-            //         console.log("response from calling fetch user sessions", response);
-            //         console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
-            //         setUserTrainingSessionList(response.data.userTrainingSessionModelList);
-            //         console.log("model list in state is", userTrainingSessionList);
-            //     } catch (error) {
-            //         console.log("error fetching user training sessions", error);
-            //     }
-            // }
 
 
-            // fetchSessions()},
-
-
-
-
-
-    // const [data, setData] = React.useState([]);
-    // const [totalSessions, setTotalSessions] = React.useState(0);
-
-    // useEffect(() =>{
-    //         const getData = async () => {
-    //             let email = location.state.email;
-    //             try {
-    //                 const api = axios.create({
-    //                     baseURL: `${process.env.REACT_APP_API_BASE_URL}`
-    //                 })
-    //                 const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
-    //                 setData(response.data.userTrainingSessionModelList);
-    //                 setTotalSessions(response.data.userTrainingSessionModelList.length);
-
-    //             } catch (error) {
-    //                 console.log("error fetching data", error);
-    //             }
-    //         }
-    //         getData(); }
 
     const linkStyle = {
         margin: "1rem",
@@ -106,7 +68,7 @@ function TrainComponent() {
                 {({ signOut, user }) => (
                     <main>
                         <Header/>
-                        <Heading level={3} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
+                        <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
                         <Button
                             variation="menu"
                             border={tokens.borderWidths.small}

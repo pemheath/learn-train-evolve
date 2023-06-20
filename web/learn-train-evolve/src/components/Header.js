@@ -2,19 +2,20 @@ import React from "react";
 import '../styles.css';
 
 import brownBelt from '../project images/brownBelt.png'
+import whiteBelt from '../project images/whiteBelt.png'
 
 import {useTheme, View} from "@aws-amplify/ui-react"
 
 
-function Header() {
+function Header( ) {
 
     const containerStyle = {
         position: 'relative',
-        backgroundColor: "hsl(210, 10%, 58%)",
+        backgroundColor: "hsl(190, 95%, 30%)",
         backgroundSize: "contain",
         backgroundPosition: "center",
-        height: "300px",
-        backgroundImage: `url(${brownBelt})`,
+        height: "200px",
+        backgroundImage: `url(${whiteBelt})`,
     };
 
     const textStyle = {
