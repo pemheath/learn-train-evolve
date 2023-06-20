@@ -14,32 +14,20 @@ import {Auth} from "aws-amplify";
 import UserTrainingSession from "./UserTrainingSession";
 import SingleTrainingSession from "./SingleTrainingSession";
 import App from "../App";
+import {Outlet} from "react-router-dom";
 
 
-const ListOfUserTrainingSessions = ({email}) => {
+const ListOfUserTrainingSessions = ({userTrainingSessionList}) => {
 
-    const [userTrainingSessionList, setUserTrainingSessionList] = React.useState([]);
     const {tokens} = useTheme();
+    const [displayList, setDisplayList] = React.useState(true);
+
+    const handleClick = () => {
+        setDisplayList(!displayList);
 
 
-
-
-    const fetchSessions = async () => {
-
-        console.log("email for fetching all user training sessions is" + email);
-        try {
-            const api = axios.create({
-                baseURL: `${process.env.REACT_APP_API_BASE_URL}`
-            })
-            const response = await api.get(`/user-training-sessions/${email}`);
-            console.log(response);
-            console.log("UserTrainingSessionModelList is", response.data.userTrainingSessionModelList);
-            setUserTrainingSessionList(response.data.userTrainingSessionModelList);
-            console.log("model list in state is", userTrainingSessionList);
-        } catch (error) {
-            console.log("error fetching user training sessions", error);
-        }
     }
+
 
     return (
         <div>
@@ -48,13 +36,13 @@ const ListOfUserTrainingSessions = ({email}) => {
             >
                 <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
                 <Button
-                    onClick={fetchSessions}
+                    onClick={handleClick}
                     variation="link"
                 >
-                    View My Sessions For The Week
+                      {displayList ? "Hide Schedule" : "Show Schedule"}
                 </Button>
 
-                    <Collection
+                {displayList && <Collection
                         type = "list"
                         backgroundColor={tokens.colors.white}
                         items={userTrainingSessionList}
@@ -66,9 +54,11 @@ const ListOfUserTrainingSessions = ({email}) => {
                                 userTrainingSession={item}
                             />
                         )}
-                    </Collection>
+                    </Collection>}
             </Flex>
-        </div>);
+            <Outlet/>
+        </div>
+    );
 
 }
 

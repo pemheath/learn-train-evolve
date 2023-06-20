@@ -8,31 +8,26 @@ import {Auth} from "aws-amplify";
 import {
     Collection, View
 } from '@aws-amplify/ui-react';
-import App from "../App";
 
 
 
-export const Home = () => {
 
-    const[loggedIn, setLoggedIn] = React.useState(false);
-    const isUserLoggedIn = async ()=> {
-        try {
-            await Auth.currentAuthenticatedUser();
-            console.log('user is logged in');
-            setLoggedIn(true);
-        }
-        catch(e) {
-            setLoggedIn(false);
-        }
-    }
+export const Home = ({cognitoUser}) => {
+
+    console.log("cognitoUser is ", cognitoUser);
+    console.log("email is", cognitoUser.attributes.email);
+    const email = cognitoUser.attributes.email;
+
+
     const items = [
         <Lessons/>,
-        <TrainingSessions/>,
+        <TrainingSessions
+            email={email}
+        />,
         <Goals/>
     ];
 
     return (
-        ({loggedIn}&&
 
         <Collection
             type="grid"
@@ -50,7 +45,7 @@ export const Home = () => {
                     </View>
                 );
             }}
-        </Collection>)
+        </Collection>
 );
 };
 Home.displayName="Home";

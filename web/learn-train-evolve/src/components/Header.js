@@ -1,27 +1,40 @@
 import React from "react";
 import '../styles.css';
 
-import { useEffect, useState } from 'react';
-import { Auth } from 'aws-amplify';
-import AdminComponent from "./AdminComponent";
-import App from "../App";
+import brownBelt from '../project images/brownBelt.png'
+import whiteBelt from '../project images/whiteBelt.png'
 
-function Header() {
+import {useTheme, View} from "@aws-amplify/ui-react"
+
+
+function Header( ) {
+
+    const containerStyle = {
+        position: 'relative',
+        backgroundColor: "hsl(190, 95%, 30%)",
+        backgroundSize: "contain",
+        backgroundPosition: "center",
+        height: "200px",
+        backgroundImage: `url(${whiteBelt})`,
+    };
+
+    const textStyle = {
+        position: 'absolute',
+        top: "50%",
+        left: "50%",
+        transform:  "translate(-50%, -50%)",
+        color: "white",
+        fontSize: "24px",
+    };
+
+
+    const {tokens} = useTheme();
 
 
 
     return (
-        <div>
-            <header>
-                <h1>Learn Train Evolve</h1>
-                <div className="container">
-                    <div className="white"></div>
-                    <div className="blue"></div>
-                    <div className="purple"></div>
-                    <div className="brown"></div>
-                    <div className="black"></div>
-                </div>
-            </header>
+        <div style={containerStyle}>
+            <div style={textStyle}></div>
         </div>
     );
 }

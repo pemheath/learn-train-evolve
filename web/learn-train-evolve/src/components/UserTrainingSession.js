@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import {Card, useTheme} from "@aws-amplify/ui-react";
+import {Button, Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
 import LogTrainingSessionForm from "./LogTrainingSessionForm";
-import App from "../App";
+import {useNavigate} from 'react-router-dom';
+
 
 
 
@@ -14,11 +15,14 @@ const UserTrainingSession = ({userTrainingSession}) => {
     // allow component to read data passed from the state of the previous component
     const location = useLocation();
 
+    const navigate = useNavigate();
+
     if(!userTrainingSession){
         userTrainingSession = location.state.userTrainingSession;
     }
     // set up to format the time correctly
     const [formattedDateTime, setFormattedDateTime] = React.useState("");
+
 
     // function for setting up the time
     useEffect(() => {
@@ -37,9 +41,18 @@ const UserTrainingSession = ({userTrainingSession}) => {
 
     }, [userTrainingSession.timeAndDate]);
 
+    const handleCheckIn = () => {
+        let email = userTrainingSession.email;
+        console.log( "email getting passed is", email);
+        let eventId = userTrainingSession.eventId;
+        console.log("eventId getting passed is", eventId);
+        navigate(`/train/${email}/signup/${eventId}`, {state: {userTrainingSession: userTrainingSession, email: email, eventId: eventId}});
+        console.log("clicked");
+    }
+
 
     return (
-        <div>
+        <div >
                 <Card variation = "elevated"
                         backgroundColor={tokens.colors.background.tertiary}
                 >
@@ -47,13 +60,16 @@ const UserTrainingSession = ({userTrainingSession}) => {
                     <h3>Coach: {userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
                     <div>
-            <LogTrainingSessionForm
-                email={userTrainingSession.email}
-                eventId={userTrainingSession.eventId}
-                timeAndDate={userTrainingSession.timeAndDate}
-                type={userTrainingSession.type}
-                coach={userTrainingSession.coach}
-            />
+                        {userTrainingSession.timeAndDate*1000 < Date.now() &&
+                            <Button //on when form has not been filled out
+                                variation="link"
+                                onClick={handleCheckIn}
+                            >Record My Training</Button>}
+                        { userTrainingSession.timeAndDate*1000 > Date.now() &&
+                            <Button //on when form has not been filled out
+                                variation="disabled"
+                            >Training Cannot Yet Be Recorded</Button>}
+
                     </div>
                 </Card>
         </div>

@@ -7,21 +7,25 @@ import {
     Button,
     Card,
     useTheme,
-    View, Heading, Collection,
+    View, Heading, Collection, Flex,
 } from "@aws-amplify/ui-react";
 import axios from "axios";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";
 import TagSelector from "./TagSelector";
 import GoalSelector from "./GoalSelector";
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
-import App from "../App";
+import Footer from "./Footer";
+import Header from "./Header";
+import {useLocation, Link} from "react-router-dom";
 
 
-const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
+
+const LogTrainingSessionForm= ()=> {
+
+    const location = useLocation();
 
     const {tokens} = useTheme();
-    const [showCheckInButton, setShowCheckInButton] = useState(true);
-    const[showForm, setShowForm] = useState(false);
+    const [showForm, setShowForm] = useState(true);
     const[showData, setShowData] = useState(false);
     const[intensityRating, setIntensityRating] = useState(0);
     const[techniqueEnjoyment, setTechniqueEnjoyment] = useState(0);
@@ -29,13 +33,25 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     const[note, setNote] = useState("");
     const[selectedTags, setSelectedTags] = useState([]);
     const[goal, setGoal] = useState("none");
-    const[userTrainingSession, setUserTrainingSession] = useState({});
+    const[userTrainingSession, setUserTrainingSession] = useState(location.state.userTrainingSession);
 
-    function handleCheckIn(e){
-        e.preventDefault();
-        setShowForm(true);
-        setShowCheckInButton(false);
-    }
+    const linkStyle = {
+        margin: "1rem",
+        textDecoration: "none",
+        border:  "1px solid hsl(190, 50%, 50%)",
+        display: "inline-block",
+        padding: "0.5rem",
+        backgroundColor: "white",
+        fontWeight: "bold",
+        color: "hsl(190, 50%, 50%)",
+        borderRadius: "0.5rem",
+        hoverBackgroundColor: "hsl(190, 75%, 95%)",
+        hoverColor: "white",
+    };
+
+
+
+
 
     const handleTagToggle = (tag) => {
         console.log("in handleTagToggle");
@@ -45,8 +61,8 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
         if (selectedTags.includes(tag)) {
             setSelectedTags(selectedTags.filter((t) => t !== tag));
         } else {
-            selectedTags.push(tag)
-            setSelectedTags(selectedTags);
+            const newTags = [...selectedTags, tag];
+            setSelectedTags(newTags);
             console.log("now, selected Tags are" + selectedTags);
         }
     };
@@ -54,17 +70,24 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     async function handleSubmit(e) {
         e.preventDefault();
         setShowForm(false);
-        const tagsToSubmit = selectedTags.size === 0 ? new Set(['none']) : selectedTags;
+        const tagsToSubmit = selectedTags;
+        if (tagsToSubmit.length === 0) {
+            tagsToSubmit.push("none");
+        }
         console.log("performance rating is:" + performanceRating)
         try {
             const api = axios.create({
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
+
+            let email = userTrainingSession.email;
+            let eventId = userTrainingSession.eventId;
+            console.log("calling put with tags" + tagsToSubmit);
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props
-                    timeAndDate: timeAndDate, //from props
-                    type: type, //from props
-                    coach: coach, //from props
+                    timeAndDate: userTrainingSession.timeAndDate, //from props
+                    type: userTrainingSession.type, //from props
+                    coach: userTrainingSession.coach, //from props
                     intensityRating: intensityRating, //user input
                     techniqueEnjoyment: techniqueEnjoyment, //user input
                     performanceRating: performanceRating, //user input
@@ -82,14 +105,15 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
     }
 
     return (
+        <div>
+            <Header/>
+            <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Log your Training </Heading>
+            <Flex>
+                <Link style={linkStyle} to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
+                <Link to={".."} style={linkStyle}>Return Home</Link>
+            </Flex>
         <form>
-            {showCheckInButton &&
-            <Button //on when form has not been filled out
-                variation="link"
-                onClick={handleCheckIn}
-            >Record My Training</Button>}
-
-            {showForm&&
+            {showForm &&
             <View
                 position="relative"
             >
@@ -139,7 +163,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                 value={intensityRating}
                 onChange={setIntensityRating}
             />
-            <Card>
+            <View>
                 <TagSelector
                     tags={["come up sweep", "guard retention", "single leg takedown", "pressure passing", "submission defense", "back control", "conditioning", "mindset"]}
                     selectedTags={selectedTags}
@@ -147,25 +171,19 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
                     onSelect={(word)=> handleTagToggle(word)}
                 />
 
-                {selectedTags &&
-                    <div>
-                        <Heading level={6}>Tags you are adding</Heading>
-                        <Collection
-                            type = "list"
-                            backgroundColor={tokens.colors.white}
-                            items={selectedTags}
-                            gap = "1.rem"
-                        >
-                            {(item, index) => (
-                                <Card
-                                    key={index}
-                                    backgroundColor={tokens.colors.brand.primary[20]}
-                                    padding={tokens.space.medium}
-                                >{item}
-                                </Card>
-                            )}
-                        </Collection> </div>}
-            </Card>
+                <Flex selectedTags={selectedTags}
+                >
+                    {selectedTags.map((tag) => (
+                        <Card
+                            backgroundColor={tokens.colors.teal["20"]}
+                            key={tag}
+                            tag={tag}
+                            value={tag}
+                        >{tag}
+                        </Card>
+                    ))}
+                </Flex>
+            </View>
             <TextAreaField
                 label="Notes from today"
                 value={note}
@@ -178,6 +196,7 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             <Button onClick={handleSubmit} size="large"> Submit</Button>
             </Card>
             </View>}
+
             {showData &&
             <Card>
                 <UpdatedUserTrainingSession
@@ -186,6 +205,9 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
             </Card>
             }
         </form>
+            <Footer/>
+
+        </div>
 
 
     );

@@ -1,17 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Heading, Text, useTheme} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme, View, Alert} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";
-import App from "../App";
+
+
 
 
 
 
 const SingleTrainingSession = ({ trainingSession }) => {
 
+    const [formattedDateTime, setFormattedDateTime] = useState("");
+    const {tokens} = useTheme();
+    const [available, setAvailable] = useState(true);
+    const [email, setEmail] = useState("");
+    const [displayMessage, setDisplayMessage] = useState(false);
     const navigate = useNavigate();
-    const [formattedDateTime, setFormattedDateTime] = React.useState("");
+
 
     useEffect(() => {
 
@@ -37,10 +43,10 @@ const SingleTrainingSession = ({ trainingSession }) => {
         const cognitoUser = await Auth.currentAuthenticatedUser();
         const { email, name } = cognitoUser.signInUserSession.idToken.payload;
         console.log(email);
+        setEmail(email);
         return { email, name };
     }
-    const [userTrainingSession, setUserTrainingSession] = useState([]);
-    const [name, setName] = useState('');
+
     const handleClick = async (eventId, timeAndDate, type, coach) => {
         console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
         try {
@@ -57,16 +63,20 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     coach: coach
                 }
             );
-            const userTrainingSession = result.data.userTrainingSession;
-            setUserTrainingSession(userTrainingSession);
-            setName((await  getUserInfo()).name);
-            navigate(`/train/${authenticatedEmail}`, {state:{userTrainingSession: userTrainingSession, name: name}});
-            console.log(userTrainingSession);
+            setAvailable(false);
+
 
         } catch (error) {
             console.log("error create user-training-session", error);
 
         }
+    }
+    const displayAlert = () => {
+        setDisplayMessage(true);
+    }
+    const goToTrain = () => {
+        navigate(`/train/${email}`, {state: {email: email}});
+        console.log("clicked");
     }
 
 
@@ -77,14 +87,39 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     <Heading
                     >Coach: {trainingSession.coach}</Heading>
                     <Text>{formattedDateTime}</Text>
-                    <Button
+
+                    {!available && (
+                        <Alert variation="success"  heading="Success!" >
+                            You have successfully signed up for this class!
+                        </Alert>
+                    )}
+
+                    {available&& <Button
                         variation="primary"
                         onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
-                    >Sign Up</Button>
+                    >Sign Up</Button>}
+                    {!available&& <Button
+                        variation="destructive"
+                        onClick={displayAlert}
+                    >Cancel Class</Button>}
+                    {displayMessage &&<Alert
+                        variation="error"
+                        isDismissible={true}
+                        hasIcon={true}
+                        heading="Operation not supported"
+                    >
+                        Please see admin to cancel class.
+                    </Alert>}
+                    {!available&& <Button
+                        variation="primary"
+                        onClick={goToTrain}
+                    >View My Schedule</Button>}
+
                 </Card>
+
     )
 }
 
-SingleTrainingSession.displayName="SingleTrainignSession";
+SingleTrainingSession.displayName="SingleTrainingSession";
 
 export default SingleTrainingSession;

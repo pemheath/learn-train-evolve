@@ -9,4 +9,4 @@ capabilities = "CAPABILITY_IAM"
 image_repositories = []
 resolve_s3 = true
 s3_prefix = "learn-train-evolve-service"
-parameter_overrides = "CognitoDomain=\"learn-train-evolve-service-ph\" S3Bucket=\"nss-s3-c02-capstone-learn-train-evolve-service-ph\" FrontendDeployment=\"local\""
+parameter_overrides = "CognitoDomain=\"learn-train-evolve-service-ph\" S3Bucket=\"nss-s3-c02-capstone-learn-train-evolve-service-ph\" FrontendDeployment=\"remote\""
