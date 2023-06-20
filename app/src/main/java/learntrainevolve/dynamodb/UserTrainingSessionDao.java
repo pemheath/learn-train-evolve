@@ -58,7 +58,7 @@ public class UserTrainingSessionDao {
         try {
             sessions = this.mapper.query(UserTrainingSession.class, queryExpression);
             log.info("Retrieved dynamodb response {}", sessions);
-            long currentTime = System.currentTimeMillis()/1000;
+            long currentTime = (System.currentTimeMillis()/1000)-604800;
             return sessions.stream()
                     .filter(s -> s.getTimeAndDate()>=currentTime)
                     .sorted(Comparator.comparing(UserTrainingSession::getTimeAndDate))

@@ -83,11 +83,15 @@ const LogTrainingSessionForm= ({email, eventId, timeAndDate, type, coach})=> {
 
     return (
         <form>
-            {showCheckInButton &&
+            {showCheckInButton && timeAndDate*1000 < Date.now() &&
             <Button //on when form has not been filled out
                 variation="link"
                 onClick={handleCheckIn}
             >Record My Training</Button>}
+            { timeAndDate*1000 > Date.now() &&
+                <Button //on when form has not been filled out
+                    variation="disabled"
+                >Training Cannot Yet Be Recorded</Button>}
 
             {showForm&&
             <View

@@ -9,15 +9,22 @@ import {
     Heading,
     useTheme, Button,
 } from '@aws-amplify/ui-react';
-import App from "../App";
+
+import {useNavigate} from 'react-router-dom';
 
 
- const TrainingSessions = () => {
+ const TrainingSessions = ({email}) => {
+
 
      const [trainingSessionList, setTrainingSessionList] = React.useState([]);
 
-     async function fetchSessions (){
-         console.log("fetchSessions called");
+     const [display, setDisplay] = React.useState(false);
+
+     const navigate = useNavigate();
+
+     React.useEffect(() => {
+         async function fetchSessions (){
+             console.log("fetchSessions called");
              try {
                  const api = axios.create({
                      baseURL: process.env.REACT_APP_API_BASE_URL
@@ -32,8 +39,17 @@ import App from "../App";
                  console.log("error fetching training sessions", error);
              }
          };
+         fetchSessions();
+     }, []);
 
+     const handleClick = () => {
+         setDisplay(!display);
+     }
 
+     const goToTrain = () => {
+         navigate(`/train/${email}`, {state: {email: email}});
+         console.log("clicked");
+     }
 
      const { tokens } = useTheme();
 
@@ -44,11 +60,12 @@ import App from "../App";
                      <Flex
                          direction="column"
                      >
-                         <Button
-                         onClick={fetchSessions}
-                         >Load Sessions</Button>
-                     <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
-                     <ScrollView
+                     <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
+                         <Button onClick={goToTrain}>Manage My Training</Button>
+                         <Button onClick={handleClick}>{display ? "Hide Schedule" : "Show Schedule"}</Button>
+                         {display&& <Heading  level={5} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Upcoming Training Sessions</Heading>}
+                         {display&&
+                             <ScrollView
                          height = "300px"
                          width = "400px"
                          padding = "1rem"
@@ -66,8 +83,7 @@ import App from "../App";
                             />
                          )}
                      </Collection>
-
-                     </ScrollView>
+                     </ScrollView>}
                      </Flex>
              </div>
          );

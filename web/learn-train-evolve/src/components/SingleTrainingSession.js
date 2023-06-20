@@ -1,17 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Heading, Text, useTheme} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme, View} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
-import {useNavigate} from "react-router-dom";
-import App from "../App";
+
 
 
 
 
 const SingleTrainingSession = ({ trainingSession }) => {
 
-    const navigate = useNavigate();
-    const [formattedDateTime, setFormattedDateTime] = React.useState("");
+    const [formattedDateTime, setFormattedDateTime] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
+    const {tokens} = useTheme();
+    const [available, setAvailable] = useState(true);
+
+    useEffect(() => {
+        let timeoutId;
+        if (showMessage) {
+            timeoutId = setTimeout(() => {
+                setShowMessage(false);
+                // Reset the form here
+            }, 2000);
+        }
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [showMessage]);
 
     useEffect(() => {
 
@@ -39,8 +53,7 @@ const SingleTrainingSession = ({ trainingSession }) => {
         console.log(email);
         return { email, name };
     }
-    const [userTrainingSession, setUserTrainingSession] = useState([]);
-    const [name, setName] = useState('');
+
     const handleClick = async (eventId, timeAndDate, type, coach) => {
         console.log("Calling addToUserTrainingSessions with eventID: " + eventId + " and timeAndDate: " + timeAndDate + " and type: " + type + " and coach: " + coach);
         try {
@@ -57,16 +70,17 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     coach: coach
                 }
             );
-            const userTrainingSession = result.data.userTrainingSession;
-            setUserTrainingSession(userTrainingSession);
-            setName((await  getUserInfo()).name);
-            navigate(`/train/${authenticatedEmail}`, {state:{userTrainingSession: userTrainingSession, name: name}});
-            console.log(userTrainingSession);
+            setShowMessage(true);
+            setAvailable(false);
 
         } catch (error) {
             console.log("error create user-training-session", error);
 
         }
+    }
+
+    const displayMessage = () => {
+        alert("Please see admin to cancel class!");
     }
 
 
@@ -77,14 +91,24 @@ const SingleTrainingSession = ({ trainingSession }) => {
                     <Heading
                     >Coach: {trainingSession.coach}</Heading>
                     <Text>{formattedDateTime}</Text>
-                    <Button
+                    {available&& <Button
                         variation="primary"
                         onClick={() => handleClick(trainingSession.eventId, trainingSession.timeAndDate, trainingSession.type, trainingSession.coach)}
-                    >Sign Up</Button>
+                    >Sign Up</Button>}
+                    {!available&& <Button
+                        variation="destructive"
+                        onClick={displayMessage}
+                    >Cancel Class</Button>}
+                    {showMessage && <div>
+                        <View
+                            backgroundColor={tokens.colors.green[20]}
+                        > Successfully signed up for this session!
+                        </View> </div>}
                 </Card>
+
     )
 }
 
-SingleTrainingSession.displayName="SingleTrainignSession";
+SingleTrainingSession.displayName="SingleTrainingSession";
 
 export default SingleTrainingSession;

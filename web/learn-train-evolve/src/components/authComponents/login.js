@@ -27,7 +27,9 @@ return (
                     <AdminComponent
                         cognitoUser={user}
                     />
-                    <Home/>
+                    <Home
+                    cognitoUser={user}
+                    />
                 </main>
             )}
         </Authenticator>
