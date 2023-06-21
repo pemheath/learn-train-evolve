@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Button, Card, Text, Collection, Heading, useTheme} from "@aws-amplify/ui-react";
-import App from "../App";
+
 
 
 const UpdatedUserTrainingSession = ({userTrainingSession}) => {

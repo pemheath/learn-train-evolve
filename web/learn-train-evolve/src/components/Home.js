@@ -3,14 +3,16 @@ import '../styles.css';
 import TrainingSessions from "./TrainingSessions";
 import Goals from "./Goals";
 import Lessons from "./Lessons";
-import {Auth} from "aws-amplify";
 
 import {
     Collection, View
 } from '@aws-amplify/ui-react';
 
 
+/**
+ * Home is the component for the index path and displays the home page
 
+ */
 
 export const Home = ({cognitoUser}) => {
 

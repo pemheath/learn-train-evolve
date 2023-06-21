@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-import {Button, Card, View, Text} from "@aws-amplify/ui-react";
+import {Alert, Button, Card, View} from "@aws-amplify/ui-react";
 import axios from "axios";
-import App from "../App";
-import {Auth} from "aws-amplify";
+
 
 
 
@@ -10,6 +9,12 @@ const AdminComponent = ({cognitoUser}) => {
     const[message, setMessage]= React.useState('');
     const[loading, setLoading] = React.useState(false);
     const [admin, setAdmin] = React.useState(false);
+    const[alert, setAlert] = React.useState(false);
+    const [fail, setFail] = React.useState(false);
+
+    /**
+     * Call fetch user groups one time on page load.
+     */
 
     useEffect(() => {
         async function fetchUserGroups() {
@@ -29,9 +34,9 @@ const AdminComponent = ({cognitoUser}) => {
             }
         }
 
-        fetchUserGroups(); // Call the function to execute it
+        fetchUserGroups();
 
-    }, []); // Empty dependency array for running the effect once
+    }, []);
 
 
     async function handleClick() {
@@ -53,10 +58,12 @@ const AdminComponent = ({cognitoUser}) => {
                 setMessage(response.data.message);
                 console.log(message);
                 setLoading(false);
-                alert(message);
+                setAlert(true);
+
 
             } catch (error) {
                 setLoading(false);
+                setFail(true);
                 console.log('Error syncing sessions with user calendar ID:', error);
             }
         }
@@ -74,6 +81,19 @@ const AdminComponent = ({cognitoUser}) => {
                         onClick={handleClick}
                         isLoading={loading}
                     >Sync Training Sessions</Button>
+                    {alert &&<Alert
+                    isDismissible={true}
+                    variation={"success"}
+                    >
+                        Training sessions successfully synced!
+                    </Alert>}
+                    {fail &&<Alert
+                        isDismissible={true}
+                        onDismiss={() => setFail(false)}
+                        variation={"error"}
+                    >
+                        Training sessions successfully synced!
+                    </Alert>}
                 </Card>
             </View>
             }

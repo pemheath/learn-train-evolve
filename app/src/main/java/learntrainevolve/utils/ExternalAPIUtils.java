@@ -1,28 +1,27 @@
 package learntrainevolve.utils;
 
- import dagger.Provides;
- import org.apache.logging.log4j.LogManager;
- import org.apache.logging.log4j.Logger;
+ import learntrainevolve.exceptions.FailedSecretsAccessException;
  import software.amazon.awssdk.regions.Region;
  import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
  import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
  import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueResponse;
 
 
-
-public class GoogleCalAPIUtils {
-
+/**
+ * A utility class for necessary operations to support  external API calls.
+ */
+public class ExternalAPIUtils {
 
     /**
-     * @param secretName
-     * @return Secret
-     * @throws Exception
+     *A method for retrieving a secret from AWS Secrets Manager
+     * @param secretName, the secret name as stored in the AWS Secrets Manager
+     * @return Secret, the secret stored in the Secrets Manager
+     * @throws FailedSecretsAccessException is the call to secrets manager is unsuccessful
      */
 
-    public static String getSecret(String secretName) throws Exception{
+    public static String getSecret(String secretName) {
 
-
-
+        //Specify the AWS region for the Secrets Manager Account
         Region region = Region.of("us-east-2");
 
         // Create a Secrets Manager client
@@ -30,17 +29,22 @@ public class GoogleCalAPIUtils {
                 .region(region)
                 .build();
 
+        //Build a GetSecretValueRequest object
+
         GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder()
                 .secretId(secretName)
                 .build();
 
         GetSecretValueResponse getSecretValueResponse;
 
+        // query the SecretsManagerClient for the secret value
         try {
             getSecretValueResponse = client.getSecretValue(getSecretValueRequest);
         } catch (Exception e) {
-            throw new Exception(e.getMessage(), e.getCause());
+            throw new FailedSecretsAccessException(e.getMessage(), e.getCause());
         }
+
+        // return the secret
 
         return getSecretValueResponse.secretString();
     }

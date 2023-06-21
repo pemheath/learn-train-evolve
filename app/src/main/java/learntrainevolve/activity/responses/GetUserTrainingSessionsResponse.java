@@ -1,6 +1,5 @@
 package learntrainevolve.activity.responses;
 
-import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

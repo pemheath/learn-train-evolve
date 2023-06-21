@@ -5,6 +5,10 @@ import {Bar} from "react-chartjs-2";
 import {useTheme} from "@aws-amplify/ui-react";
 import background3 from "../project images/background3.jpeg";
 
+/**
+ * A component for displaying a graph of traiing frequency by week
+
+ */
 const TrainingFrequencyByWeek = ({data}) => {
 const [keysArray, setKeysArray] = useState([]);
 const [valuesArray, setValuesArray] = useState([]);

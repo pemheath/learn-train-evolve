@@ -4,7 +4,7 @@ import '../styles.css';
 
 import {Link, useLocation} from "react-router-dom";
 import ListOfUserTrainingSessions from "./ListOfUserTrainingSessions";
-import {Authenticator, Button, Heading, ScrollView, SelectField, useTheme} from "@aws-amplify/ui-react";
+import {Authenticator, Button, Heading, ScrollView, useTheme} from "@aws-amplify/ui-react";
 
 
 import axios from "axios";
@@ -14,6 +14,10 @@ import ProgressChart from "./ProgressChart";
 import TrainingFrequencyByWeek from "./TrainingFrequencyByWeek";
 
 
+/**
+ * The component containing the main functionality around viewing and managing training information
+ * This component is accessed in the path /train/:email
+ */
 function TrainComponent() {
 
 

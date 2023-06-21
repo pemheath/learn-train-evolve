@@ -6,18 +6,23 @@ import learntrainevolve.models.TrainingSessionModel;
 import learntrainevolve.models.UserTrainingSessionModel;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
-import learntrainevolve.utils.NullUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
+/**
+ * A converter class to translate Java POJOs to their corresponding model.
+ */
 public class ModelConverter {
     private final Logger log = LogManager.getLogger();
 
-
-
+    /**
+     *
+     * @param userTrainingSession
+     * @return a user training session model
+     */
     public UserTrainingSessionModel toUserTrainingSessionModel(UserTrainingSession userTrainingSession) {
         UserTrainingSessionModel model = UserTrainingSessionModel.builder()
                 .withEmail(userTrainingSession.getEmail())
@@ -38,6 +43,12 @@ public class ModelConverter {
         return model;
     }
 
+    /**
+     *
+     * @param trainingSession
+     * @return a training session model
+     */
+
     public TrainingSessionModel toTrainingSessionModel(TrainingSession trainingSession) {
         return TrainingSessionModel.builder()
                 .withEventId(trainingSession.getEventId())
@@ -48,11 +59,23 @@ public class ModelConverter {
                 .build();
     }
 
+    /**
+     *
+     * @param trainingSessions
+     * @return a list of training session models
+     */
+
     public List<TrainingSessionModel> toListOfTrainingSessionModels(List<TrainingSession> trainingSessions) {
         return trainingSessions.stream()
                 .map(this::toTrainingSessionModel)
                 .collect(Collectors.toList());
     }
+
+    /**
+     *
+     * @param userTrainingSessions
+     * @return a list of user training session models
+     */
 
     public List<UserTrainingSessionModel> toListOfUserTrainingSessionModels(List<UserTrainingSession> userTrainingSessions) {
 

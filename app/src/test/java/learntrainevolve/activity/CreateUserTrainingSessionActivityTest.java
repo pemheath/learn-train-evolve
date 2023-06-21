@@ -15,7 +15,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 class CreateUserTrainingSessionActivityTest {
-
     @Mock
     private UserTrainingSessionDao userTrainingSessionDao;
 
@@ -48,6 +47,23 @@ class CreateUserTrainingSessionActivityTest {
         verify(userTrainingSessionDao).save(any(UserTrainingSession.class));
 
         assertNotNull(response.getUserTrainingSession().getCoach());
+    }
+
+    @Test
+    public void handleRequest_invalidEmail_throwsException() {
+        String email = "pemaol.com";
+        String type = "Advanced";
+        String coach = "Joel";
+        long timeAndDate = System.currentTimeMillis()/1000;
+
+        CreateUserTrainingSessionRequest request = CreateUserTrainingSessionRequest.builder()
+                .withEmail(email)
+                .withType(type)
+                .withCoach(coach)
+                .withTimeAndDate(timeAndDate)
+                .build();
+
+        assertThrows(InvalidRequestException.class, ()-> createUserTrainingSessionActivity.handleRequest(request));
     }
 
     @Test

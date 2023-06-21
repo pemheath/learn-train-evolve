@@ -2,9 +2,6 @@ package learntrainevolve.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import learntrainevolve.lambda.infrastructure.auth.CognitoClaims;
-
-import java.time.LocalDateTime;
 
 @JsonDeserialize(builder = CreateUserTrainingSessionRequest.Builder.class)
 public class CreateUserTrainingSessionRequest {

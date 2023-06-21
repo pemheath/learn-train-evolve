@@ -7,7 +7,7 @@ import {
     Button,
     Card,
     useTheme,
-    View, Heading, Collection, Flex,
+    View, Heading, Flex,
 } from "@aws-amplify/ui-react";
 import axios from "axios";
 import { ImFrustrated, ImSad, ImNeutral, ImSmile,  ImHappy  } from "react-icons/im";

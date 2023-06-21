@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import java.util.Set;
 
 import static learntrainevolve.utils.CollectionUtlis.copyToSet;
-
 @JsonDeserialize(builder = LogTrainingRequest.Builder.class)
 public class LogTrainingRequest {
 

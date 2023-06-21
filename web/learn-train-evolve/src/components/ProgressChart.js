@@ -1,6 +1,5 @@
-import React, {useEffect} from "react";
-import  {useTheme} from "@aws-amplify/ui-react";
-import axios from "axios";
+import React from "react";
+
 import {VictoryPie, VictoryLabel} from "victory";
 import background2 from "../project images/background2.jpeg";
 

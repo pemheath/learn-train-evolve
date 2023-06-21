@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Card, Button, Heading, Text, useTheme, View, Alert} from "@aws-amplify/ui-react";
+import {Card, Button, Heading, Text, useTheme, Alert} from "@aws-amplify/ui-react";
 import axios from "axios";
 import {Auth} from "aws-amplify";
 import {useNavigate} from "react-router-dom";

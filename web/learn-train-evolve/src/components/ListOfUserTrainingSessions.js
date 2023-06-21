@@ -1,21 +1,15 @@
 import React from "react";
-import axios from "axios";
-
 
 import {
     Collection,
-    ScrollView,
     Flex,
     Heading,
     useTheme, Button
 } from '@aws-amplify/ui-react';
-import {Auth} from "aws-amplify";
 
 import UserTrainingSession from "./UserTrainingSession";
-import SingleTrainingSession from "./SingleTrainingSession";
-import App from "../App";
-import {Outlet} from "react-router-dom";
 
+import {Outlet} from "react-router-dom";
 
 const ListOfUserTrainingSessions = ({userTrainingSessionList}) => {
 
@@ -25,9 +19,7 @@ const ListOfUserTrainingSessions = ({userTrainingSessionList}) => {
     const handleClick = () => {
         setDisplayList(!displayList);
 
-
     }
-
 
     return (
         <div>
