@@ -32,6 +32,7 @@ public class GetUserTrainingSessionsActivity {
 
         // if no optional parameters are specified, get the next week of user training sessions.
         if (request.getDataVis()==null) {
+            log.info("No DataVis parameter specified. Returning next week of user training sessions.");
 
             return GetUserTrainingSessionsResponse.builder()
                     .withUserTrainingSessionModelList(new ModelConverter()
@@ -41,6 +42,7 @@ public class GetUserTrainingSessionsActivity {
 
         else {
             String dataVis = request.getDataVis();
+            log.info("DataVis: {}", dataVis);
 
             if (dataVis.equalsIgnoreCase("true")) {
                 return GetUserTrainingSessionsResponse.builder()

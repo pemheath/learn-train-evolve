@@ -17,6 +17,7 @@ import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
 import Footer from "./Footer";
 import Header from "./Header";
 import {useLocation, Link} from "react-router-dom";
+import UserTrainingSession from "./UserTrainingSession";
 
 
 
@@ -104,12 +105,16 @@ const LogTrainingSessionForm= ()=> {
         }
     }
 
+
     return (
         <div>
             <Header/>
+            <UserTrainingSession
+            userTrainingSession={userTrainingSession}
+            />
             <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Log your Training </Heading>
             <Flex>
-                <Link style={linkStyle} to ={`../train/${userTrainingSession.email}`} state={{userTrainingSession: userTrainingSession, email: userTrainingSession.email}}>Back to My Training</Link>
+                <Link style={linkStyle} to ={`../train/${userTrainingSession.email}`} state={{ email: userTrainingSession.email}}>Back to My Training</Link>
                 <Link to={".."} style={linkStyle}>Return Home</Link>
             </Flex>
         <form>

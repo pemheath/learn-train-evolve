@@ -3,6 +3,7 @@ import {Button, Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
 import LogTrainingSessionForm from "./LogTrainingSessionForm";
 import {useNavigate} from 'react-router-dom';
+import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
 
 
 
@@ -14,6 +15,8 @@ const UserTrainingSession = ({userTrainingSession}) => {
     const {tokens} = useTheme();
     // allow component to read data passed from the state of the previous component
     const location = useLocation();
+
+    const[displayUserData, setDisplayUserData] = React.useState(false);
 
     const navigate = useNavigate();
 
@@ -50,6 +53,10 @@ const UserTrainingSession = ({userTrainingSession}) => {
         console.log("clicked");
     }
 
+    const handleViewClick = () => {
+        setDisplayUserData(!displayUserData);
+    }
+
 
     return (
         <div >
@@ -59,7 +66,7 @@ const UserTrainingSession = ({userTrainingSession}) => {
                     <h3>Type: {userTrainingSession.type}</h3>
                     <h3>Coach: {userTrainingSession.coach}</h3>
                     <h4>{formattedDateTime}</h4>
-                    <div>
+                    {!userTrainingSession.attended &&<div>
                         {userTrainingSession.timeAndDate*1000 < Date.now() &&
                             <Button //on when form has not been filled out
                                 variation="link"
@@ -69,8 +76,13 @@ const UserTrainingSession = ({userTrainingSession}) => {
                             <Button //on when form has not been filled out
                                 variation="disabled"
                             >Training Cannot Yet Be Recorded</Button>}
-
-                    </div>
+                    </div>}
+                        {userTrainingSession.attended && <div>
+                            <h4>Attended and logged!</h4>
+                            {!displayUserData &&<Button onClick={handleViewClick}>View Data</Button>}
+                            {displayUserData &&<Button onClick={handleViewClick}>Hide Data</Button>}
+                    </div>}
+                    {displayUserData && <UpdatedUserTrainingSession userTrainingSession={userTrainingSession}/>}
                 </Card>
         </div>
     );

@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {Chart as ChartJS, BarElement, CategoryScale, LinearScale, Title} from "chart.js";
 import {Bar} from "react-chartjs-2";
 import {useTheme} from "@aws-amplify/ui-react";
+import background3 from "../project images/background3.jpeg";
 
 const TrainingFrequencyByWeek = ({data}) => {
 const [keysArray, setKeysArray] = useState([]);
@@ -50,6 +51,13 @@ const{tokens} = useTheme();
 
     const options = {
 
+    }
+
+    if(data.length===0) {
+        return (
+        <div style={ { backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundImage: `url(${background3})`, width: '100%', height: '100%', display: 'flex',
+            justifyContent: 'center', alignItems: 'baseline', color: 'white' }}>
+        </div>);
     }
 
     return (

@@ -29,24 +29,43 @@ function TrainComponent() {
     useEffect(() =>{
             const getData = async () => {
                 let email = location.state.email;
+                console.log("Attempting to call endpoint for data vis", email);
                 try {
                     const api = axios.create({
-                        baseURL: `${process.env.REACT_APP_API_BASE_URL}`
+                        baseURL: process.env.REACT_APP_API_BASE_URL
                     })
 
                     const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
-                    const secondResponse = await api.get(`/user-training-sessions/${email}`);
                     setData(response.data.userTrainingSessionModelList);
-                    setUserTrainingSessionList(secondResponse.data.userTrainingSessionModelList);
-                    setTotalSessions(secondResponse.data.userTrainingSessionModelList.length);
-
+                    setTotalSessions(response.data.userTrainingSessionModelList.length);
+                    console.log("response for getting data for charts is ", response);
                 } catch (error) {
-                    console.log("error fetching data", error);
-                } }
-        getData();}, []);
+                    console.log("error fetching data for graphs", error);
+                }
+            }
+        getData();
+
+            }, []);
+
+    useEffect(() =>{
+        const fetchSchedule = async () => {
+            let email = location.state.email;
+            try {
+                const api = axios.create({
+                    baseURL: process.env.REACT_APP_API_BASE_URL
+                })
+                const response = await api.get(`/user-training-sessions/${email}`);
+                setUserTrainingSessionList(response.data.userTrainingSessionModelList);
+                console.log("user training session for schedule is", userTrainingSessionList);
+                console.log("total sessions is", totalSessions);
 
 
-
+            } catch (error) {
+                console.log("error fetching list of upcoming training sessions", error);
+            }
+        }
+        fetchSchedule();
+    }, []);
 
 
     const linkStyle = {
