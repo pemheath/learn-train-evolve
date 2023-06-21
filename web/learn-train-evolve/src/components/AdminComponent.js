@@ -9,8 +9,6 @@ import {Auth} from "aws-amplify";
 const AdminComponent = ({cognitoUser}) => {
     const[message, setMessage]= React.useState('');
     const[loading, setLoading] = React.useState(false);
-    const[groups, setGroups] = React.useState([]);
-
     const [admin, setAdmin] = React.useState(false);
 
     useEffect(() => {
@@ -18,13 +16,14 @@ const AdminComponent = ({cognitoUser}) => {
             try {
                 console.log("calling fetch usergroups");
                 const groups = cognitoUser.signInUserSession.accessToken.payload['cognito:groups'];
-                console.log("groups", groups);
-                setGroups(groups);
-                if (groups.includes('admin')) {
-                    console.log("user is admin");
+                if((groups!==null) && groups.includes('admin')) {
+                    console.log("admin");
                     setAdmin(true);
                 }
-
+                if (groups ===null) {
+                    console.log("not admin");
+                    setAdmin(false);
+                }
             } catch (error) {
                 console.log('Error fetching user groups:', error);
             }
