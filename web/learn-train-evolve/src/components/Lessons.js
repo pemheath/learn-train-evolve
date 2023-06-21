@@ -1,6 +1,7 @@
 import React from "react";
 import '../styles.css';
 import {Button, Card, Flex, Heading, Text, useTheme} from "@aws-amplify/ui-react";
+import YouTube from 'react-youtube';
 
 
 const Lessons = () => {
@@ -11,6 +12,9 @@ const Lessons = () => {
         alert("More resources coming soon");
     }
 
+    const youTubeId1 = 'SRG8FOalso0';
+    const youTubeId2 = 'Jtxus6VFnnY';
+
     return(
         <Flex direction = "column" align = "center">
             <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Learn</Heading>
@@ -20,7 +24,7 @@ const Lessons = () => {
                 <Card
                 padding={tokens.space.large}
                 backgroundColor={tokens.colors.background.primary}
-                >
+                ><h2>Dalpra Backtakes</h2>
                     <Text
                         variation="primary"
                         as="p"
@@ -32,19 +36,23 @@ const Lessons = () => {
                         textDecoration="none"
                         width="30vw"
                     >
-                        De la riva to tripod sweep
+                       Study this for backtake options.
                     </Text>
-                <iframe
-                    width="540"
-                    height="300"
-                    src={`https://www.youtube.com/embed/$wVddbE3q7fY&list=PLh8zH5HfF7LG9cqV2J79b7Hdg7g1BDhRA&index=6`}
-                    title="Tripod Sweep"
-                ></iframe>
+                    <YouTube
+                    videoId={youTubeId1}
+                    opts={{
+                        playerVars: {
+                            autoplay: 1,
+                        }}}
+                    />
+
+
                 </Card>
                 <Card
                     padding={tokens.space.large}
                     backgroundColor={tokens.colors.background.primary}
                 >
+                    <h2>Monteiro Finishes</h2>
                     <Text
                         variation="primary"
                         as="p"
@@ -56,14 +64,15 @@ const Lessons = () => {
                         textDecoration="none"
                         width="30vw"
                     >
-                        Spider Lasso Attack
+                        Four amazing finishes to study
                     </Text>
-                    <iframe
-                        width="540"
-                        height="300"
-                        src={`https://www.youtube.com/shorts/OTDzW6bvq3A`}
-                        title="Tripod Sweep"
-                    ></iframe>
+                    <YouTube
+                        videoId={youTubeId2}
+                        opts={{
+                            playerVars: {
+                                autoplay: 1,
+                            }}}
+                    />
                 </Card>
         </Flex>
 

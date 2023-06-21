@@ -33,8 +33,8 @@ const ProgressChart = ({totalSessions}) => {
                     <VictoryLabel
                         textAnchor="middle"
                         verticalAnchor="middle"
-                        x={200}
-                        y={200}
+                        x={400}
+                        y={400}
                         text={`${totalSessions}% to 100!`}/>
 
                 </div>

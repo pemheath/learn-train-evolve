@@ -39,6 +39,7 @@ const PieChartByType = ({data}) => {
         return (
             <div style={{backgroundColor: "var(--amplify-colors-teal-90)", width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'baseline' }}>
                 <div style={{ width: '80%', maxWidth: '400px', position: 'relative',}}>
+                    <h2 style={{ color: 'hsl(190, 100%, 20%)' }}>Training By Class Type</h2>
                 <VictoryPie
                     data={dataArray}
                     width={400}
@@ -48,12 +49,6 @@ const PieChartByType = ({data}) => {
                     style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
                     colorScale={["var(--amplify-colors-teal-20)", "var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-60)", "var(--amplify-colors-teal-80)"]}
                 />
-                    <VictoryLabel
-                        textAnchor="top"
-                        verticalAnchor="top"
-                        x={200}
-                        y={200}
-                        text={"Your training, broken down by class type."}/>
                 </div>
             </div>
         );
