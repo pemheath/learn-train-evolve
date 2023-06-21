@@ -39,7 +39,7 @@ class GetUserTrainingSessionsActivityTest {
         userTrainingSession2.setEmail(userEmail);
         userTrainingSession3.setEmail(userEmail);
 
-        when(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(userEmail)).thenReturn(List.of(userTrainingSession1, userTrainingSession2, userTrainingSession3));
+        when(userTrainingSessionDao.getTwoWeeksOfUserTrainingSessions(userEmail)).thenReturn(List.of(userTrainingSession1, userTrainingSession2, userTrainingSession3));
 
         GetUserTrainingSessionsRequest getUserTrainingSessionsRequest = GetUserTrainingSessionsRequest.builder()
                 .withEmail(userEmail)
@@ -56,7 +56,7 @@ class GetUserTrainingSessionsActivityTest {
         //GIVEN
         String userEmail = "hello@hotmail.net";
 
-        when(userTrainingSessionDao.getNextWeekOfUserTrainingSessions(userEmail)).thenReturn(List.of());
+        when(userTrainingSessionDao.getTwoWeeksOfUserTrainingSessions(userEmail)).thenReturn(List.of());
 
         GetUserTrainingSessionsRequest getUserTrainingSessionsRequest = GetUserTrainingSessionsRequest.builder()
                 .withEmail(userEmail)

@@ -7,6 +7,7 @@ import learntrainevolve.converters.ModelConverter;
 
 import learntrainevolve.dynamodb.UserTrainingSessionDao;
 import learntrainevolve.dynamodb.models.UserTrainingSession;
+import learntrainevolve.exceptions.InvalidRequestException;
 import learntrainevolve.models.UserTrainingSessionModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +31,7 @@ public class LogTrainingActivity {
     /**
      * Instantiates a new LogTrainingActivity object.
      *
-     * @param userTrainingSessionDao PlaylistDao to access the userTrainingSessions table.
+     * @param userTrainingSessionDao UserTrainingSessionDao to access the userTrainingSessions table.
      */
     @Inject
     public LogTrainingActivity(UserTrainingSessionDao userTrainingSessionDao) {
@@ -42,7 +43,7 @@ public class LogTrainingActivity {
      * techniqueEnjoyment, performanceRating, noteNumber, goalNumber, tags, attended).
      *
      * It then returns the updated UserTrainingSession.
-     * <p>
+     *
      * If the provided tags object is an invalid type, throws an
      * InvalidAttributeValueException
      *
@@ -55,8 +56,10 @@ public class LogTrainingActivity {
     public LogTrainingResponse handleRequest(final LogTrainingRequest request) {
         log.info("Received LogTrainingRequest{}", request);
 
-
         UserTrainingSession userTrainingSession = new UserTrainingSession();
+        if (request.getEmail()==null || request.getEventId()==null) {
+            throw new InvalidRequestException("You must specify an email and eventID in order to log a session");
+        }
         userTrainingSession.setEmail(request.getEmail());
         userTrainingSession.setEventId(request.getEventId());
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
