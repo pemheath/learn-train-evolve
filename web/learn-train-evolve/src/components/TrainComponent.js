@@ -26,26 +26,6 @@ function TrainComponent() {
 
     console.log("email in train component is: ", location.state.email);
 
-    useEffect(() =>{
-            const getData = async () => {
-                let email = location.state.email;
-                console.log("Attempting to call endpoint for data vis", email);
-                try {
-                    const api = axios.create({
-                        baseURL: process.env.REACT_APP_API_BASE_URL
-                    })
-
-                    const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
-                    setData(response.data.userTrainingSessionModelList);
-                    setTotalSessions(response.data.userTrainingSessionModelList.length);
-                    console.log("response for getting data for charts is ", response);
-                } catch (error) {
-                    console.log("error fetching data for graphs", error);
-                }
-            }
-        getData();
-
-            }, []);
 
     useEffect(() =>{
         const fetchSchedule = async () => {
@@ -66,6 +46,27 @@ function TrainComponent() {
         }
         fetchSchedule();
     }, []);
+
+    useEffect(() =>{
+        const getData = async () => {
+            let email = location.state.email;
+            console.log("Attempting to call endpoint for data vis", email);
+            try {
+                const api = axios.create({
+                    baseURL: process.env.REACT_APP_API_BASE_URL
+                })
+
+                const response = await api.get(`/user-training-sessions/${email}?dataVis=true`);
+                setData(response.data.userTrainingSessionModelList);
+                setTotalSessions(response.data.userTrainingSessionModelList.length);
+                console.log("response for getting data for charts is ", response);
+            } catch (error) {
+                console.log("error fetching data for graphs", error);
+            }
+        }
+        getData();
+
+    }, [userTrainingSessionList]);
 
 
     const linkStyle = {

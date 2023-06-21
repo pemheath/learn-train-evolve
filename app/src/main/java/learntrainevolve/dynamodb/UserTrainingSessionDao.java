@@ -80,17 +80,20 @@ public class UserTrainingSessionDao {
             sessions = this.mapper.query(UserTrainingSession.class, queryExpression);
             log.info("Retrieved dynamodb response {}", sessions);
             // filter out unnecessary information so that a smaller set of data is transmitted.
-            return sessions.stream()
-                    .filter(s -> s.getAttended()) // filter out sessions that have not been attended
-                    .map(s -> { // set unnecessary information to null so each object is smaller
-                        s.setEmail(null);
-                        s.setEventId(null);
-                        s.setNote(null);
-                        s.setGoal(null);
-                        return s;
-                    })
-                    .sorted(Comparator.comparing(UserTrainingSession::getTimeAndDate))
-                    .collect(Collectors.toList());
+            List<UserTrainingSession> sessionsToReturn = new ArrayList<>();
+
+            for (UserTrainingSession session : sessions) {
+
+                try {
+                    if (session.getAttended()==true) {
+                        sessionsToReturn.add(session);
+                    }
+                } catch (NullPointerException e) {
+                    log.info("In sorting the attended sessions, a null pointer exception occurred.");
+                }
+            }
+            log.info("Retrieved sessionsToReturn for data visualization {}", sessionsToReturn);
+            return sessionsToReturn;
         } catch (Exception e) {
             throw new UserTrainingSessionsNotFoundException(e.getMessage(), e.getCause());
         }
