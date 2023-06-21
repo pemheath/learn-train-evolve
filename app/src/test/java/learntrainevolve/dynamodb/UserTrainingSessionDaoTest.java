@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import learntrainevolve.dynamodb.models.UserTrainingSession;
 import learntrainevolve.exceptions.TrainingSessionNotFoundException;
+import learntrainevolve.exceptions.UserTrainingSessionNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -56,7 +57,7 @@ class UserTrainingSessionDaoTest {
     }
 
     @Test
-    public void getUserTrainingSessionById_givenNonExistentIdAndEmail_throwsResourceNotFoundException() {
+    public void getUserTrainingSessionById_givenNonExistentIdAndEmail_throwsUserTrainingSessionNotFoundException() {
         String email = "pem.heath@gmail.com";
         String eventId = "123";
         UserTrainingSession userTrainingSession = new UserTrainingSession();
@@ -66,7 +67,7 @@ class UserTrainingSessionDaoTest {
         userTrainingSession.setCoach("Bonnie");
         when(dynamoDBMapper.load(UserTrainingSession.class, "pem@aol.com", eventId)).thenReturn(null);
 
-        assertThrows(TrainingSessionNotFoundException.class, () ->userTrainingSessionDao.getUserTrainingSessionById("pem.@aol.com", "123") );
+        assertThrows(UserTrainingSessionNotFoundException.class, () ->userTrainingSessionDao.getUserTrainingSessionById("pem.@aol.com", "123") );
     }
 
 //

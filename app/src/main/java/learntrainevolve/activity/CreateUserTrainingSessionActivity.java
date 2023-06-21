@@ -62,7 +62,7 @@ public class CreateUserTrainingSessionActivity {
         if (request.getEventId()==null || request.getEmail()==null) {
             throw new InvalidRequestException("Key values must be provided");
         }
-        if (!request.getEmail().contains("@.")) {
+        if (!request.getEmail().contains("@")) {
             throw new InvalidRequestException("The email provided does not appear to be a properly formatted email");
         }
 
