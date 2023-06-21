@@ -1,7 +1,6 @@
 package learntrainevolve.externalApis;
 
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
@@ -12,7 +11,6 @@ import com.google.api.services.calendar.model.Events;
 
 import com.google.api.services.calendar.Calendar;
 
-import learntrainevolve.dynamodb.models.TrainingSession;
 import learntrainevolve.exceptions.FailedExternalAPICallException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

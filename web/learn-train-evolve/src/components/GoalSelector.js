@@ -1,7 +1,9 @@
 import React from "react";
 import {SelectField} from "@aws-amplify/ui-react";
-import App from "../App";
 
+/**
+ * A component for displaying a list of goals associated with a given user.
+ */
 const GoalSelector = ({ onChange, goals }) => {
 
 

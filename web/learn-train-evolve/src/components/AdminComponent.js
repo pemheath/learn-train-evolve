@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-import {Button, Card, View, Text} from "@aws-amplify/ui-react";
+import {Button, Card, View} from "@aws-amplify/ui-react";
 import axios from "axios";
-import App from "../App";
-import {Auth} from "aws-amplify";
+
 
 
 
@@ -10,6 +9,10 @@ const AdminComponent = ({cognitoUser}) => {
     const[message, setMessage]= React.useState('');
     const[loading, setLoading] = React.useState(false);
     const [admin, setAdmin] = React.useState(false);
+
+    /**
+     * Call fetch user groups one time on page load.
+     */
 
     useEffect(() => {
         async function fetchUserGroups() {
@@ -29,9 +32,9 @@ const AdminComponent = ({cognitoUser}) => {
             }
         }
 
-        fetchUserGroups(); // Call the function to execute it
+        fetchUserGroups();
 
-    }, []); // Empty dependency array for running the effect once
+    }, []);
 
 
     async function handleClick() {

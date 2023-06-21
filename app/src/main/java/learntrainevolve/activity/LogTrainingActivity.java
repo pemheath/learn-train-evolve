@@ -14,9 +14,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-
 /**
  * Implementation of the LogTrainingActivity for the LearnTrainEvolveService's LogTraining API.
  *

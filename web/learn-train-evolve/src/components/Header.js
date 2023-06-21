@@ -1,10 +1,9 @@
 import React from "react";
 import '../styles.css';
 
-import brownBelt from '../project images/brownBelt.png'
 import whiteBelt from '../project images/whiteBelt.png'
 
-import {useTheme, View} from "@aws-amplify/ui-react"
+import {useTheme} from "@aws-amplify/ui-react"
 
 
 function Header( ) {
@@ -26,11 +25,6 @@ function Header( ) {
         color: "white",
         fontSize: "24px",
     };
-
-
-    const {tokens} = useTheme();
-
-
 
     return (
         <div style={containerStyle}>

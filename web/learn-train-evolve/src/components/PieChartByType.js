@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {VictoryLabel, VictoryPie} from "victory";
+import {VictoryPie} from "victory";
 import background1 from '../project images/background1.jpeg';
 
 
@@ -46,7 +46,7 @@ const PieChartByType = ({data}) => {
                     height={400}
                     labelRadius={({ innerRadius }) => innerRadius + 5 }
                     innerRadius={50}
-                    style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+                    style={{ labels: { fill: "white", fontSize: 15, fontWeight: "bold" } }}
                     colorScale={["var(--amplify-colors-teal-20)", "var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-60)", "var(--amplify-colors-teal-80)"]}
                 />
                 </div>

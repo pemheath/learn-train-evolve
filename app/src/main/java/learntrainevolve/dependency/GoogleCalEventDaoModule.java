@@ -10,11 +10,19 @@ import org.apache.logging.log4j.Logger;
 
 import javax.inject.Singleton;
 
-
+/**
+ * Dagger Module providing dependencies for the GoogleCalEventDao class.
+ */
 
 @Module
 public class GoogleCalEventDaoModule {
     private final Logger log = LogManager.getLogger();
+
+    /**
+     * Provides a Credentials singleton instance.
+     *
+     * @return Credentials object
+     */
 
 
     @Singleton

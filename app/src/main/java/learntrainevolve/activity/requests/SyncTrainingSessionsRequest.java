@@ -3,10 +3,6 @@ package learntrainevolve.activity.requests;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.util.Set;
-
-import static learntrainevolve.utils.CollectionUtlis.copyToSet;
-
 @JsonDeserialize(builder = SyncTrainingSessionsRequest.Builder.class)
 public class SyncTrainingSessionsRequest {
 

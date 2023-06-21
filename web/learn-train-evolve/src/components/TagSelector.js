@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     Card,
     TextField,
@@ -10,8 +10,13 @@ import {
     Flex, View, Alert,
 } from "@aws-amplify/ui-react";
 import {ImPlus, ImPriceTags} from "react-icons/im";
-import App from "../App";
 
+/**
+ * A component for the user to select tags when logging training
+ *  tags: (currently provided, eventually most frequently used tags for the user)
+ *  selectedTags: the list of tags to include when updating the user training session
+ *  onSelect: the method for handling tag selection and adding tags to the selected list
+ */
 const TagSelector = ({ tags, selectedTags, onSelect }) => {
 
 
