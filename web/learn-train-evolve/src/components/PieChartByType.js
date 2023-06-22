@@ -29,7 +29,7 @@ const PieChartByType = ({data}) => {
         console.log("data array is: " + dataArray.toString());
     }, [data]);
 
-    if(dataArray.length<=3) {
+    if(data.length<=3) {
         return (
             <div style={{ backgroundSize: "contain", backgroundRepeat: "no-repeat", backgroundImage: `url(${background1})`, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
             color:"white"}}>
@@ -37,18 +37,21 @@ const PieChartByType = ({data}) => {
     }
 
         return (
-            <div style={{backgroundColor: "var(--amplify-colors-teal-90)", width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'baseline' }}>
-                <div style={{ width: '80%', maxWidth: '400px', position: 'relative',}}>
-                    <h2 style={{ color: 'hsl(190, 100%, 20%)' }}>Training By Class Type</h2>
-                <VictoryPie
-                    data={dataArray}
-                    width={400}
-                    height={400}
-                    labelRadius={({ innerRadius }) => innerRadius + 5 }
-                    innerRadius={50}
-                    style={{ labels: { fill: "white", fontSize: 15, fontWeight: "bold" } }}
-                    colorScale={["var(--amplify-colors-teal-20)", "var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-60)", "var(--amplify-colors-teal-80)"]}
-                />
+            <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ width: '80%', height: '80%', position: 'inherit', borderRadius: '10px', backgroundColor: "var(--amplify-colors-teal-90)"}}>
+                    <h2 style={{ color: 'white', textAlign: 'center'}}>Training By Class Type</h2>
+                    <div style= {{ position: 'relative', top: '58%', left: '50%', transform: 'translate(-50%, -65%)'}}>
+                        <VictoryPie
+                            data={dataArray}
+                            width={500}
+                            height={500}
+                            labelRadius={({ innerRadius }) => innerRadius + 5 }
+                            labelPlacement={"parallel"}
+                            innerRadius={50}
+                            style={{ labels: { fill: "white", fontSize: 15, fontWeight: "bold" } }}
+                            colorScale={["var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-20)", "var(--amplify-colors-teal-60)", "var(--amplify-colors-teal-80)"]}
+                        />
+                    </div>
                 </div>
             </div>
         );
