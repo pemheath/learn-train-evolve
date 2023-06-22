@@ -46,10 +46,6 @@ import {useNavigate} from 'react-router-dom';
          setDisplay(!display);
      }
 
-     const goToTrain = () => {
-         navigate(`/train/${email}`, {state: {email: email}});
-         console.log("clicked");
-     }
 
      const { tokens } = useTheme();
 
@@ -60,16 +56,14 @@ import {useNavigate} from 'react-router-dom';
                      <Flex
                          direction="column"
                      >
-                     <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Train</Heading>
-                         <Button  margin={tokens.space.medium} variation="primary"  onClick={goToTrain}>Manage My Training</Button>
+                     <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}  color={tokens.colors.brand.primary[100]} fontWeight={tokens.fontWeights.semibold}>Train</Heading>
                          <Button onClick={handleClick}>{display ? "Hide Schedule" : "Show Schedule"}</Button>
                          {display&& <Heading  level={5} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Upcoming Training Sessions</Heading>}
                          {display&&
                              <ScrollView
-                         height = "300px"
-                         width = "400px"
                          padding = "1rem"
-                         backgroundColor={tokens.colors.brand.primary[60]}>
+                         borderRadius={tokens.radii.medium}
+                         backgroundColor={tokens.colors.brand.primary[80]}>
                      <Collection
                          type = "list"
                          backgroundColor={tokens.colors.white}
