@@ -18,7 +18,6 @@ const Goals = () => {
 
             <Flex direction="column" >
                 <Heading level={2} textAlign={"center"} fontFamily={tokens.fonts.default.variable}  color={tokens.colors.brand.primary[100]} fontWeight={tokens.fontWeights.semibold}>Evolve</Heading>
-                <Heading level={5} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>My Goals</Heading>
                 <Card style={backgroundStyle}>
                 <ScrollView style={backgroundStyle}>
                 <Card

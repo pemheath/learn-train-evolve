@@ -17,18 +17,9 @@ const NavMenu = ({email}) => {
         navigate(`/train/${email}`, {state: {email: email}});
         console.log("clicked");
     }
-    const logoStyle = {
-        position: 'relative',
-        backgroundColor: "white",
-        backgroundSize: "contain",
-        backgroundPosition: "center",
-        height: "200px",
-        backgroundImage: `url(${ltelogo})`,
-        backgroundRepeat: "no-repeat",
-    };
+
     return (
         <div>
-            <Card style={logoStyle}></Card>
             <ButtonGroup direction="column" variation="primary" justifyContent="start" size="large">
                 <Button onClick={handleClick}>Learn:<br></br>View Resources</Button>
                 <Button onClick={goToTrain}>Train:<br></br>Manage Sessions</Button>

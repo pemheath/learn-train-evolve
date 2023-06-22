@@ -106,22 +106,11 @@ const LogTrainingSessionForm= ()=> {
         }
     }
 
-    const logoStyle = {
-        display: 'flex',
-        position: 'start',
-        backgroundColor: "white",
-        backgroundSize: "contain",
-        backgroundPosition: "left",
-        height: "200px",
-        backgroundImage: `url(${ltelogo})`,
-        backgroundRepeat: "no-repeat",
-    };
 
 
     return (
         <div>
             <Header/>
-            <Card style={logoStyle}></Card>
             <UserTrainingSession
             userTrainingSession={userTrainingSession}
             />

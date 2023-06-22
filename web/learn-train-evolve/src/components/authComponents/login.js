@@ -22,7 +22,6 @@ return (
         <Authenticator>
             {({ signOut, user }) => (
                 <main>
-                    <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
                     <div style={signinStyle}>
                     <Button
                         variation="menu"

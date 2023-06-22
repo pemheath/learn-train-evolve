@@ -93,16 +93,6 @@ function TrainComponent() {
         justifyContent: 'flex-end',
     }
 
-    const logoStyle = {
-        display: 'flex',
-        position: 'start',
-        backgroundColor: "white",
-        backgroundSize: "contain",
-        backgroundPosition: "left",
-        height: "200px",
-        backgroundImage: `url(${ltelogo})`,
-        backgroundRepeat: "no-repeat",
-    };
 
     return (
             <Authenticator>
@@ -117,7 +107,6 @@ function TrainComponent() {
                             borderRadius={tokens.radii.large}
                             onClick={signOut}
                         >Sign Out</Button></div>
-                        <Card style={logoStyle}></Card>
                         <Link to={".."} style={linkStyle}>Return Home</Link>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', height: '100vh' }}>
                             <div style={{ gridColumn: '1', gridRow: '1 / span 3' }}>
