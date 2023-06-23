@@ -99,7 +99,6 @@ function TrainComponent() {
                 {({ signOut, user }) => (
                     <main>
                         <Header/>
-                        <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
                         <div style={signinStyle}>
                         <Button
                             variation="menu"

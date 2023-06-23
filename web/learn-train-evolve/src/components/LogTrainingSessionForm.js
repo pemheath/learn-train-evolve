@@ -18,7 +18,6 @@ import Footer from "./Footer";
 import Header from "./Header";
 import {useLocation, Link} from "react-router-dom";
 import UserTrainingSession from "./UserTrainingSession";
-import ltelogo from "../project images/ltelogo.png";
 
 
 

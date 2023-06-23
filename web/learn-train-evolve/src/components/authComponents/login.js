@@ -22,6 +22,8 @@ return (
         <Authenticator>
             {({ signOut, user }) => (
                 <main>
+                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}> <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
+                    </div>
                     <div style={signinStyle}>
                     <Button
                         variation="menu"

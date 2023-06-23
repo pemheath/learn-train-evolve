@@ -1,10 +1,8 @@
 import React from "react";
 import '../styles.css';
-
-import Black_belt from '../project images/Black_belt.svg'
 import ltelogo from '../project images/ltelogo.png'
 
-import {Card, Grid, useTheme, View} from "@aws-amplify/ui-react"
+import {Grid, useTheme} from "@aws-amplify/ui-react"
 
 
 function Header( ) {
@@ -26,12 +24,7 @@ function Header( ) {
         color: "white",
         fontSize: "24px",
     };
-    //
-    // return (
-    //     <div style={containerStyle}>
-    //         <div style={textStyle}></div>
-    //     </div>
-    // );
+
     return(
         <div>
             <Grid
@@ -41,7 +34,6 @@ function Header( ) {
             >
                 <div
                     style={{
-                        // backgroundImage: `url(${Black_belt})`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "contain",
                         columns: "1"
@@ -59,13 +51,11 @@ function Header( ) {
                 </div>
                 <div
                     style={{
-                        // backgroundImage: `url(${Black_belt})`,
                         backgroundRepeat: "no-repeat",
                         backgroundSize: "contain",
                         columns: "3"
                     }}
                 ></div>
-                
             </Grid>
          </div>
     );
