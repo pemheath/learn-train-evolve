@@ -7,7 +7,6 @@ import awsExports from '../../aws-exports';
 import React, {useEffect} from "react";
 import Home from "../Home";
 import AdminComponent from "../AdminComponent";
-import Header from "../Header";
 Amplify.configure(awsExports);
 
 export default function Login() {

@@ -65,7 +65,7 @@ public class GoogleCalEventDao {
         log.info("http transport created");
         HttpRequestInitializer requestInitializer = request -> {
         };
-        log.info("request intializer initiated");
+        log.info("request initializer initiated");
 
         // Set up the Calendar service
 

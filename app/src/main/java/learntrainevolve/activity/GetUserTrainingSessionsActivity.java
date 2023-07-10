@@ -51,7 +51,7 @@ public class GetUserTrainingSessionsActivity {
 
     public GetUserTrainingSessionsResponse handleRequest(final GetUserTrainingSessionsRequest request) {
 
-        log.info("Received GetUserTrainingSessionsRequest {}}", request);
+        log.info("Received GetUserTrainingSessionsRequest {}", request);
 
         // if no optional parameters are specified, get the past and next week of user training sessions.
         if (request.getDataVis()==null) {
