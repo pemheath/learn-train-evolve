@@ -106,6 +106,7 @@ const LogTrainingSessionForm= ()=> {
     }
 
 
+
     return (
         <div>
             <Header/>

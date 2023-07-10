@@ -3,10 +3,12 @@ import '../styles.css';
 import TrainingSessions from "./TrainingSessions";
 import Goals from "./Goals";
 import Lessons from "./Lessons";
+import NavMenu from "./NavMenu";
 
 import {
-    Collection, View
+     Grid, Card
 } from '@aws-amplify/ui-react';
+
 
 
 /**
@@ -22,32 +24,50 @@ export const Home = ({cognitoUser}) => {
 
 
     const items = [
-        <Lessons/>,
+        <NavMenu
+            email={email}
+        />,
         <TrainingSessions
             email={email}
         />,
-        <Goals/>
+        <Goals/>,
+        <Lessons/>
     ];
 
     return (
-
-        <Collection
-            type="grid"
-            items={items}
-            templateColumns="1fr 1fr 1fr"
-
+        <Grid
+            columnGap="0.5rem"
+            rowGap="0.5rem"
+            templateColumns="1fr 3fr 3fr"
+            templateRows="2fr 2fr 3fr"
         >
-            {(item, index) => {
-                return (
-                    <View
-                        key={index}
-                        column={index + 1}
-                    >
-                        {item}
-                    </View>
-                );
-            }}
-        </Collection>
+            <Card
+            columnStart="1"
+            columnEnd="2"
+            >
+                {items[0]}
+            </Card>
+            <Card
+                columnStart="2"
+                columnEnd="3"
+            >
+                {items[1]}
+            </Card>
+            <Card
+                columnStart="3"
+                columnEnd="-1"
+            >
+                {items[2]}
+            </Card>
+            <Card
+                columnStart="2"
+                columnEnd="7"
+            >
+                {items[3]}
+            </Card>
+        </Grid>
+
+
 );
 };
 Home.displayName="Home";

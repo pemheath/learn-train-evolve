@@ -80,7 +80,8 @@ const AdminComponent = ({cognitoUser}) => {
                     <Button
                         onClick={handleClick}
                         isLoading={loading}
-                    >Sync Training Sessions</Button>
+                        variation={"warning"}
+                    >Admin only! Sync Training Sessions</Button>
                     {alert &&<Alert
                     isDismissible={true}
                     variation={"success"}

@@ -13,11 +13,17 @@ export default function Login() {
     const {tokens} = useTheme();
 
 
+    const signinStyle = {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    }
 return (
         <Authenticator>
             {({ signOut, user }) => (
                 <main>
-                    <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
+                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}> <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
+                    </div>
+                    <div style={signinStyle}>
                     <Button
                         variation="menu"
                         border={tokens.borderWidths.small}
@@ -26,7 +32,7 @@ return (
                     >Sign Out</Button>
                     <AdminComponent
                         cognitoUser={user}
-                    />
+                    /></div>
                     <Home
                     cognitoUser={user}
                     />
