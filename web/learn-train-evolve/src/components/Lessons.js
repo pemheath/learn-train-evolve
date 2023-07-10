@@ -15,35 +15,18 @@ const Lessons = () => {
     const youTubeId1 = 'SRG8FOalso0';
     const youTubeId2 = 'Jtxus6VFnnY';
 
+    const labelStyle = {
+        transform: "rotate(90deg)"
+    }
     return(
-        <Flex direction = "column" align = "center">
-            <Heading level={3} textAlign={"center"} fontFamily={tokens.fonts.default.variable}>Learn</Heading>
-                <Button
-                    margin={tokens.space.medium}
-                    variation="primary" onClick={handleClick}>See My Resources</Button>
+        <Flex direction = "row" align = "center">
+            <Heading level={1} textAlign={"center"} fontFamily={tokens.fonts.default.variable} color={tokens.colors.brand.primary[100]} fontWeight={tokens.fontWeights.semibold} transform={"rotate(270deg) translateY(50%)"}>Learn</Heading>
                 <Card
                 padding={tokens.space.large}
                 backgroundColor={tokens.colors.background.primary}
-                ><h2>Dalpra Backtakes</h2>
-                    <Text
-                        variation="primary"
-                        as="p"
-                        textAlign="center"
-                        lineHeight="2.5em"
-                        fontWeight={400}
-                        fontSize="1.5em"
-                        fontStyle="normal"
-                        textDecoration="none"
-                        width="30vw"
-                    >
-                       Study this for backtake options.
-                    </Text>
+                ><h2 style={{textAlign:'center'}}>Dalpra Backtake Study</h2>
                     <YouTube
                     videoId={youTubeId1}
-                    opts={{
-                        playerVars: {
-                            autoplay: 1,
-                        }}}
                     />
 
 
@@ -52,26 +35,9 @@ const Lessons = () => {
                     padding={tokens.space.large}
                     backgroundColor={tokens.colors.background.primary}
                 >
-                    <h2>Monteiro Finishes</h2>
-                    <Text
-                        variation="primary"
-                        as="p"
-                        textAlign="center"
-                        lineHeight="2.5em"
-                        fontWeight={400}
-                        fontSize="1.5em"
-                        fontStyle="normal"
-                        textDecoration="none"
-                        width="30vw"
-                    >
-                        Four amazing finishes to study
-                    </Text>
+                    <h2 style={{textAlign:'center'}}>Monteiro Finishes</h2>
                     <YouTube
                         videoId={youTubeId2}
-                        opts={{
-                            playerVars: {
-                                autoplay: 1,
-                            }}}
                     />
                 </Card>
         </Flex>

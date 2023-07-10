@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {Button, Card, useTheme} from "@aws-amplify/ui-react";
 import {useLocation} from "react-router-dom";
-import LogTrainingSessionForm from "./LogTrainingSessionForm";
 import {useNavigate} from 'react-router-dom';
 import UpdatedUserTrainingSession from "./UpdatedUserTrainingSession";
 

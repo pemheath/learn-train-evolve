@@ -14,13 +14,13 @@ const ProgressChart = ({totalSessions}) => {
 
         return (
             <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <div style={{ width: '80%', maxWidth: '400px', position: 'relative',}}>
+                <div style={{ width: '80%', maxWidth: '400px', position: 'relative'}}>
+                    <h2 style={{ color: 'hsl(190, 100%, 20%)', textAlign: 'center'}}>Toward 100 classes</h2>
                         <VictoryPie
                             data={[
                                 { x: "Sessions Trained", y: totalSessions },
                                 { x: "Sessions Remaining", y: 100 - totalSessions }
                             ]}
-                            animate={{ duration: 3000 }}
                             width={400}
                             height={400}
                             innerRadius={100}
@@ -29,12 +29,9 @@ const ProgressChart = ({totalSessions}) => {
                             colorScale={["var(--amplify-colors-teal-40)", "var(--amplify-colors-teal-90)"]}
                             labelRadius={({ innerRadius }) => innerRadius + labelRadius}
                         />
-                    <VictoryLabel
-                        textAnchor="middle"
-                        verticalAnchor="middle"
-                        x={400}
-                        y={400}
-                        text={`${totalSessions}% to 100!`}/>
+                    <div style={{ position: 'absolute', top: '58%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center'}}>
+                        <h2 style={{color:  "var(--amplify-colors-teal-100)" }}>{totalSessions}%</h2>
+                    </div>
 
                 </div>
             </div>

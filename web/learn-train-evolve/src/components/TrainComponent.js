@@ -4,7 +4,7 @@ import '../styles.css';
 
 import {Link, useLocation} from "react-router-dom";
 import ListOfUserTrainingSessions from "./ListOfUserTrainingSessions";
-import {Authenticator, Button, Heading, ScrollView, useTheme} from "@aws-amplify/ui-react";
+import {Authenticator, Button, Card, Heading, ScrollView, useTheme} from "@aws-amplify/ui-react";
 
 
 import axios from "axios";
@@ -12,6 +12,7 @@ import Header from "./Header";
 import PieChartByType from "./PieChartByType";
 import ProgressChart from "./ProgressChart";
 import TrainingFrequencyByWeek from "./TrainingFrequencyByWeek";
+import ltelogo from "../project images/ltelogo.png";
 
 
 /**
@@ -87,18 +88,24 @@ function TrainComponent() {
         hoverColor: "white",
     };
 
+    const signinStyle = {
+        display: 'flex',
+        justifyContent: 'flex-end',
+    }
+
+
     return (
             <Authenticator>
                 {({ signOut, user }) => (
                     <main>
                         <Header/>
-                        <Heading level={4} color={tokens.colors.brand.primary[100]} textAlign={"center"}> Welcome {user.attributes.name}</Heading>
+                        <div style={signinStyle}>
                         <Button
                             variation="menu"
                             border={tokens.borderWidths.small}
                             borderRadius={tokens.radii.large}
                             onClick={signOut}
-                        >Sign Out</Button>
+                        >Sign Out</Button></div>
                         <Link to={".."} style={linkStyle}>Return Home</Link>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr 1fr', height: '100vh' }}>
                             <div style={{ gridColumn: '1', gridRow: '1 / span 3' }}>
