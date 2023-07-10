@@ -43,7 +43,7 @@ const AdminComponent = ({cognitoUser}) => {
         setLoading(true);
         console.log("in handleClick");
         console.log(cognitoUser);
-        const calId = cognitoUser.attributes['custom:calId'];
+        const calId = cognitoUser.attributes['custom:cal'];
         const confirmed = window.confirm("Are you sure you want to syn your google calendar" + calId + "to the " +
             "training sessions for LTE?");
         console.log("calID", calId);

@@ -20,6 +20,7 @@ public class GetTrainingSessionsLambda
     @Override
     public LambdaResponse handleRequest(LambdaRequest<GetTrainingSessionsRequest> input, Context context) {
 
+
         return super.runActivity(
                 ()-> input.fromQuery(query ->
                                 GetTrainingSessionsRequest.builder()

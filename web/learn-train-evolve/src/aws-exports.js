@@ -4,8 +4,8 @@
 const awsmobile = {
     "aws_project_region": "us-east-2",
     "aws_cognito_region": "us-east-2",
-    "aws_user_pools_id": "us-east-2_Orvd3pTCZ",
-    "aws_user_pools_web_client_id": "57fspst4apnuevt1sd9ua46knn",
+    "aws_user_pools_id": "us-east-2_snHS5QSxi",
+    "aws_user_pools_web_client_id": "66q5bgba94jq6unqrjglvi7nc2",
     "oauth": {
         "domain": "learn-train-evolve-service-ph.auth.us-east-2.amazoncognito.com",
         "scope": [

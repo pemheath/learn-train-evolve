@@ -128,6 +128,7 @@ public class UserTrainingSessionDao {
      */
 
     public List<UserTrainingSession> getUserTrainingSessionsForDataVis(String email) {
+        log.info("In UserTrainingSessionDao calling getUserTrainingSessionsForDataVis with email {}", email);
 
         UserTrainingSession userTrainingSession = new UserTrainingSession();
         userTrainingSession.setEmail(email);

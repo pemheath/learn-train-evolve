@@ -35,21 +35,23 @@ function TrainComponent() {
     useEffect(() =>{
         const fetchSchedule = async () => {
             let email = location.state.email;
+            let encodedEmail = encodeURIComponent(email);
+            console.log(encodedEmail);
             try {
                 const api = axios.create({
                     baseURL: process.env.REACT_APP_API_BASE_URL
                 })
-                const response = await api.get(`/user-training-sessions/${email}`);
+                const response = await api.get(`/user-training-sessions/${encodedEmail}`);
+                console.log("user training session for schedule is", response.data.userTrainingSessionModelList);
                 setUserTrainingSessionList(response.data.userTrainingSessionModelList);
-                console.log("user training session for schedule is", userTrainingSessionList);
-                console.log("total sessions is", totalSessions);
-
 
             } catch (error) {
                 console.log("error fetching list of upcoming training sessions", error);
             }
-        }
+        };
+
         fetchSchedule();
+
     }, []);
 
     useEffect(() =>{

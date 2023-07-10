@@ -72,6 +72,7 @@ public class CreateUserTrainingSessionActivity {
         userTrainingSession.setType(request.getType());
         userTrainingSession.setCoach(request.getCoach());
         userTrainingSession.setTimeAndDate(request.getTimeAndDate());
+        userTrainingSession.setAttended(false);
 
         try{userTrainingSessionDao.save(userTrainingSession);
         log.info("Saved UserTrainingSession {}", userTrainingSession);} catch (DynamoDBMappingException e) {
