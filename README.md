@@ -183,3 +183,7 @@ completed // BOOL
 
 
 
+### Known Bugs!
+
+- When a user has a specia character in their email, put and post requests leave out the special character, and therefore their data is not up to date.
+- Hitting "refresh" when cloudfront is hosting the website leads to an error.
