@@ -187,3 +187,4 @@ completed // BOOL
 
 - When a user has a specia character in their email, put and post requests leave out the special character, and therefore their data is not up to date.
 - Hitting "refresh" when cloudfront is hosting the website leads to an error.
+- If you are not on the main page when you sign out, when the next person signs in they will be directed to where you signed out from (if signing in from the same computer). Cognito redirect needs to be updated.
