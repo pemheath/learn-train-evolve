@@ -1,4 +1,4 @@
 aws s3 cp \
   build \
-  s3://nss-s3-c02-capstone-learn-train-evolve-service-ph/static/ \
+  s3://learn-train-evolve/static/ \
   --recursive

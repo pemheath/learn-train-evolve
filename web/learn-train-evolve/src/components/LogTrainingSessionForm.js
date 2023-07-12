@@ -75,15 +75,17 @@ const LogTrainingSessionForm= ()=> {
         if (tagsToSubmit.length === 0) {
             tagsToSubmit.push("none");
         }
-        console.log("performance rating is:" + performanceRating)
+
         try {
             const api = axios.create({
                 baseURL: `${process.env.REACT_APP_API_BASE_URL}`
             })
 
+            console.log("user training session from state" + userTrainingSession);
             let email = userTrainingSession.email;
+            console.log("updating user training session with email from state, from user training session" + email);
             let eventId = userTrainingSession.eventId;
-            console.log("calling put with tags" + tagsToSubmit);
+
             const result = await api.put(`/user-training-sessions/${email}/${eventId}`,
                 {//from props
                     timeAndDate: userTrainingSession.timeAndDate, //from props

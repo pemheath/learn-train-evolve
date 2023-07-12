@@ -21,14 +21,10 @@ public class LogTrainingLambda
                 () -> {
                     LogTrainingRequest unauthenticatedRequest = input.fromBody(LogTrainingRequest.class);
 
-
-
-                    System.out.println("The unauthenticated request from the body of the curl request is" + unauthenticatedRequest);
-
                     return  input.fromPath(path ->
 
                             LogTrainingRequest.builder()
-                            .withEmail(URLDecoder.decode(path.get("email"), StandardCharsets.UTF_8))
+                            .withEmail(path.get("email"))
                             .withEventId(path.get("eventId"))
                             .withTimeAndDate(unauthenticatedRequest.getTimeAndDate())
                             .withType(unauthenticatedRequest.getType())

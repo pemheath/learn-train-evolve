@@ -17,7 +17,6 @@ public class CreateUserTrainingSessionLambda
         return super.runActivity(
                 () -> {
                     CreateUserTrainingSessionRequest unauthenticatedRequest = input.fromBody(CreateUserTrainingSessionRequest.class);
-                    System.out.println("The unauthenticated request from the body of the curl request is" + unauthenticatedRequest);
 
                       CreateUserTrainingSessionRequest request =  CreateUserTrainingSessionRequest.builder()
                                     .withEmail(unauthenticatedRequest.getEmail())
