@@ -2,7 +2,7 @@
 
 ## Learn Train Evolve: A Modern Jiu Jitsu Management Software
 
-Check out the project! It is a work in progress. Here is the link: https://d2jhl9mq8vpmme.cloudfront.net/
+Check out the project! It is a work in progress. Here is the link: www.learntrainevolve.org
 
 ## 1. About this project:
 
